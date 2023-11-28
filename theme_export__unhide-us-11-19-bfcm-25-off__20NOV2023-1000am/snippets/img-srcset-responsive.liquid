@@ -1,0 +1,58 @@
+{% capture none %}
+	{% if image_responsive != nil %}
+		{% assign image_responsive_src = image_responsive %}
+	{% else %}
+		{% assign image_responsive_src = image %}
+	{% endif %}
+{% endcapture %}
+
+<picture 
+	{% if classes %}
+		class="{{ classes }}" 
+	{% endif %}
+	{% if attributes %}
+		{{ attributes }}
+	{% endif %}>
+	<source 
+		media="(min-width: {% if breakpoint %}{{ breakpoint | plus: 1 }}{% else %}600{% endif %}px)" 
+		srcset="
+			{{ image | img_url: '80x80' }} 80w,
+			{{ image | img_url: '240x240' }} 240w,
+			{{ image | img_url: '480x480' }} 480w,
+			{{ image | img_url: '800x800' }} 800w,
+			{{ image | img_url: '1200x1200' }} 1200w,
+			{{ image | img_url: '1800x1800' }} 1800w,
+			{{ image | img_url: '2400x2400' }} 2400w
+		" 
+		sizes="(max-width: {{ max_width }}px) 100vw, {{ max_width }}px">
+
+	<source 
+		media="(max-width: {% if breakpoint %}{{ breakpoint }}{% else %}600{% endif %}px)" 
+		srcset="
+			{{ image_responsive_src | img_url: '80x80' }} 80w,
+			{{ image_responsive_src | img_url: '240x240' }} 240w,
+			{{ image_responsive_src | img_url: '480x480' }} 480w,
+			{{ image_responsive_src | img_url: '800x800' }} 800w,
+			{{ image_responsive_src | img_url: '1200x1200' }} 1200w,
+			{{ image_responsive_src | img_url: '1800x1800' }} 1800w,
+			{{ image_responsive_src | img_url: '2400x2400' }} 2400w
+		" 
+		sizes="(max-width: {{ max_width }}px) 100vw, {{ max_width }}px">
+	
+	<img 
+		width="{{ image.width | round }}" 
+		height="{{ image.height | round }}" 
+		data-src="{{ image | img_url: src_size_filter }}" 
+		data-srcset="
+			{{ image | img_url: '80x80' }} 80w,
+			{{ image | img_url: '240x240' }} 240w,
+			{{ image | img_url: '480x480' }} 480w,
+			{{ image | img_url: '800x800' }} 800w,
+			{{ image | img_url: '1200x1200' }} 1200w,
+			{{ image | img_url: '1800x1800' }} 1800w,
+			{{ image | img_url: '2400x2400' }} 2400w
+		" 
+		data-sizes="auto" 
+		alt="{{ alt | strip_html | escape }}" 
+		class="lazyload">
+</picture>

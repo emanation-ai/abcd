@@ -1,0 +1,54 @@
+<div class="comp-featured-card">
+	{% if image != blank %}
+		<span class="object-fit">
+			{% render 'img-srcset-responsive', 
+				image: image,
+				image_responsive: image_mobile,
+				max_width: 900, 
+				breakpoint: 600,
+				alt: image.alt %}
+		</span>
+	{% endif %}
+	
+	<div class="f-v">
+		<div class="featured-card-header type-spacing">
+			{% if title != blank and display_title %}
+				<div class="t-h-2">{{ title }}</div>
+			{% endif %}
+
+			{% if subtitle != blank %}
+				<div class="t-b-3">{{ subtitle }}</div>
+			{% endif %}
+		</div>
+
+		{% if cta == true %}
+			<a 
+			class="p-fill" 
+			href="
+			{% if custom_url != blank %}
+				{{ custom_url }}
+			{% else %}
+				{{ url }}
+			{% endif %}" 
+			title="Link to {{ title | escape }} collection"></a>
+
+			<a 
+				class="btn" 
+				href="
+				{% if custom_url != blank %}
+					{{ custom_url }}
+				{% else %}
+					{{ url }}
+				{% endif %}">
+				Shop {{ title }}</a>
+		{% else %}
+			{% render 'product-card-small-h', 
+				item: product %}
+
+			<a 
+				class="p-fill" 
+				href="{{ product.url }}" 
+				title="Link to {{ product.title | escape }}"></a>
+		{% endif %}
+	</div>
+</div>

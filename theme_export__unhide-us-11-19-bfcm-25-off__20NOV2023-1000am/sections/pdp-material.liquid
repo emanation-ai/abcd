@@ -1,0 +1,86 @@
+<style>
+  .pdp-material {
+  width: 100%;
+  max-width: 1050px;
+  display: grid;
+  grid-auto-flow: dense;
+  margin: auto;
+  text-align: center;  
+    padding: 0px 2.5rem;
+}
+.pdp-material h2 {
+  font-size: 2.9rem;
+  margin-bottom: 1.2rem;
+}
+
+.pdp-material--video {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.pdp-material--meta {
+  padding-top: 2.2rem;
+}
+
+@media only screen and (min-width: 769px) {
+  .pdp-material {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    text-align: left;
+  }
+
+  .pdp-material h2 {
+    font-size: 4rem;
+  }
+
+  .pdp-material--video {
+    grid-column-start: 2;
+    height: 600px;
+  }
+  .pdp-material--meta {
+    padding: 5.1rem;
+    grid-column-start: 1;
+  }
+}
+</style>
+<video class="pdp-material--video" muted autoplay playsinline loop src="{{ section.settings.video_url }}"></video>
+<div class="pdp-material--meta">
+  <h2>{{ section.settings.heading }}</h2>
+  <p>{{ section.settings.copy }}</p>
+</div>
+
+{% schema %}
+{
+  "name": "PDP - Material",
+  "tag": "section",
+  "class": "pdp-material py-pd-y-m",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "copy",
+      "label": "Copy"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Material Video URL"
+    },
+    {
+      "type": "url",
+      "id": "announcement_url",
+      "label": "URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP - Material"      
+    }
+  ]
+}
+{% endschema %}

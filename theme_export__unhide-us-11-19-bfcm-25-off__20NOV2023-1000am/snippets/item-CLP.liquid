@@ -1,0 +1,30 @@
+<div class="item-clp">
+  <div class="item-clp--meta">
+    <div>
+      {% if product.variants.size > 1 %}
+        {% if product.compare_at_price > product.price %}
+        <p class="item-clp--meta-price">From <s>{{ product.compare_at_price | money }}</s><span style="margin-left: 5px;font-weight:bold;">{{ product.price | money }}</span></p>
+        {% else %}
+        <p class="item-clp--meta-price">From {{ product.price | money }}</p>
+        {% endif %}
+      {% else %}
+        {% if product.compare_at_price > product.price %}
+        <p class="item-clp--meta-price"><s>{{ product.compare_at_price | money }}</s><span style="margin-left: 5px;font-weight:bold;">{{ product.price | money }}</span></p>
+        {% else %}
+        <p class="item-clp--meta-price">{{ product.price | money }}</p>
+        {% endif %}
+      {% endif %}
+      <h2>{{ product.title }}</h2>
+      <p>{{ description }}</p>
+    </div>
+    <a class="btn {{ btn_class }}" href="{{ product.url }}">Shop Now</a>
+  </div>
+  <img class="item-clp--image is-desktop" src="{{ image_desktop | image_url: width: 1400 }}"
+    alt="UnHide - {{ product.title }}" loading="lazy"
+    width="{{ image_desktop.width }}" height="{{ image_desktop.height }}"
+  >
+  <img class="item-clp--image is-mobile" src="{{ image_mobile | image_url: width: 600 }}"
+    alt="UnHide - {{ product.title }}" loading="lazy"
+    width="{{ image_mobile.width }}" height="{{ image_mobile.height }}"
+  >
+</div>

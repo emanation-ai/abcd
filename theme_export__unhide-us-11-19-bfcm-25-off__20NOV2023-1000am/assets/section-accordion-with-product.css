@@ -1,0 +1,178 @@
+.bc-accordion-with-product {
+  position: relative;
+}
+.bc-accordion-with-product .page-width {
+  padding: 0;
+}
+.bc-accordion-with-product .page-width-br {
+  max-width: 100%;
+}
+.bc-accordion-with-product__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.bc-accordion-with-product__accordion-wrapper,
+.bc-accordion-with-product__product-wrapper {
+  flex: 1 0 50%;
+  position: relative;
+}
+.bc-default-bt .bc-accordion-with-product__accordion-wrapper {
+  padding: 5.2rem 5.2rem;
+}
+.bc-br-bt .bc-accordion-with-product__accordion-wrapper {
+  border-right: 2px solid #000;
+}
+.bc-accordion-with-product__accordion-list {
+  display: flex;
+  flex-direction: column;
+}
+.bc-br-bt .bc-accordion-with-product__accordion-item {
+  padding: 0 5.2rem;
+  border-bottom: 2px solid #000;
+}
+.bc-accordion-with-product__accordion-item:not(:last-of-type) {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+.bc-br-bt .bc-accordion-with-product__accordion-item:first-child {
+  padding-top: 2.5rem;
+}
+.bc-br-bt .bc-accordion-with-product__accordion-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 2.5rem;
+}
+.bc-accordion-with-product__listener {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.bc-accordion-with-product__image {
+  display: inline-block;
+  width: 9.9rem;
+  height: 9.9rem;
+  border-radius: 50%;
+  background: #ffffff;
+  margin-right: 5.4rem;
+}
+.bc-accordion-with-product__text {
+  max-width: 100%;
+  width: 26.3rem;
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 3.6rem;
+  color: inherit;
+  margin: 0;
+}
+.bc-accordion-with-product__icon {
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 3.6rem;
+  margin-left: 4rem;
+}
+.bc-accordion-with-product__content {
+  display: none;
+  padding-left: 15.3rem;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+}
+.bc-accordion-with-product__content.open {
+  display: block;
+}
+.bc-accordion-with-product__content p {
+  margin: 0;
+}
+.bc-accordion-with-product__product-wrapper .product-form {
+  position: absolute;
+  right: 5.2rem;
+  bottom: 6rem;
+  width: 25.2rem;
+  max-width: 100%;
+}
+.bc-accordion-with-product__product-title {
+  position: absolute;
+  left: 45%;
+  top: 12.9rem;
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 3.6rem;
+  color: #FFFFFF;
+  transform: translateX(-50%);
+  margin: 0;
+}
+.bc-accordion-with-product__product-icon {
+  position: absolute;
+  left: 175px;
+  top: -35px;
+  z-index: -1;
+}
+
+@media screen and (min-width:860px){
+  .bc-accordion-with-product__accordion-wrapper{
+    max-width:50%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  
+  .bc-accordion-with-product__accordion-wrapper {
+    padding: 4rem 2.5rem;
+  }
+  .bc-accordion-with-product__image {
+    width: 4.4rem;
+    height: 4.4rem;
+    margin-right: 1.1rem;
+  }
+  .bc-accordion-with-product__text {
+    width: 74%;
+    font-size: 1.6rem;
+    line-height: 1.9rem;
+  }
+  .bc-accordion-with-product__icon {
+    font-size: 1.6rem;
+    line-height: 1.9rem;
+    margin-left: 2rem;
+  }
+  .bc-accordion-with-product__content {
+    font-size: 1.3rem;
+    line-height: 1.6rem;
+    padding-left: 5.4rem;
+  }
+  .bc-accordion-with-product__accordion-item:not(:last-of-type) {
+    margin-bottom: 2.4rem;
+  }
+  .bc-accordion-with-product__product-title {
+    font-size: 2rem;
+    line-height: 2.4rem;
+    top: 3.3rem;
+    left: 2.7rem;
+    transform: unset;
+    z-index: 1;
+  }
+  .bc-accordion-with-product__product-icon {
+    width: 15.1rem;
+    height: auto;
+    left: unset;
+    top: 0;
+    right: -65px;
+  }
+  .bc-accordion-with-product__product-wrapper .product-form {
+    right: 3.2rem;
+    bottom: 3.2rem;
+    width: 12.8rem;
+  }
+  .bc-accordion-with-product__product-wrapper .product-form__submit {
+    font-size: .9rem;
+    line-height: 1.1rem;
+    padding: 0;
+  }
+  .bc-accordion-with-product__product-wrapper .bc-product-price-wrapper {
+    margin: 0;
+  }
+  .bc-accordion-with-product__product-wrapper .product-form__submit .price {
+    font-size: .9rem;
+    line-height: 1.1rem;
+  }
+
+}

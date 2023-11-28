@@ -1,0 +1,13 @@
+{% capture none %}
+	{% assign price_min = product.price_min | money | remove: '.00' %}
+	{% assign price_max = product.price_max | money | remove: '.00' %}
+{% endcapture %}
+
+{% if product.compare_at_price > product.price %}
+	<span>{{ product.price | money | remove: '.00' }}</span>
+	<s>{{ product.compare_at_price | money | remove: '.00' }}</s>
+{% elsif price_min != price_max%}
+	<span>From {{ price_min }}</span>
+{% else %}
+	<span>{{ price_min }}</span>
+{% endif %}

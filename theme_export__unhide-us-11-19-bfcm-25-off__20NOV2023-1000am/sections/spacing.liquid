@@ -1,0 +1,80 @@
+<div
+  class="spacing-section-desktop bc-{{settings.section_style}}-bt"
+  style="background-color: {{ section.settings.background_color }};height:{{ section.settings.spacing_value_desktop }}px"
+>
+</div>
+
+<div
+  class="spacing-section-mobile bc-{{settings.section_style}}-bt"
+  style="background-color: {{ section.settings.background_color }};height:{{ section.settings.spacing_value_mobile }}px"
+>
+</div>
+
+{% schema %}
+{
+  "name": "Spacing",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background color"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background color",      
+      "options": [          
+         {
+            "label": "Transparent",
+            "value": "transparent"
+         },        
+         {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+         },
+         {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+         },
+         {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+         },
+         {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+         },
+         {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+         }
+       ],
+     "default": "transparent"
+    },
+    {
+      "id": "spacing_value_desktop",
+      "label": "Spacing Value Desktop",
+      "type": "range",
+      "min": 5,
+      "max": 100,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "id": "spacing_value_mobile",
+      "label": "Spacing Value Mobile",
+      "type": "range",
+      "min": 5,
+      "max": 100,
+      "step": 1,
+      "default": 5
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Spacing",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

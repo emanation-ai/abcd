@@ -1,0 +1,37 @@
+{%- assign mod_product = nil -%}
+{%- if product.metafields.custom.upsell != blank -%}
+  {%- assign mod_product = all_products[product.metafields.custom.upsell] -%}
+{%- endif -%}
+
+{%- if mod_product != nil -%}
+  <div class="ProductUpsell__Label t-b-3">Add <strong>{{ mod_product.title }} {{ mod_product.type }}</strong> (optional)</div>
+  <div class="ProductUpsell">
+    <div class="ProductUpsell__Inner {% if mod_product.first_available_variant.compare_at_price > mod_product.first_available_variant.price %}ProductUpsell__Inner--Sale{% endif %}">
+      <input type="checkbox" id="ProductUpsell__Check" class="ProductUpsell__Check js-ProductUpsell__Check" value="{{ mod_product.first_available_variant.id }}">
+      <label for="ProductUpsell__Check">
+        <span class="ProductUpsell__Title">{{ mod_product.title }} {{ mod_product.type }}</span>
+        <div class="ProductUpsell__Price" data-price="{{ mod_product.price | money }}">
+          <s>{% if mod_product.first_available_variant.compare_at_price > mod_product.first_available_variant.price %}{{ mod_product.first_available_variant.compare_at_price | money_without_trailing_zeros }}{% endif %}</s>
+          <span>{{ mod_product.first_available_variant.price | money_without_trailing_zeros }}</span>
+        </div>
+      </label>
+    </div>
+    <div class="ProductUpsell__Image">
+      <div class="ProductUpsell__ImageInner">
+        <img src="{{ mod_product.first_available_variant.image | img_url: '400x' }}">
+        <div class="ProductUpsell__Content">
+          <p>{{ mod_product.description | strip_html }}</p>
+          <div class="field">
+            <select class="ProductUpsell__Variants js-ProductUpsell__Variants">
+              {% for variant in mod_product.variants %}
+                {% if variant.available %}
+                <option data-price="{{ variant.price | money_without_trailing_zeros }}" data-compare-price="{{ variant.compare_at_price | money_without_trailing_zeros }}" data-image="{{ variant.image | img_url: '400x' }}" value="{{ variant.id }}">{{ variant.title }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}

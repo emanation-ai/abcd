@@ -1,0 +1,399 @@
+<style>
+    .products-slider-full-width{
+        /* background-color: #f4f1ea; */
+        background-color: {{section.settings.bg_color}};
+        padding: 70px 0;
+
+
+    }
+    .products-slider-full-width .swiper {
+        width: 100%;
+        height: 100%;
+      }
+      .products-slider-full-width .swiper-slide{
+          padding: 25px 0;
+      }
+
+      .products-slider-full-width  .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        color:#000;
+      }
+
+      .products-slider-full-width  .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .product-slider-button{
+        color: #000;
+          display: flex !important;
+          justify-content: center;
+          align-items: center;
+        width: 10px;
+
+      }
+      .product-slider-button::after{
+        content:unset ;
+       
+      }
+      .product-slider-wrapper{
+          display: flex;
+          gap: 50px;
+      }
+      .product-slider-text-wrapper{
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          flex-direction: column;
+          text-align: left;
+      }
+      .product-slider-image-wrapper img{
+          max-width: 420px;
+
+      }
+      .product-title-wrapper h3,.product-description-wrapper p, .product-slider-price-wrapper p,.product-slider-cta-wrapper a{
+          text-align: left;
+      }
+      .product-description-wrapper p{
+          width: 440px;
+          margin-top:10px;
+          margin-bottom:12px;
+          color: #000;
+          line-height: 26px;
+      }
+      .product-title-wrapper h3{ 
+          font-size: 30px;
+          font-weight: bolder;
+        margin-top:10px;
+          margin-bottom:10px;
+          font-family: "Avenir-v2", Helvetica, sans-serif;
+          letter-spacing: 1px;
+        
+
+      }
+      .product-slider-price-wrapper{
+          margin-bottom: 15px;
+      }
+      .product-slider-price-wrapper p{
+        /* margin-top:10px;
+          margin-bottom:10px; */
+          font-weight: bold;
+          color: #000;
+      }
+      .product-slider-new-price{
+          font-size: 30px;
+          margin: 0 5px;
+          letter-spacing: 2px;
+      }
+      .product-slider-old-price{
+          margin-left: 5px;
+          text-decoration: line-through;
+      }
+      .product-slider-cta-wrapper {
+          margin-top: 10px;
+      }
+      .product-slider-cta-wrapper a{
+          text-decoration: none;
+          color: #fff;
+          background-color: #c7a877;
+          padding: 14px 45px;
+          border-radius: 50px;
+          transition: all 0.3s;
+      }
+      .product-slider-cta-wrapper a:hover{
+        box-shadow: 0px 10px 10px rgb(60 60 60 / 50%);
+      }
+      .product-title-wrapper h3 span {
+          margin-left: 5px;
+          font-size: 18px;
+      }
+@media screen and (max-width:992px) {
+
+    .product-title-wrapper h3{
+        font-size: 25px;
+
+    }
+    .product-slider-new-price{
+        font-size: 30px;
+    }
+    .product-description-wrapper p{
+        width: 300px;
+    }
+    .product-slider-wrapper{
+        gap: 30px;
+    }
+}
+@media screen and (max-width:768px) {
+    .product-slider-wrapper{
+        flex-direction: column;
+        gap: 0;
+    }
+    .products-slider-full-width .swiper-slide img{
+        max-width: 250px;
+    }
+    .product-slider-text-wrapper{
+        padding:10px;
+        align-items: center;
+    }
+    .product-slider-image-wrapper{
+        display: flex;
+        justify-content: center;
+
+    }
+    .product-description-wrapper p{
+        width: 100%;
+        text-align: left;
+        font-size: 16px;
+        line-height: 20px;
+        padding-left: 20px;
+    }
+    .product-title-wrapper h3{
+       font-size: 20px; 
+    }
+    .product-title-wrapper h3 span{
+        font-size: 16px;
+    }
+    .swiper-button-next{
+        right: 0;
+    }
+    .swiper-button-prev{
+        left: 0;
+    }
+    .product-slider-new-price{
+        font-size: 25px;
+    }
+    .product-slider-price-wrapper p{
+        font-size: 16px;
+    }
+    .product-slider-cta-wrapper a{
+        padding: 13px 40px;
+    }
+}
+
+</style>
+
+<div class="landing-page-full-width-wrapper products-slider-full-width">
+    <div class="landing-page-wrapper">
+        <div class="swiper products-slider">
+            <div class="swiper-wrapper">
+                {%assign productSlideBlocks=section.blocks | where:"type","product-slide"%}
+                {%for block in productSlideBlocks%}
+                {%assign prod=block.settings.product-pick%}
+
+                {%assign productDescription = prod.description | truncatewords: 15, '.'%}
+                {%if block.settings.product_description_radio == "customDescription"%}
+                {%assign productDescription = block.settings.product-custom-description%}
+                {%endif%}
+                <div class="swiper-slide">
+                
+                    <div class="product-slider-wrapper">
+                        <div class="product-slider-image-wrapper">
+                            {%assign prodImg=block.settings.product-image%}
+                      
+                            {%if block.settings.product_image_radio == "productImage" %}
+                            {%assign prodImg=prod.featured_image%}
+                            
+                            {%endif%}
+                            <img src="{{prodImg | img_url:'master'}}" alt="">
+                        </div>
+                        <div class="product-slider-text-wrapper">
+                            <div class="product-title-wrapper">
+                                {%assign productTitle=prod.title%}
+                                {%if block.settings.product_title_radio == "customTitle"%}
+                                {%assign productTitle=block.settings.product-custom-heading%}
+
+                                <h3>{{productTitle}}<span>{{block.settings.product-custom-subheading}}</span></h3>
+
+                                {%else%}
+                                <h3>{{productTitle}}</h3>
+
+                                {%endif%}
+                            </div>
+                            <div class="product-description-wrapper">
+                                <p>{{productDescription}}</p>                         
+                            </div>
+                            
+                            <div class="product-slider-price-wrapper">
+                                <p>Price: <span class="product-slider-new-price">${{block.settings.product-new-price}}</span><span class="product-slider-old-price">{%if prod.compare_at_price%}{{prod.compare_at_price | money}}{%endif%}</span></p>
+                            </div>
+                            <div class="product-slider-cta-wrapper">
+                                {%assign productLink="/products/"|append:prod.handle%} 
+                                {%if block.settings.product_link_radio == "customLink"%}
+                                    {%assign productLink=block.settings.product-custom-link%}
+
+                                {%endif%}
+                                <a href="{{productLink}}">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+    
+                  </div>
+                {%endfor%}
+         
+             
+            </div>
+            <div class="swiper-button-next product-slider-button" style="display: none !important;">
+                {%render 'right-arrow-icon'%}
+            </div>
+            <div class="swiper-button-prev product-slider-button" style="display: none !important;">
+                {%render 'left-arrow-icon'%}
+
+            </div>
+          </div>
+      
+       
+    </div>
+</div>
+
+  
+    <!-- Initialize Swiper -->
+    <script>
+    var swiper = new Swiper(".products-slider", {
+        loop:true,
+        spaceBetween:40,
+        navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+        },
+        allowTouchMove: false,
+
+    });
+    </script>
+{% schema %}
+
+{
+	"name": "Products slider",
+	"settings": [{
+		"type": "color",
+		"id": "bg_color",
+		"label": "Body text",
+		"default": "#edece8"
+	}],
+	"blocks": [{
+		"name": "Product slide",
+		"type": "product-slide",
+		"settings": [{
+				"type": "product",
+				"id": "product-pick",
+				"label": "Pick a product"
+			},
+			{
+				"type": "radio",
+				"id": "product_title_radio",
+				"label": "Product title options",
+				"options": [{
+						"value": "productTitle",
+						"label": "Product title"
+					},
+					{
+						"value": "customTitle",
+						"label": "Custom title"
+					}
+				],
+				"default": "productTitle"
+			},
+			{
+				"type": "text",
+				"id": "product-custom-heading",
+				"label": "Product custom heading"
+			},
+			{
+				"type": "text",
+				"id": "product-custom-subheading",
+				"label": "Product custom subheading"
+			},
+            {
+				"type": "radio",
+				"id": "product_description_radio",
+				"label": "Product description options",
+				"options": [{
+						"value": "productDescription",
+						"label": "Product description"
+					},
+					{
+						"value": "customDescription",
+						"label": "Custom description"
+					}
+				],
+				"default": "productDescription"
+			},
+            {
+				"type": "text",
+				"id": "product-custom-description",
+				"label": "Product custom description"
+			},
+			{
+				"type": "radio",
+				"id": "product_image_radio",
+				"label": "Product image options",
+				"options": [{
+						"value": "productImage",
+						"label": "Product's featured image"
+					},
+					{
+						"value": "uploadImage",
+						"label": "Custom image upload"
+					}
+				],
+				"default": "productImage"
+			},
+			{
+				"type": "image_picker",
+				"id": "product-image",
+				"label": "Product Image"
+			},
+			{
+				"type": "text",
+				"id": "product-new-price",
+				"label": "Product new price"
+			},
+			{
+				"type": "text",
+				"id": "product-old-price",
+				"label": "Product old price"
+			},
+			{
+				"type": "radio",
+				"id": "product_link_radio",
+				"label": "Product link options",
+				"options": [{
+						"value": "productLink",
+						"label": "Product link"
+					},
+					{
+						"value": "customLink",
+						"label": "Custom link"
+					}
+
+				],
+				"default": "productLink"
+			},
+			{
+				"type": "url",
+				"id": "product-custom-link",
+				"label": "Product custom link"
+			}
+
+		]
+	}],
+	"presets": [{
+		"name": "Products slider"
+	}]
+}
+{% endschema %}

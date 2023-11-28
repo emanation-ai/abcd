@@ -1,0 +1,104 @@
+<style>
+.pdp-features {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  text-align: center;
+  max-width: 1600px;
+    margin: auto;
+    padding: 0px 2.5rem;
+}
+  .pdp-features img{
+    max-width:100%;
+  }
+.pdp-features::-webkit-scrollbar {
+  display: none;
+}
+
+.pdp-features--block {
+  flex: none;
+  width: 90%;
+}
+.pdp-features--block img {
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.pdp-features--block h2 {
+  font-size: 2.4rem;
+  margin-bottom: 0.6rem;
+  margin-top:0px;
+}
+.pdp-features--block p {
+  width: 95%;
+  line-height: 110%;
+  margin:0px;
+}
+
+@media only screen and (min-width: 769px) {
+  .pdp-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    text-align: left;
+  }
+  
+  .pdp-features--block {
+    width: 100%;
+  }
+  .pdp-features--block img {
+    margin-bottom: 1.5rem;
+  }  
+}
+</style>
+
+{% for block in section.blocks %}
+<div class="pdp-features--block">
+  <img src="{{ block.settings.image | image_url: width: 600 }}" alt="UnHide - {{ product.title }} - {{ block.settings.title }}" />
+  <div>
+    <h2>{{ block.settings.title }}</h2>
+    <p>{{ block.settings.description }}</p>
+  </div>
+</div>
+{% endfor %}
+
+{% schema %}
+{
+  "name": "PDP - Features",
+  "tag": "section",
+  "class": "pdp-features py-pd-y-m",
+  "max_blocks": 3,
+  "settings": [],
+  "blocks": [
+    {
+      "type": "content",
+      "name": "Content",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP - Features"      
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,7 @@
+<div class="bc-product-grid-variants">
+    {%- for variant in variants -%}
+        <div class="bc-variant-item {% unless variant.available %}bc-variant-item-sold-out{% endunless %}">
+            <a href="{{ variant.url }}" {{ variant.title | size }} >{% if variant.title == "ONESIZE" %}OS{% else %}{%- assign titleSize = variant.title | size -%}{%- if titleSize < 5 -%}{{ variant.title }}{%- else -%}{%- assign titles = variant.title | split: ' ' -%}{%- for title in titles -%}{%- assign forTitle = title | size -%}{%- if forTitle < 4 -%}{{ title }}{%- else -%}{{ title | slice: 0 }}{%- endif -%}{%- endfor -%}{%- endif -%}{%- endif -%}</a>
+        </div>
+    {%- endfor -%}
+</div>

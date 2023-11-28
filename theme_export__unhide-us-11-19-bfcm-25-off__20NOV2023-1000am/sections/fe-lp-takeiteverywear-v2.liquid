@@ -1,0 +1,586 @@
+<style>
+    .takeiteverywear-full-width{
+        background-color: #696f59;
+    }
+    .takeiteverywear-headline{
+        display: flex;
+        justify-content: center;
+        padding-top: 80px;
+    }
+    .takeiteverywear-headline h2{
+     color: #c8a977; 
+     text-transform: capitalize;  
+     font-size: 130px;
+    }
+    .takeiteverywear-blocks-wrapper{
+        margin-top: 80px;
+    }
+    .takeiteverywear-block-image-wrapper img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        border-radius: 60px;
+        position: relative;
+        z-index: 2;
+    
+    
+    }
+    .takeiteverywear-block-image-wrapper{
+        width: 100%;
+    margin: 0 auto;
+    position: relative;
+    }
+    
+    
+    
+    /* .takeiteverywear-block-image-wrapper:before, .takeiteverywear-block-image-wrapper:after {
+        z-index: 1;
+        position: absolute;
+        content: "";
+        bottom: 26px;
+        left: 32px;
+        width: 50%;
+        top: 86%;
+        max-width: 408px;
+        background: #000;
+        -webkit-box-shadow: 0 15px 10px #000;
+        -moz-box-shadow: 0 15px 10px #000;
+        box-shadow: 0px 46px 20px #000;
+        -webkit-transform: rotate(-3deg);
+        -moz-transform: rotate(-3deg);
+        -o-transform: rotate(-3deg);
+        -ms-transform: rotate(-3deg);
+        transform: rotate(-6deg);
+    }
+    .takeiteverywear-block-image-wrapper:after {
+        -webkit-transform: rotate(3deg) !;
+        -moz-transform: rotate(3deg);
+        -o-transform: rotate(3deg);
+        -ms-transform: rotate(3deg);
+        transform: rotate(6deg);
+        right: 29px;
+        left: auto;
+    } */
+    .takeiteverywear-block{
+        padding:30px 0 90px 0;
+    }
+    .takeiteverywear-block-headline{
+        display: flex;
+        justify-content: center;
+        position: relative;
+        margin-bottom: 50px;
+    
+    }
+    .takeiteverywear-block-headline h3{
+        color: #fff;
+    text-transform: capitalize;
+    font-size: 73px;
+    max-width: 880px;
+    text-align: center;
+    }
+    .takeiteverywear-block-arrow{
+        position: absolute;
+    z-index: 3;
+    bottom: -37px;
+
+
+  
+}
+.takeiteverywear-block-arrow img{
+    width: 100%;
+
+
+}
+.takeiteverywear-block:nth-child(3n +1)  .takeiteverywear-block-arrow{
+    left: -5%;
+    width: 170px;
+    bottom: -142px;
+
+}
+.takeiteverywear-block:nth-child(3n+2)  .takeiteverywear-block-arrow{
+   
+    right: 7%;
+    width: 138px;
+    bottom: -185px;
+
+}
+.takeiteverywear-block:nth-child(3n+3)  .takeiteverywear-block-arrow{
+    left: 9%;
+    width: 95px;
+    bottom: -115px;
+
+}
+    
+    .takeiteverywear-text-wrapper{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 40px 0 120px 0;
+    }
+    .takeiteverywear-text{
+        width: 50%;
+        margin: 0 auto;
+    }
+    .takeiteverywear-text p{
+        color: #fff;
+        font-size: 26px;
+        font-family: "adonis-web", Helvetica, sans-serif;
+    }
+    .takeiteverywear-text,.takeiteverywear-cta{
+        text-align: center;
+    }
+    .takeiteverywear-cta{
+        margin-top: 40px;
+    }
+    .takeiteverywear-cta a{
+        background-color: #c7a877;
+    padding: 1em 3.5em;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 7px;
+    font-size: 18px;
+    text-transform: capitalize;
+    border-radius: 50px;
+    transition: all 0.3s;
+    }
+    .takeiteverywear-cta a:hover{
+        box-shadow: 0px 10px 10px rgb(60 60 60 / 50%);
+    }
+    @media screen and (max-width:1600px) {
+    .takeiteverywear-headline h2{
+        font-size: 110px;
+    }
+    .takeiteverywear-block-headline h3{
+    font-size: 65px;
+    max-width: 815px;
+    }
+    .takeiteverywear-block-image-wrapper{
+        width: 95%;
+    }
+    .takeiteverywear-block:nth-child(3n +1) .takeiteverywear-block-arrow{
+        left: -2%;
+    width: 150px;
+    bottom: -132px;
+}
+.takeiteverywear-cta a{
+    padding: 0.5em 2.5em;
+}
+
+
+}
+@media screen and (max-width:1400px) {
+    .takeiteverywear-block:nth-child(3n +1) .takeiteverywear-block-arrow{
+        left: 1px;
+        width: 120px;
+    bottom: -90px;
+    }
+    .takeiteverywear-headline h2{
+        font-size: 100px;
+    }
+    .takeiteverywear-block:nth-child(3n+2) .takeiteverywear-block-arrow{
+        right: 7%;
+    width: 120px;
+    bottom: -170px;
+    }
+}
+    @media screen and (max-width:1280px) {
+        .takeiteverywear-block-headline h3{
+            font-size: 40px;
+            max-width: 500px;
+        }
+        .takeiteverywear-text{
+            width: 60%;
+        }
+        .takeiteverywear-block-arrow{
+          
+        bottom: -26px;
+        }
+        .takeiteverywear-block-image-wrapper{
+            width: 60%;
+            height: 40vh;
+        }
+
+
+        .takeiteverywear-block:nth-child(3n +1)  .takeiteverywear-block-arrow{
+            left: 10px;
+         width: 120px;
+
+}
+.takeiteverywear-block:nth-child(3n+2)  .takeiteverywear-block-arrow{
+   
+    right: 9%;
+    width: 100px;
+    bottom: -130px;
+
+
+}
+.takeiteverywear-block:nth-child(3n+3)  .takeiteverywear-block-arrow{
+    left: 10%;
+    width: 90px;
+    bottom: -111px;
+
+}
+.takeiteverywear-block-image-wrapper{
+        width: 90%;
+        height: auto;
+    }
+    .takeiteverywear-block-headline h3{
+        font-size: 63px;
+        max-width: 750px;
+    }
+.takeiteverywear-headline h2{
+    font-size:90px;
+}
+    
+        
+    }
+    @media screen and (max-width:1170px) {
+        .takeiteverywear-block-headline h3 {
+            font-size: 45px;
+             max-width: 600px;
+}
+.takeiteverywear-block:nth-child(3n +1) .takeiteverywear-block-arrow{
+    width: 110px;
+}
+.takeiteverywear-block:nth-child(3n+2) .takeiteverywear-block-arrow {
+    right: 80px;
+    width: 90px;
+    bottom: -127px;
+}
+.takeiteverywear-block:nth-child(3n+3)  .takeiteverywear-block-arrow {
+    left: 55px;
+    width: 80px;
+    bottom: -157px;
+}
+    }
+
+    @media screen and (max-width:1100px) {
+        .takeiteverywear-block-image-wrapper{
+            width: 80%;
+        }
+       
+       
+        .takeiteverywear-block:nth-child(3n+3) .takeiteverywear-block-arrow{
+            left: 125px;
+            bottom: -117px;
+        }
+        .takeiteverywear-block-headline h3{
+            font-size: 50px;
+            max-width: 600px;
+        }
+    }
+
+    @media screen and (max-width:992px) {
+       
+        .takeiteverywear-headline h2{
+            font-size: 80px;
+        }
+        .takeiteverywear-block-headline h3 {
+        font-size: 47px;
+        line-height: 52px;
+    }
+    .takeiteverywear-block-arrow {
+        left: 19%;
+        bottom: -25px;
+    }
+    .takeiteverywear-text {
+        width: 70%;
+    }
+    .takeiteverywear-text p{
+        font-size: 24px;
+    }
+    .takeiteverywear-block:nth-child(3n+1) .takeiteverywear-block-arrow{
+            left: 15px;
+            width: 100px;
+            bottom: -70px;
+        }
+    .takeiteverywear-block:nth-child(3n+2) .takeiteverywear-block-arrow{
+        width: 80px;
+        right: 35px;
+        left: unset;
+        bottom: -110px;
+    }
+        
+        .takeiteverywear-block:nth-child(3n+3) .takeiteverywear-block-arrow{
+            left: 25px;
+            bottom: -120px;
+        }
+        .takeiteverywear-blocks-wrapper{
+            margin-top: 60px;
+        }
+        .takeiteverywear-block-headline h3{
+            font-size: 47px;
+        }
+        .takeiteverywear-cta a{
+            padding: 0.5em 2em;
+    }
+    }
+    @media screen and (max-width:900px) {
+        .takeiteverywear-block-headline h3{
+            font-size: 48px;
+        }
+        .takeiteverywear-block:nth-child(3n +1) .takeiteverywear-block-arrow{
+            left: 0px;
+            width: 90px;
+            bottom: -45px;
+        }
+        .takeiteverywear-block:nth-child(3n+2) .takeiteverywear-block-arrow{
+            width: 70px;
+            right: 0px;
+            bottom: -82px;
+        }
+        .takeiteverywear-block:nth-child(3n+3) .takeiteverywear-block-arrow{
+            left: -7px;
+            bottom: -65px;
+            width: 60px;
+        }
+
+    }
+
+    @media screen and (max-width:768px) {
+        .takeiteverywear-block:nth-child(3n +1) .takeiteverywear-block-arrow{
+            left: 0px;
+            width: 70px;
+            bottom: -60px;
+        }
+        .takeiteverywear-block:nth-child(3n+2) .takeiteverywear-block-arrow{
+            right: 20px;
+            bottom: -66px;
+            width: 50px;
+        }
+        
+        .takeiteverywear-block:nth-child(3n+3) .takeiteverywear-block-arrow{
+           
+            width: 50px;
+            bottom: -77px;
+            left: 20px;
+
+        }
+        .takeiteverywear-block-headline h3{
+            font-size: 28px;
+            line-height: 30px;
+            max-width: 350px;
+        }
+        .takeiteverywear-block-arrow {
+            bottom: -30px;
+        }
+        .takeiteverywear-headline h2{
+            font-size: 40px;
+        }
+        .takeiteverywear-block {
+            padding: 0px 0 90px 0;
+        }
+        .takeiteverywear-block-image-wrapper{
+            width: 100%;
+        }
+        .takeiteverywear-text {
+            width: 80%;
+        }
+    }
+    @media screen and (max-width:500px){
+        .takeiteverywear-block-headline h3{
+            font-size: 26px;
+            line-height: 30px;
+            max-width: 350px;
+        }
+        .takeiteverywear-block-image-wrapper{
+            height: 30vh;
+        }
+        .takeiteverywear-text-wrapper{
+            padding: 20px 0 80px 0;
+        }
+        .takeiteverywear-text{
+            width: 100%;
+        }
+        .takeiteverywear-text p{
+            font-size: 17px;
+        }
+        .takeiteverywear-block-arrow{
+            left: 11%;
+            bottom: -35px;
+        }
+        .takeiteverywear-headline h2{
+            font-size: 30px;
+        }
+        .takeiteverywear-block:nth-child(3n+2) .takeiteverywear-block-arrow {
+    right: 50px;
+    bottom: -80px;
+    width: 40px;
+}
+        .takeiteverywear-block:nth-child(3n +1) .takeiteverywear-block-arrow {
+    left: 0px;
+    width: 60px;
+    bottom: -60px;
+}
+.takeiteverywear-block:nth-child(3n+3) .takeiteverywear-block-arrow {
+    width: 40px;
+    bottom: -90px;
+    left: 0px;
+}
+.hero-product-cta a{
+    padding: 10px 35px;
+}
+    }
+    @media screen and (max-width:400px){
+        .takeiteverywear-block:nth-child(3n+1) .takeiteverywear-block-arrow{
+        left: 0;
+        width: 45px;
+        bottom: -25px;
+        }
+        .takeiteverywear-block:nth-child(3n+2) .takeiteverywear-block-arrow{
+            right: 30px;
+            bottom: -52px;
+            width: 40px;
+        }
+        .takeiteverywear-block:nth-child(3n+3) .takeiteverywear-block-arrow {
+    width: 31px;
+    bottom: -42px;
+    left: -7px;
+}
+        .takeiteverywear-headline h2{
+
+        font-size: 45px;
+        }
+        
+        .takeiteverywear-block-headline h3{
+            max-width: 300px;
+            margin-bottom: 20px;
+        margin-top: 30px;
+        font-size: 21px;
+        }
+        .takeiteverywear-block-headline{
+            margin-bottom: 0;
+        }
+
+
+    }
+    
+    </style>
+    {%assign takeItEveryWearBlocks= section.blocks | where :"type","takeiteverywear-block"%}
+    
+    <div class="landing-page-full-width-wrapper takeiteverywear-full-width">
+        <div class="landing-page-wrapper">
+            <div class="takeiteverywear-headline">
+                <h2>{{section.settings.takeiteverywear-heading}}</h2>
+            </div>
+            <div class="takeiteverywear-blocks-wrapper">
+                {%for block in takeItEveryWearBlocks%}
+                <div class="takeiteverywear-block">
+                    <div class="takeiteverywear-block-headline">
+                        <h3 class="h2">{{block.settings.takeiteverywear-heading}}</h3>
+                        <div class="takeiteverywear-block-arrow">
+                            <img src="{{block.settings.takeiteverywear-arrow-image | img_url:"master"}}" alt=""/>
+                        </div>
+                    </div>
+                    <div class="takeiteverywear-block-image-wrapper">
+                        <img src="{{block.settings.takeiteverywear-image | img_url:"master"}}" alt="">
+                        <div class="shadow">
+                            <img src="{{'shadow.png' | asset_url}}" alt="">
+                        </div>
+                    </div>
+    
+                </div>
+                {%endfor%}
+    <!--             
+                    <div class="takeiteverywear-block">
+                        <div class="takeiteverywear-block-headline">
+                            <h3>Bringing Comfy to A Whole New Level</h3>
+                            <div class="takeiteverywear-block-arrow">
+                                <img src="{{'arrow.png' | asset_url}}" alt=""/>
+                            </div>
+                        </div>
+                        <div class="takeiteverywear-block-image-wrapper">
+                            <img src="{{'couch.jpg' | asset_img_url: '1024x'}}" alt="">
+                        </div>
+    
+                    </div>
+                    <div class="takeiteverywear-block">
+                        <div class="takeiteverywear-block-headline">
+                            <h3>Bringing Comfy to A Whole New Level</h3>
+                            <div class="takeiteverywear-block-arrow">
+                                <img src="{{'arrow.png' | asset_url}}" alt=""/>
+                            </div>
+                        </div>
+                        <div class="takeiteverywear-block-image-wrapper">
+                            <img src="{{'couch.jpg' | asset_img_url: '1024x'}}" alt="">
+                        </div>
+    
+                    </div> -->
+            
+                
+            </div>
+            <div class="takeiteverywear-text-wrapper">
+    
+                <div class="takeiteverywear-text">
+    
+                <p>{{section.settings.takeiteverywear-desc}}</p>
+                </div>
+                <div class="takeiteverywear-cta">
+                    <a href="{{section.settings.takeiteverywear-link}}">{{section.settings.takeiteverywear-text}}</a>
+                </div>
+    
+            </div>
+           
+    
+        </div>
+    </div>
+    {% schema %}
+    {
+        "name": "Take it everywear v2",
+        "settings":[
+            {
+                "type": "text",
+                "id": "takeiteverywear-heading",
+                "label": "Heading",
+                "default": "Take it everywear"
+            },
+            {
+                "type": "text",
+                "id": "takeiteverywear-desc",
+                "label": "Description",
+                "default": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt."
+            },
+            {
+                "type": "url",
+                "id": "takeiteverywear-link",
+                "label": "Button link"
+            },
+            {
+                "type": "text",
+                "id": "takeiteverywear-text",
+                "label": "Button text",
+                "default": "Shop Now"
+            }     
+        ],
+        "blocks": [
+         {
+           "name": "Section block",
+           "type": "takeiteverywear-block",
+           "settings": [
+                {
+                    "type": "text",
+                    "id": "takeiteverywear-heading",
+                    "label": "Heading",
+                    "default": "Bringing Comfy to A Whole New Level"
+                },
+                {
+                "type": "image_picker",
+                "id": "takeiteverywear-image",
+                "label": "Image"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "takeiteverywear-arrow-image",
+                    "label": "Arrow"
+                }
+           ]
+         }
+       ],
+        "presets": [
+            {
+             "name": "Take it everywear v2"
+            }
+         ]
+      }
+    {% endschema %}

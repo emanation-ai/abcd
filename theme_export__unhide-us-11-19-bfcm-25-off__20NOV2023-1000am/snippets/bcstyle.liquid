@@ -1,0 +1,142 @@
+{%- liquid
+    assign height     = self | append: '_height'
+    assign width      = self | append: '_width'
+    assign maxWidth   = self | append: '_max_width'
+    assign padding    = self | append: '_padding'
+    assign margin     = self | append: '_margin'
+    assign size       = self | append: '_size'
+    assign weight     = self | append: '_weight'
+    assign lineHeight = self | append: '_line_height'
+    assign bgColor    = self | append: '_bg_color'
+    assign bgImage    = self | append: '_bg_image'
+    assign bgStyle    = self | append: '_bg_style'
+    assign color      = self | append: '_color'
+    assign align      = self | append: '_align'
+    assign horizontal = self | append: '_horizontal'
+    assign vertical   = self | append: '_vertical'
+
+    assign mHeight     = self | append: '_m_height'
+    assign mWidth      = self | append: '_m_width'
+    assign mMaxWidth   = self | append: '_m_max_width'
+    assign mPadding    = self | append: '_m_padding'
+    assign mMargin     = self | append: '_m_margin'
+    assign mSize       = self | append: '_m_size'
+    assign mWeight     = self | append: '_m_weight'
+    assign mLineHeight = self | append: '_m_line_height'
+    assign mBgColor    = self | append: '_m_bg_color'
+    assign mBgImage    = self | append: '_m_bg_image'
+    assign mBgStyle    = self | append: '_m_bg_style'
+    assign mColor      = self | append: '_m_color'
+    assign mAlign      = self | append: '_m_align'
+    assign mHorizontal = self | append: '_m_horizontal'
+    assign mVertical   = self | append: '_m_vertical'
+-%}
+{%- if css[width] != blank or css[height] != blank or css[padding] != blank or css[vertical] != blank or css[horizontal] != blank or css[lineHeight] != blank or css[maxWidth] != blank or css[align] != blank or css[color] != blank or css[weight] != blank or css[size] != blank or css[margin] != blank or css[bgColor] != blank or css[bgImage] != blank or css[bgStyle] != blank 
+    or css[mWidth] != blank or css[mHeight] != blank or css[mPadding] != blank or css[mVertical] != blank or css[mHorizontal] != blank or css[mLineHeight] != blank or css[mMaxWidth] != blank or css[mAlign] != blank or css[mColor] != blank or css[mWeight] != blank or css[mSize] != blank or css[mMargin] != blank or css[mBgColor] != blank or css[mBgImage] != blank or css[mBgStyle] != blank
+-%}
+<style type="text/css">
+    
+    {%- if css[width] != blank or css[height] != blank or css[padding] != blank or css[vertical] != blank or css[horizontal] != blank or css[lineHeight] != blank or css[maxWidth] != blank or css[align] != blank or css[color] != blank or css[weight] != blank or css[size] != blank or css[margin] != blank or css[bgColor] != blank or css[bgImage] != blank or css[bgStyle] != blank -%}
+    {{ class }}-{{ id }} {
+        {%- if css[width] != blank -%}
+        width: {{css[width]}};
+        {%- endif -%}
+        {%- if css[maxWidth] != blank -%}
+        max-width: {{css[maxWidth]}};
+        {%- endif -%}
+        {%- if css[height] != blank -%}
+        height: {{css[height]}};
+        {%- endif -%}
+        {%- if css[size] != blank -%}
+        font-size: {{css[size]}};
+        {%- endif -%}
+        {%- if css[lineHeight] != blank -%}
+        line-height: {{css[lineHeight]}};
+        {%- endif -%}
+        {%- if css[padding] != blank -%}
+        padding: {{css[padding]}};
+        {%- endif -%}
+        {%- if css[margin] != blank -%}
+        margin: {{css[margin]}};
+        {%- endif -%}
+        {%- if css[weight] != blank -%}
+        font-weight: {{css[weight]}};
+        {%- endif -%}
+        {%- if css[align] != blank -%}
+        text-align: {{css[align]}};
+        {%- endif -%}
+        {%- if css[color] != blank -%}
+        color: {{css[color]}};
+        {%- endif -%}
+        {%- if css[bgColor] != blank -%}
+        background-color: {{css[bgColor]}};
+        {%- endif -%}
+        {%- if css[bgImage] != blank -%}
+        background-image: url({{css[bgImage] | img_url: ''}});
+        {%- endif -%}
+        {%- if css[bgStyle] != blank -%}
+        background-size: {{css[bgStyle]}};
+        {%- endif -%}
+        {%- if css[horizontal] != blank -%}
+        justify-content: {{css[horizontal]}};
+        {%- endif -%}
+        {%- if css[vertical] != blank -%}
+        align-items: {{css[vertical]}};
+        {%- endif -%}
+    }
+    {%- endif -%}
+
+    {%- if css[mWidth] != blank or css[mHeight] != blank or css[mPadding] != blank or css[mVertical] != blank or css[mHorizontal] != blank or css[mLineHeight] != blank or css[mMaxWidth] != blank or css[mAlign] != blank or css[mColor] != blank or css[mWeight] != blank or css[mSize] != blank or css[mMargin] != blank or css[mBgColor] != blank or css[mBgImage] != blank or css[mBgStyle] != blank -%}
+    @media only  screen and (max-width: 768px){
+        {{ class }}-{{ id }} {
+            {%- if css[mWidth] != blank -%}
+            width: {{css[mWidth]}};
+            {%- endif -%}
+            {%- if css[mMaxWidth] != blank -%}
+            max-width: {{css[mMaxWidth]}};
+            {%- endif -%}
+            {%- if css[mHeight] != blank -%}
+            height: {{css[mHeight]}};
+            {%- endif -%}
+            {%- if css[mSize] != blank -%}
+            font-size: {{css[mSize]}};
+            {%- endif -%}
+            {%- if css[mLineHeight] != blank -%}
+            line-height: {{css[mLineHeight]}};
+            {%- endif -%}
+            {%- if css[mPadding] != blank -%}
+            padding: {{css[mPadding]}};
+            {%- endif -%}
+            {%- if css[mMargin] != blank -%}
+            margin: {{css[mMargin]}};
+            {%- endif -%}
+            {%- if css[mWeight] != blank -%}
+            font-weight: {{css[mWeight]}};
+            {%- endif -%}
+            {%- if css[mAlign] != blank -%}
+            text-align: {{css[mAlign]}};
+            {%- endif -%}
+            {%- if css[mColor] != blank -%}
+            color: {{css[mColor]}};
+            {%- endif -%}
+            {%- if css[mBgColor] != blank -%}
+            background-color: {{css[mBgColor]}};
+            {%- endif -%}
+            {%- if css[mBgImage] != blank -%}
+            background-image: url({{css[mBgImage] | img_url: ''}});
+            {%- endif -%}
+            {%- if css[mBgStyle] != blank -%}
+            background-size: {{css[mBgStyle]}};
+            {%- endif -%}
+            {%- if css[mHorizontal] != blank -%}
+            justify-content: {{css[mHorizontal]}};
+            {%- endif -%}
+            {%- if css[mVertical] != blank -%}
+            align-items: {{css[mVertical]}};
+            {%- endif -%}
+        }
+    }
+    {%- endif -%}
+
+</style>
+{%- endif -%}

@@ -1,0 +1,661 @@
+<link rel="stylesheet" href="{{ 'section-main-page.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-rte.css' | asset_url }}" >
+{{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
+<noscript>{{ 'section-main-page.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+<style>
+  @media(min-width:750px){
+    .py-horizontal{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .py-horizontal>.page-content-container{
+      width:calc(98% - 320px);
+    }
+    .py-horizontal>.contact-form-container{
+      width:320px;
+    }
+  }
+  .page-container{
+    background-color:{{section.settings.page_bg_color}}
+  }
+  .contact-form-container .field__input{
+    background-color:{{section.settings.field_bg_color}};
+    border:{{section.settings.field_border_width}}px solid {{section.settings.field_color_br}};
+    border-radius:{{section.settings.field_border_radius}}px;
+    color:{{section.settings.field_color}};
+    font-size:{{section.settings.field_font_size}}px;
+  }
+  .contact-form-container .field__input:focus{
+    color:{{section.settings.field_color_focus}};
+    border-color:{{section.settings.field_color_focus}};
+  }
+</style>
+<div class="page-container">
+<div class=" page-width py-vertical py-{{section.settings.page_width}} py-pd-y-xl">
+  <div class="page-content-container">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+        {%- when 'title'-%}
+          <style>
+            .main-page-title{
+              font-size:{{block.settings.title_font_size}}px;
+              color:{{block.settings.page_color_title}};
+              text-align:{{block.settings.title_align}};
+            }            
+          </style>
+          <h1 class="main-page-title page-title h0">
+            {{ block.settings.form_title | escape }}
+          </h1>
+        {%- when 'content'-%}
+           <style>              
+              .page-content{
+                font-size:{{block.settings.content_font_size}}px;
+                color:{{block.settings.page_color_content}};
+                text-align:{{block.settings.content_align}};
+              }
+          </style>
+          <div class="rte page-content">
+            {{ page.content }}
+          </div>
+
+    {%- endcase -%}
+  {%- endfor -%}
+  </div>
+  <div style="display:none !important;" class="contact-form-container py-pd-y-xl"> 
+    {%- form 'contact', id: 'ContactForm' -%}
+      {%- if form.posted_successfully? -%}
+        <div class="form-status form-status-list form__message" tabindex="-1" autofocus>{% render 'icon-success' %} {{ 'templates.contact.form.post_success' | t }}</div>
+      {%- elsif form.errors -%}
+        <div class="form__message">
+          <h2 class="form-status caption-large" role="alert" tabindex="-1" autofocus>{% render 'icon-error' %} {{ 'templates.contact.form.error_heading' | t }}</h2>
+        </div>
+        <ul class="form-status-list caption-large" role="list">
+          <li>
+            <a href="#ContactForm-email" class="link">
+              {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
+            </a>
+          </li>
+        </ul>
+      {%- endif -%}
+      <div class="contact__fields">
+        <div class="field">
+          <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+          <input class="field__input" autocomplete="name" type="text" id="ContactForm-name" name="contact[{{ 'templates.contact.form.name' | t }}]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" placeholder="{{ 'templates.contact.form.name' | t }}">
+         
+        </div>
+        
+        <div class="field field--with-error">
+          <label class="field__label" for="ContactForm-email">{{ 'templates.contact.form.email' | t }} <span aria-hidden="true">*</span></label>
+          <input
+            autocomplete="email"
+            type="email"
+            id="ContactForm-email"
+            class="field__input"
+            name="contact[email]"
+            spellcheck="false"
+            autocapitalize="off"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            aria-required="true"
+            {% if form.errors contains 'email' %}
+              aria-invalid="true"
+              aria-describedby="ContactForm-email-error"
+            {% endif %}
+            placeholder="{{ 'templates.contact.form.email' | t }}"
+          >         
+          {%- if form.errors contains 'email' -%}
+            <small class="contact__field-error" id="ContactForm-email-error">
+              <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+              <span class="form__message">{% render 'icon-error' %}{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</span>
+            </small>
+          {%- endif -%}
+        </div>
+        <div class="field">
+          <label class="field__label" for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
+          <input type="tel" id="ContactForm-phone" class="field__input" autocomplete="tel" name="contact[{{ 'templates.contact.form.phone' | t }}]" pattern="[0-9\-]*" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" placeholder="{{ 'templates.contact.form.phone' | t }}">
+        </div>      
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}        
+            {%- when 'addition_field'-%}
+              <div class="field addition_field">
+                <label class="field__label" for="ContactForm-{{block.settings.field_label | replace: ' ', '-'}}">{{block.settings.field_label}}</label>
+                <input type="text" id="ContactForm-{{block.settings.field_label | replace: ' ', '-'}}" class="field__input" autocomplete="{{block.settings.field_label}}" name="contact[{{block.settings.field_label | replace: ' ', '-'}}]" value="" placeholder="{{block.settings.field_label}}">
+              </div>
+        {%- endcase -%}
+      {%- endfor -%}
+      </div>  
+      <div class="field message-area">
+        <label class="form__label field__label" for="ContactForm-body">{{ 'templates.contact.form.comment' | t }}</label>
+        <textarea
+          rows="10"
+          id="ContactForm-body"
+          class="text-area field__input"
+          name="contact[{{ 'templates.contact.form.comment' | t }}]"
+          placeholder="{{ 'templates.contact.form.comment' | t }}"
+        >
+          {{- form.body -}}
+        </textarea>
+        
+      </div>
+      <div class="contact__button">
+        <button type="submit" class="button py-c-{{section.settings.page_color_submit_btn}} py-hv-c-{{section.settings.page_color_submit_btn_hover}} py-bg-c-{{section.settings.page_bg_color_submit_btn}} py-hv-bg-c-{{section.settings.page_bg_color_submit_btn_hover}} py-btn-{{section.settings.submit_btn_size}}">
+          {{ 'templates.contact.form.send' | t }}
+        </button>
+      </div>
+    {%- endform -%}
+  </div>
+
+</div>
+</div>
+{% schema %}
+{
+  "name": "Contact Form",
+  "tag": "section",
+  "settings": [    
+    {
+      "type": "select",
+      "id": "page_width",
+      "label": "Page Container (Width)",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "width-un"
+        },
+        {
+          "label": "Large",
+          "value": "width-l"
+        },
+        {
+          "label": "Medium",
+          "value": "width-m"
+        },
+        {
+          "label": "Small",
+          "value": "width-s"
+        }
+      ],
+      "default": "width-un"
+    },
+    {
+      "type": "select",
+      "id": "page_bg_color",
+      "label": "Page Background Color",
+      "options": [          
+         {
+            "label": "Transparent",
+            "value": "transparent"
+         },        
+         {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+         },
+         {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+         },
+         {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+         },
+         {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+         },
+         {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+         }
+       ],
+     "default": "var(--py-bg-color-light)"
+    },
+    {
+      "type": "header",
+      "content": "Contact Form Style"
+    },
+    {
+      "type": "select",
+      "id": "field_bg_color",
+      "label": "Field Background Color",
+      "options": [          
+         {
+            "label": "Transparent",
+            "value": "transparent"
+         },        
+         {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+         },
+         {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+         },
+         {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+         },
+         {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+         },
+         {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+         }
+       ],
+     "default": "var(--py-bg-color-light)"
+    },
+    {
+      "type": "range",
+      "id": "field_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 1,
+      "label": "Field Border Width"
+    },
+    {
+      "type": "range",
+      "id": "field_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 5,
+      "label": "Field Border Radius"
+    },
+    {
+      "type": "select",
+      "id": "field_color_br",
+      "label": "Field Border Color",
+      "options": [ 
+         {
+           "label": "Dark",
+           "value": "var(--py-color-dark)"
+         },
+         {
+           "label": "Middle Dark",
+           "value": "var(--py-color-middle-dark)"
+         },
+         {
+           "label": "Average",
+           "value": "var(--py-color-avarge)"
+         },
+         {
+           "label": "Middle Light",
+           "value": "var(--py-color-middle-light)"
+         },
+         {
+           "label": "Light",
+           "value": "var(--py-color-light)"
+         }
+       ],
+     "default": "var(--py-color-dark)"
+    },
+    {
+      "type": "select",
+      "id": "field_color",
+      "label": "Field Color",
+      "options": [ 
+         {
+           "label": "Dark",
+           "value": "var(--py-color-dark)"
+         },
+         {
+           "label": "Middle Dark",
+           "value": "var(--py-color-middle-dark)"
+         },
+         {
+           "label": "Average",
+           "value": "var(--py-color-avarge)"
+         },
+         {
+           "label": "Middle Light",
+           "value": "var(--py-color-middle-light)"
+         },
+         {
+           "label": "Light",
+           "value": "var(--py-color-light)"
+         }
+       ],
+     "default": "var(--py-color-dark)"
+    },
+    {
+      "type": "select",
+      "id": "field_color_focus",
+      "label": "Field Focused Color",
+      "options": [ 
+         {
+           "label": "Dark",
+           "value": "var(--py-color-dark)"
+         },
+         {
+           "label": "Middle Dark",
+           "value": "var(--py-color-middle-dark)"
+         },
+         {
+           "label": "Average",
+           "value": "var(--py-color-avarge)"
+         },
+         {
+           "label": "Middle Light",
+           "value": "var(--py-color-middle-light)"
+         },
+         {
+           "label": "Light",
+           "value": "var(--py-color-light)"
+         }
+       ],
+     "default": "var(--py-color-avarge)"
+    },
+    {
+      "type": "range",
+      "id": "field_font_size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "default": 18,
+      "label": "Field Font Size"
+    },
+    {
+      "type": "select",
+      "id": "submit_btn_size",
+      "label": "Submit Button Size",
+      "options": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "page_color_submit_btn",
+      "label": "Submit Button Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "page_bg_color_submit_btn",
+      "label": "Submit Button Background Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "page_color_submit_btn_hover",
+      "label": "Submit Button Hover Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "page_bg_color_submit_btn_hover",
+      "label": "Submit Button Hover Background Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    }
+  ],
+  "blocks": [    
+    {
+      "type": "title",
+      "name": "Page Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "form_title",          
+          "default": "Contact",
+          "label": "Form Title"
+        },
+        {
+          "type": "range",
+          "id": "title_font_size",
+          "min": 10,
+          "max": 40,
+          "step": 1,
+          "default": 24,
+          "label": "Title Font Size"
+        },
+        {
+          "type": "select",
+          "id": "page_color_title",
+          "label": "Title Color",
+          "options": [ 
+             {
+               "label": "Dark",
+               "value": "var(--py-color-dark)"
+             },
+             {
+               "label": "Middle Dark",
+               "value": "var(--py-color-middle-dark)"
+             },
+             {
+               "label": "Average",
+               "value": "var(--py-color-avarge)"
+             },
+             {
+               "label": "Middle Light",
+               "value": "var(--py-color-middle-light)"
+             },
+             {
+               "label": "Light",
+               "value": "var(--py-color-light)"
+             }
+            ],
+          "default": "var(--py-color-dark)"
+        },
+        {
+          "type": "select",
+          "id": "title_align",
+          "label": "Title Alignment",
+          "options": [ 
+             {
+               "label": "Left",
+               "value": "left"
+             },
+             {
+               "label": "Center",
+               "value": "center"
+             },
+             {
+               "label": "Right",
+               "value": "right"
+             }
+            ],
+          "default": "left"
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "name": "Page Content",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "content_font_size",
+          "min": 10,
+          "max": 40,
+          "step": 1,
+          "default": 24,
+          "label": "Content Font Size"
+        },
+        {
+          "type": "select",
+          "id": "page_color_content",
+          "label": "Content Color",
+          "options": [ 
+             {
+               "label": "Dark",
+               "value": "var(--py-color-dark)"
+             },
+             {
+               "label": "Middle Dark",
+               "value": "var(--py-color-middle-dark)"
+             },
+             {
+               "label": "Average",
+               "value": "var(--py-color-avarge)"
+             },
+             {
+               "label": "Middle Light",
+               "value": "var(--py-color-middle-light)"
+             },
+             {
+               "label": "Light",
+               "value": "var(--py-color-light)"
+             }
+            ],
+          "default": "var(--py-color-dark)"
+        },
+        {
+          "type": "select",
+          "id": "content_align",
+          "label": "Content Alignment",
+          "options": [ 
+             {
+               "label": "Left",
+               "value": "left"
+             },
+             {
+               "label": "Center",
+               "value": "center"
+             },
+             {
+               "label": "Right",
+               "value": "right"
+             }
+            ],
+          "default": "left"
+        },
+        {
+          "type": "textarea",
+          "id": "content_custom_css",
+          "label": "Content Custom CSS",          
+          "info": "Custom CSS for rich text field"
+        }
+      ]
+    },
+    {
+      "type": "addition_field",
+      "name": "Extra Field",      
+      "settings": [
+        {
+          "type": "text",
+          "id": "field_label",          
+          "default": "Additon Text",
+          "label": "Addition Field Label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Form",
+      "blocks": [
+        {
+          "type": "title"
+        },
+        {
+          "type": "content"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

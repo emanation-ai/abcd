@@ -1,0 +1,27 @@
+{% capture none %}
+	<!-- 
+		usecase: 
+		{% render 'comp-accordion',
+			label: 'Ingredients',
+			content: product.metafields.accentuate.ingredients['html'] %}
+	-->
+{% endcapture %}
+
+{% if label != empty and content != empty %}
+	<div class="comp-accordion">
+		<div class="accordion-label f-h-center user-select-disable">
+			{{ label }}
+			{% if size == 'small' %}
+				{% render 'svg-icons', icon: 'caret-down' %}
+			{% else %}
+				<div class="accordion-label-toggle"></div>
+			{% endif %}
+		</div>
+
+		<div class="accordion-content">
+		<div class="accordion-content-interior type-spacing">
+			{{ content }}
+		</div>
+		</div>
+	</div>
+{% endif %}

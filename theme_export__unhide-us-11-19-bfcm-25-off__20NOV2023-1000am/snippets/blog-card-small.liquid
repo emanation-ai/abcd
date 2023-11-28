@@ -1,0 +1,18 @@
+<div class="blog-card-small bg-white">
+	{% if image != blank %}
+		<h2 class="blog-title t-b-2">
+			{{ title }}
+		</h2>
+	{% endif %}
+	{% if image != blank %}
+		<div class="blog-image">
+			<span class="object-fit">
+				{% render 'img-srcset',
+					image: image,
+					max_width: 1024,
+					alt: image.alt %}
+			</span>
+		</div>
+	{% endif %}
+	<a class="blog-link p-fill" href="{{ url }}"aria-label="Link to {{ title }} article"></a>
+</div>

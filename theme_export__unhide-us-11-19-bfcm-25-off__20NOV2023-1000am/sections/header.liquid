@@ -1,0 +1,2786 @@
+<link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-search-style-1.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-cart-notification-' | append: settings.cart_style | append: '.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-header-style-1.css' | asset_url }}" >
+
+
+<noscript>{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-search-style-1.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-menu-drawer.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-cart-notification-' | append: settings.cart_style | append: '.css' | asset_url | stylesheet_tag }}</noscript>
+
+<style>
+  .header-wrapper{
+    border-color:{{section.settings.py_header_color_border}};
+    z-index: 99;
+  }
+  .header-wrapper,.header__submenu,
+  .menu-drawer,.menu-drawer__submenu{
+    background: {{section.settings.py_header_bg_color_1}};
+  }
+  .bc-mega-menu-image__title,.bc-mega-menu__title{
+    color:{{section.settings.py_header_color}};
+  }
+  .menu-drawer__menu-item--active,
+  .menu-drawer__menu-item:focus,
+  .menu-drawer__close-button:focus,
+  .menu-drawer__menu-item:hover,
+  .menu-drawer__close-button:hover {
+    color:{{section.settings.py_header_color_link_hov_1}};
+    background-color: var(--color-foreground-4);
+  }
+  .header__heading *,
+  .top-left-nav-item,
+  .header__icon *,
+  .header-wrapper a,
+  .header-wrapper .list-menu__item,
+  .header-wrapper .link--text{
+    color:{{section.settings.py_header_color_link_1}};
+  }
+  .header__heading *:hover,
+  .top-left-nav-item:hover,
+  .header__icon>*:hover *,
+  .header-wrapper a:hover,
+  .header-wrapper .list-menu__item:hover{
+    color:{{section.settings.py_header_color_link_hov_1}};
+  }
+  .header__icon>*:hover * {
+    color: var(--py-bag-bg-color);
+  }
+  .header--top-left .header__inline-menu .list-menu__item,
+  .header--top-left-with-nav .header__inline-menu .list-menu__item{
+    color:{{section.settings.py_header_color_link_2}};
+  }
+  .header--top-left .header__inline-menu .list-menu__item:hover,
+  .header--top-left-with-nav .header__inline-menu .list-menu__item:hover{
+    color:{{section.settings.py_header_link_hov_color_2}};
+  }
+  .header--top-left .header__submenu,
+  .header--top-left-with-nav .header__submenu{
+    background: {{section.settings.py_header_bg_color_2}};
+  }
+  .search-modal.modal__content{
+     background: {{section.settings.py_search_bg_color}};
+  }
+  .header__search .bc-search-result-wrapper *,
+  .header__search .field *,
+  .search-modal__close-button *{
+    color:{{section.settings.py_search_color_title}};
+  }
+  form.search .search__input.field__input{
+    border-radius: {{section.settings.py_search_field_br_radius}};
+    background-color: {{section.settings.py_search_field_bg_color}};    
+    border: {{section.settings.py_search_field_br_width}} solid;
+    border-color: {{section.settings.py_search_field_color_br}};
+    padding-top:13px !important;
+    padding-bottom:13px !important;
+    
+  }
+  form.search .search__input.field__input,
+  form.search .field__label,
+  form.search .search__button svg{
+    color:{{section.settings.py_search_field_color}};
+    font-size:{{section.settings.py_search_field_font_size}};
+  }
+  form.search .field__input:focus~.field__label, 
+  form.search .field__input:not(:placeholder-shown)~.field__label, 
+  form.search .field__input:-webkit-autofill~.field__label{
+    display:none !important;
+  }
+  form.search .search__input.field__input:focus{
+    color:{{section.settings.py_search_field_focus_color}};
+    background-color: {{section.settings.py_search_field_focus_bg_color}};     
+  }
+  .bc-search__input-title{
+    color:{{section.settings.py_search_color_title}};
+    font-size:{{section.settings.py_search_title_font_size}};
+    padding:20px 0px;
+  }  
+  .search__button svg{
+    height: 1.8rem;
+    width: 1.8rem;
+  }
+  .search-modal.modal__content,.menu-drawer{
+    z-index:99;
+  }
+  
+  .header--top-left .header__inline-menu{
+    padding-top: 5px;
+  }
+  header.header:not(.header--top-left) .search-modal.modal__content{
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    position:fixed;
+  }
+  .search-full_screen .bc-search__input-title,
+  .search-full_screen .bc-cart__not-products{
+    text-align:center;
+  }
+  .search>.field{
+    max-width: 640px;
+    margin: auto;
+    padding-bottom:20px;
+  }  
+  .search-sidebar:not(.header--top-left) .search-modal.modal__content{
+    padding:0px;
+    background:rgba(0,0,0,0.6);
+  }
+  .search-sidebar:not(.header--top-left) .search-modal__content{
+    background: {{section.settings.py_search_bg_color}};
+    width: 100%;
+    max-width: 400px;    
+    margin-right: 0px;
+    margin-left: auto;
+    padding: 40px 20px;
+  }
+  .search-sidebar:not(.header--top-left) .search-modal__close-button{
+    top: 20px;
+    right: 0px;
+    position: fixed;
+  }
+  .bc-search-result-inner-wrapper{
+    padding-right:15px;
+  }
+  .search-sidebar:not(.header--top-left) .bc-search-result-wrapper .bc-cart__item,
+  .header--top-left .bc-search-result-wrapper .bc-cart__item{
+    flex-direction: row;
+    justify-content: space-between;
+    width:100%;
+  }
+  .search-sidebar:not(.header--top-left) .bc-search-result-wrapper .bc-cart__item .bc-cart__image-wrapper,
+  .header--top-left .bc-search-result-wrapper .bc-cart__item .bc-cart__image-wrapper{
+    width:42%;
+  }
+  .search-sidebar:not(.header--top-left) .bc-search-result-wrapper .bc-cart__item .bc-cart__info-wrapper,
+  .header--top-left .bc-search-result-wrapper .bc-cart__item .bc-cart__info-wrapper{
+    width:50%;
+  }
+  .bc-search-result-wrapper .bc-cart__item{
+    padding-bottom:{{section.settings.item_space}}px;
+    padding-left:{{section.settings.item_space | divided_by: 2}}px;
+    padding-right:{{section.settings.item_space | divided_by: 2}}px;
+  }
+  .bc-search-result-wrapper .bc-cart__item .card-wrapper{
+    background-color:{{section.settings.card_bg_color}};
+    border-radius:{{section.settings.card_radius}}px;
+    padding-bottom:10px;
+    height:100%;
+  }
+  .bc-search-result-wrapper .bc-cart__item .card-wrapper *:not(.card-view-product){
+    color: {{section.settings.card_color}};
+  }
+  
+  {% if section.settings.image_ratio == "portrait" %}
+  .bc-search-result-wrapper .bc-cart__item .card-wrapper .bc-cart__image-img{
+    position:absolute;
+    left:0;
+    top:0;
+    height:100%;
+  } 
+  .bc-search-result-wrapper .bc-cart__item .card-wrapper .bc-cart__image-wrapper>a{
+    position:relative;
+    padding-bottom:125%;
+    overflow: hidden;
+    display:block;
+  }      
+  {% endif %} 
+  {% if section.settings.image_ratio == "square" %}
+  .bc-search-result-wrapper .bc-cart__item .card-wrapper .bc-cart__image-img{
+    position:absolute;
+    left:0;
+    top:0;
+    height:100%;
+  } 
+  .bc-search-result-wrapper .bc-cart__item .card-wrapper .bc-cart__image-wrapper>a{
+    position:relative;
+    padding-bottom:100%;
+    overflow: hidden;
+    display:block;
+  }      
+  {% endif %} 
+  {% if section.settings.info_align == "center" %}
+  .bc-search-result-wrapper .bc-cart__item .card-wrapper *{
+    justify-content: center;
+    text-align:center;
+  }              
+  {% endif %} 
+  {% if section.settings.show_vendor %}
+  .bc-search-result-wrapper .bc-cart__item .bc-cart__vendor{
+    display:block !important;
+  }              
+  {% endif %} 
+  {% if section.settings.show_view_product %}
+  .bc-search-result-wrapper .bc-cart__item .card-wrapper .card-button-wrapper{
+    display:flex !important;
+  }              
+  {% endif %} 
+  .bc-search-result-wrapper .bc-cart__item .card-wrapper .bc-cart__title{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  {% if section.settings.custom_font_style %}
+  .bc-search-result-wrapper .bc-cart__item .card-wrapper .bc-cart__title{
+    font-size: {{section.settings.title_fontsize}};
+    font-weight: {{section.settings.title_fontweight}};
+    font-stretch:{{section.settings.title_fontstretch}};
+    font-style:{{section.settings.title_fontstyle}};
+    line-height:{{section.settings.title_lineheight}};
+    letter-spacing:{{section.settings.title_letterspacing}}
+  }
+  @media(max-width:749px){
+    .bc-search-result-wrapper .bc-cart__item .card-wrapper .bc-cart__title{
+      font-size: {{section.settings.title_fontsize_m}}
+    }    
+  }
+  .bc-search-result-wrapper .bc-cart__item .card-wrapper .bc-cart__price-and-properties *{
+    font-size: {{section.settings.info_fontsize}};
+    font-weight: {{section.settings.info_fontweight}};
+    font-stretch:{{section.settings.info_fontstretch}};
+    font-style:{{section.settings.info_fontstyle}};
+    line-height:{{section.settings.info_lineheight}};
+    letter-spacing:{{section.settings.info_letterspacing}}
+  }
+  @media(max-width:749px){
+    .bc-search-result-wrapper .bc-cart__item .card-wrapper .bc-cart__price-and-properties *{
+      font-size: {{section.settings.info_fontsize_m}}
+    }
+  }              
+  {% endif %}
+  .search-sidebar:not(.header--top-left) form.search .search__input.field__input{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  .header--top-left form.search>.field{
+    padding-bottom:5px;    
+  }
+  .header--top-left .search-modal__close-button{
+    position: absolute;
+    top: 15px;
+  }
+  .header--top-left .header__search{
+    position:relative;
+  }
+  .header--top-left .search-modal.modal__content{
+    max-width: 640px;
+    border-radius: 15px;
+    top: 56px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    right: auto;
+    bottom: auto;
+    animation: none;
+  }
+  @media(min-width: 960px){
+    .header--top-left-with-nav,.header--top-left{
+      padding:0px;      
+    } 
+    .header--top-left .header__heading{
+      padding-bottom:10px;
+    }
+    .header--top-left.py-pd-y-xl{      
+      padding-top:var(--py-pd-y-xl);
+    } 
+    .header--top-left.py-pd-y-l{      
+      padding-top:var(--py-pd-y-l);
+    } 
+    .header--top-left.py-pd-y-m{      
+      padding-top:var(--py-pd-y-m);
+    }
+    .header--top-left.py-pd-y-s{      
+      padding-top:var(--py-pd-y-s);
+    } 
+    .header--top-left.py-pd-y-xs{      
+      padding-top:var(--py-pd-y-xs);
+    } 
+    
+    .header--top-left.py-pd-x-xl .header__heading,
+    .header--top-left-with-nav.py-pd-x-xl .header__heading{
+      padding-left:var(--py-pd-x-xl);
+    }
+    .header--top-left.py-pd-x-l .header__heading,
+    .header--top-left-with-nav.py-pd-x-l .header__heading{
+      padding-left:var(--py-pd-x-l);
+    }
+    .header--top-left.py-pd-x-m .header__heading,
+    .header--top-left-with-nav.py-pd-x-m .header__heading{
+      padding-left:var(--py-pd-x-m);
+    }
+    .header--top-left.py-pd-x-s .header__heading,
+    .header--top-left-with-nav.py-pd-x-s .header__heading{
+      padding-left:var(--py-pd-x-s);
+    }
+    .header--top-left.py-pd-x-xs .header__heading,
+    .header--top-left-with-nav.py-pd-x-xs .header__heading{
+      padding-left:var(--py-pd-x-xs);
+    }
+    .header--top-left.py-pd-x-xl .header__icons,
+    .header--top-left-with-nav.py-pd-x-xl .header__icons{
+      padding-right:var(--py-pd-x-xl);
+    }
+    .header--top-left.py-pd-x-l .header__icons,
+    .header--top-left-with-nav.py-pd-x-l .header__icons{
+      padding-right:var(--py-pd-x-l);
+    }
+    .header--top-left.py-pd-x-m .header__icons,
+    .header--top-left-with-nav.py-pd-x-m .header__icons{
+      padding-right:var(--py-pd-x-m);
+    }
+    .header--top-left.py-pd-x-s .header__icons,
+    .header--top-left-with-nav.py-pd-x-s .header__icons{
+      padding-right:var(--py-pd-x-s);
+    }
+    .header--top-left.py-pd-x-xs .header__icons,
+    .header--top-left-with-nav.py-pd-x-xs .header__icons{
+      padding-right:var(--py-pd-x-xs);
+    }
+    .header--top-left .header__inline-menu,
+    .header--top-left-with-nav .header__inline-menu{ 
+      background: {{section.settings.py_header_bg_color_2}};           
+    }
+    .header--top-left.py-pd-x-xl .header__inline-menu,
+    .header--top-left-with-nav.py-pd-x-xl .header__inline-menu{       
+      padding-left: var(--py-pd-x-xl);
+      padding-right: var(--py-pd-x-xl);      
+    }
+    .header--top-left.py-pd-x-l .header__inline-menu,
+    .header--top-left-with-nav.py-pd-x-l .header__inline-menu{       
+      padding-left: var(--py-pd-x-l);
+      padding-right: var(--py-pd-x-l);      
+    }
+    .header--top-left.py-pd-x-m .header__inline-menu,
+    .header--top-left-with-nav.py-pd-x-m .header__inline-menu{       
+      padding-left: var(--py-pd-x-m);
+      padding-right: var(--py-pd-x-m);      
+    }
+    .header--top-left.py-pd-x-s .header__inline-menu,
+    .header--top-left-with-nav.py-pd-x-s .header__inline-menu{       
+      padding-left: var(--py-pd-x-s);
+      padding-right: var(--py-pd-x-s);      
+    }
+    .header--top-left.py-pd-x-xs .header__inline-menu,
+    .header--top-left-with-nav.py-pd-x-xs .header__inline-menu{      
+      padding-left: var(--py-pd-x-xs);
+      padding-right: var(--py-pd-x-xs);      
+    }
+    .header--top-left .header__inline-menu{
+      margin-top:8px;
+    }
+    .top-left-nav-tabs{
+      display:flex;
+    }
+    .top-left-nav-item{     
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .top-left-nav-item {
+        padding: 20px;
+    }
+    .header--top-left-with-nav.py-pd-y-xl .top-left-nav-item{
+      padding:var(--py-pd-y-xl) 20px;      
+    }
+    .header--top-left-with-nav.py-pd-y-l .top-left-nav-item{
+      padding:var(--py-pd-y-l) 20px;      
+    }
+    .header--top-left-with-nav.py-pd-y-m .top-left-nav-item{
+      padding:var(--py-pd-y-m) 20px;      
+    }
+    .header--top-left-with-nav.py-pd-y-s .top-left-nav-item{
+      padding:var(--py-pd-y-s) 20px;      
+    }
+    .header--top-left-with-nav.py-pd-y-xs .top-left-nav-item{
+      padding:var(--py-pd-y-xs) 20px;      
+    }
+    .top-left-nav-item.active{
+      background:{{section.settings.py_header_bg_color_2}};
+      color:{{section.settings.py_header_color_link_2}};
+    }
+  }
+  @media (max-width: 959px){
+    .header-top-left-nav-container,
+    .header-search-container{
+      display:none;
+    }
+  }
+  @media screen and (min-width: 750px) {
+    .list-menu__item--link {
+      padding-bottom: 0.5rem;
+      padding-top: 0.5rem;
+    }
+  }
+  body.index .header-position-fixed{    
+  }
+  .shopify-section-header-sticky .header-position-fixed{    
+    width:100%;
+  }
+  cart-notification .bc-cart__item .bc-cart__title{
+    font-size:{{settings.item_title_font_size}}px;
+    font-weight:600;
+  }
+  cart-notification .bc-cart__item .bc-cart__variant-title{
+    font-size:{{settings.item_content_font_size}}px;
+  }
+  cart-notification .bc-cart__item .bc-cart__price-wrapper{
+    font-size:{{settings.item_price_font_size}}px;
+    font-weight:600;
+  }
+  cart-notification .bc-cart__item .bc-cart__properties-wrapper{
+    font-size:{{settings.item_content_font_size}}px;
+  }  
+  cart-notification .bc-cart__buttons-wrapper .button{
+    border:none;
+  }  
+  cart-notification .bc-cart__item{
+    padding:10px;
+    background-color:{{settings.item_bg_color}};    
+    border-radius: {{settings.item_radius}}px;     
+  }
+  cart-notification .bc-cart__item *{
+    color:{{settings.item_color}};
+  }
+  cart-notification .bc-cart__item .bc-cart__image-wrapper img{
+    border-radius: {{settings.item_radius}}px;
+  } 
+  
+  {% if settings.enable_dynamic_pay %}
+  #loopcheckoutdynamic{
+    margin-top: 15px;
+    background: #5b32f6;
+    min-height:36px;
+  }
+  #loopcheckoutdynamic:hover{
+    box-shadow: 0 0 10px black;
+  }
+  #loopcheckoutdynamic img{
+    width: 74px;
+  }
+  {% endif %}
+  @media(max-width:749px){
+    .header__heading{
+       width:{{section.settings.logo_width | times: 0.75 }}px !important;
+    }
+  }
+</style>
+
+<script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="icon-search" viewbox="0 0 18 19" fill="none">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 0C8.22391 0 9.87721 0.684819 11.0962 1.90381C12.3152 3.12279 13 4.77609 13 6.5C13 8.11 12.41 9.59 11.44 10.73L11.71 11H12.5L17.5 16L16 17.5L11 12.5V11.71L10.73 11.44C9.59 12.41 8.11 13 6.5 13C4.77609 13 3.12279 12.3152 1.90381 11.0962C0.684819 9.87721 0 8.22391 0 6.5C0 4.77609 0.684819 3.12279 1.90381 1.90381C3.12279 0.684819 4.77609 0 6.5 0ZM6.5 2C4 2 2 4 2 6.5C2 9 4 11 6.5 11C9 11 11 9 11 6.5C11 4 9 2 6.5 2Z" fill="currentColor"/>
+  </symbol>
+  <symbol id="icon-close" class="icon icon-close" fill="none" viewBox="0 0 18 17">
+    <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
+  </symbol>
+</svg>
+
+<sticky-header class="header-wrapper py-{{section.settings.br}} header-position-{{section.settings.header_position}} ">
+  <header class="header header--{{ section.settings.logo_position }} search-{{section.settings.search_style}} page-width {% if section.settings.menu != blank %} header--has-menu{% endif %} py-{{section.settings.page_width}} py-{{section.settings.page_y_pd}} py-{{section.settings.page_x_pd}}">
+    {%- if section.settings.menu != blank -%}
+      <header-drawer>
+        <details class="menu-drawer-container">
+          <summary class="header__icon header__icon--menu header__icon--summary link link--text focus-inset" aria-label="{{ 'sections.header.menu' | t }}">
+            <span>
+              {% render 'icon-hamburger' %}
+              {% render 'icon-close' %}
+            </span>
+          </summary>
+          <div id="menu-drawer" class="menu-drawer motion-reduce" tabindex="-1">
+            <div class="menu-drawer__inner-container">
+              <div class="menu-drawer__navigation-container">
+                 <nav class="menu-drawer__navigation">
+                  <ul class="menu-drawer__menu list-menu" role="list">
+                    {% assign link_count = 0 %}
+                    {%- for link in section.settings.menu.links -%}                      
+                        {%- if link.links != blank -%}
+                          <li class="menu-accordion-list"  data-index="{{ forloop.index }}">
+                            {% assign link_count = link_count | plus: 1 %}
+                            <details {% if link_count == 1 %}open1{% endif %}>
+                              <summary class="list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--open{% endif %}">
+                               <!--  {{ link.title }} -->
+                               {% if link.title == "Bundles"%}Bundles{% else %}Blankets{% endif %}
+                                
+                                {% render 'icon-plus' %}
+                                {% render 'icon-minus' %}
+                              </summary>
+                              <div id="link-{{ link.title | escape }}" class="motion-reduce " tabindex="-1">
+                                <div class="menu-drawer__inner-submenu">  
+                                  <ul class="list-menu main-sub-menus">
+                                    {% comment %}
+                                    <div class="drawer-sub-mega-images-wraper">
+                                      <div class="drawer-sub-mega-images-inner-wraper">
+                                      {%- if section.blocks.size > 0 -%}
+                                        {% assign sub_mega_blocks = 0 %}
+                                        {%- for block in section.blocks -%}
+                                          {%- liquid 
+                                            assign name = block.settings.name | strip | downcase
+                                            assign title = link.title | strip | downcase 
+                                          -%}      
+                                    
+                                          {% if block.type == 'sub_mega_menu'%}
+                                            {% for childlink in link.links %}
+                                              {% if childlink.title == block.settings.name %}
+                                                {% assign sub_mega_blocks = sub_mega_blocks | plus: 1 %}
+                                                <div class="drawer-sub-mega-image-col {{block.settings.img_col_position}}" data-target="{{ block.settings.name | downcase }}">
+                                                  
+                                                    {%- liquid   
+                                                      assign image = block.settings.image_1
+                                                      assign title = block.settings.title_1
+                                                      assign description = block.settings.description_1
+                                                      assign url = block.settings.link_1                  
+                                                    -%}                                      
+                                                    
+                                                    {%- if image != blank -%}
+                                                      <div class="drawer-sub-mega-menu-image left-col">
+                                                        {%- if url != blank -%}
+                                                          <a href="{{ url }}">
+                                                        {%- endif -%}
+                                                          {%- render 'resimg', image: image -%}
+                                                          <div class="short-info-wraper">                                            
+                                                            <h3 class="bc-mega-menu-image__title ">{{ title }}</h3> 
+                                                            <p class="bc-mega-menu-image__desc ">{{ description }}</p>                                            
+                                                          </div>
+                                                        {%- if url != blank -%}
+                                                          </a>
+                                                        {%- endif -%}
+                                                      </div>
+                                                    {%- endif -%}                 
+                                                </div>
+                                                {% break %}
+                                              {% endif %}
+                                            {% endfor %}
+                                          {% endif %}
+                                    
+                                        {%- endfor -%}
+                                      {%- endif -%}
+                                      </div>
+                                    </div>
+                                    {% endcomment %}
+                                    {%- for childlink in link.links -%}
+                                      {% comment %}
+                                      <li>
+                                        {%- if childlink.links == blank -%}
+                                          {% if childlink.url == '#'%}
+                                            <h3 class="bc-mega-menu__title sub-title">{{ childlink.title }}</h3>
+                                          {% else %}
+                                            <a href="{{ childlink.url }}" class="main-menu-sub-link header__menu-item list-menu__item link link--text focus-inset caption-large{% if childlink.current %} list-menu__item--active{% endif %} {% if forloop.index == 2 %}activated{% endif %}" {% if childlink.current %} aria-current="page"{% endif %} data-target="{{ childlink.title | downcase }}">
+                                              <span>{{ childlink.title }}</span>
+                                            </a>
+                                          {% endif%}
+                                        {%- endif -%}
+                                      </li>
+                                      {% endcomment %}
+                                      {%- if childlink.links == blank and childlink.url != '#'-%}
+                                        <li>
+                                          {%- for block in section.blocks -%}
+                                            {% if block.type == 'sub_mega_menu' and block.settings.name == childlink.title and block.settings.image_1 != blank %}
+                                              <div class="mobile-navigation-image">
+                                                <a href="{{ childlink.url }}">
+                                                  {% if block.settings.mobile_image != blank %}
+                                                    {%- render 'resimg', image: block.settings.mobile_image -%}
+                                                  {% else %}
+                                                    {%- render 'resimg', image: block.settings.image_1 -%}
+                                                  {% endif %}
+                                                </a>
+                                              </div>
+                                              {% capture menu_tag %}
+                                              {% if block.settings.tag_name != blank %}
+                                                <span class="menu-tag" style="color:{{ block.settings.tag_color }}; background-color:{{ block.settings.tag_bg_color }}">{{ block.settings.tag_name }}</span>
+                                              {% endif %}
+                                              {% endcapture %}
+                                            {% endif %}
+                                          {%- endfor -%}
+                                          <a href="{{ childlink.url }}" class="main-menu-sub-link header__menu-item list-menu__item link link--text focus-inset caption-large{% if childlink.current %} list-menu__item--active{% endif %} {% if forloop.index == 2 %}activated{% endif %}" {% if childlink.current %} aria-current="page"{% endif %} data-target="{{ childlink.title | downcase }}">
+                                            <span>{{ childlink.title }}</span>
+                                            {{ menu_tag }}
+                                          </a>
+                                        </li>
+                                      {%- endif -%}                                      
+                                    {%- endfor -%}
+                                  </ul>
+                                </div>
+                              </div>
+                            </details>
+                          </li>
+                          {%- if section.blocks.size > 0 -%}
+                            {% assign sub_mega_blocks = 0 %}
+                            {%- for block in section.blocks -%}
+                              {%- liquid 
+                                assign name = block.settings.name | strip | downcase
+                                assign title = link.title | strip | downcase 
+                              -%}
+                              {%- if block.type == 'mega_menu' and name == title -%}
+                                {%- for i in (1..4) -%}
+                                  {%- liquid 
+                                    assign menuHandle = 'menu_' | append: i 
+                                    assign imageHandle = 'image_' | append: i
+                                    assign titleHandel = 'title_' | append: i
+                                    assign urlHandle = 'link_' | append: i
+                                    assign menu = block.settings[menuHandle]
+                                    assign image = block.settings[imageHandle]
+                                    assign title = block.settings[titleHandel]
+                                    assign url = block.settings[urlHandle] 
+                                  -%}
+                                  {%- if menu != blank -%}
+                                    <li class="menu-accordion-list" data-index="{{ forloop.index }}">
+                                      <details>
+                                        <summary class="list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--open{% endif %}">
+                                         <!--  {{ link.title }} -->
+                                         {{ menu.title }}
+                                          {% render 'icon-plus' %}
+                                          {% render 'icon-minus' %}
+                                        </summary>
+                                        <div id="link-{{ menu.title | escape }}" class="motion-reduce " tabindex="-1">
+                                          <div class="menu-drawer__inner-submenu">  
+                                            <ul class="list-menu">
+                                              {% comment %}<h3 class="bc-mega-menu__title h2">{{ menu.title }}</h3>{% endcomment %}
+                                              {%- for link in menu.links -%}
+                                                <li>
+                                                  {%- for block in section.blocks -%}
+                                                    {% if block.type == 'sub_mega_menu' and block.settings.name == link.title and block.settings.image_1 != blank %}
+                                                      <div class="mobile-navigation-image">
+                                                        <a href="{{ link.url }}">
+                                                          {% if block.settings.mobile_image != blank %}
+                                                            {%- render 'resimg', image: block.settings.mobile_image -%}
+                                                          {% else %}
+                                                            {%- render 'resimg', image: block.settings.image_1 -%}
+                                                          {% endif %}
+                                                        </a>
+                                                      </div>
+                                                    {% endif %}
+                                                  {%- endfor -%}
+                                                  <a href="{{ link.url }}" class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if link.current %} list-menu__item--active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>
+                                                    {{ link.title }}
+                                                  </a>
+                                                </li>
+                                              {%- endfor -%}
+                                            </ul>
+                                          </div>
+                                        </div>
+                                      </details>
+                                    </li>
+                                  {%- endif -%}
+                                  
+                                {%- endfor -%}                            
+                              {%- endif -%}
+                            {% endfor%}
+                          {% endif%}
+                        {%- else -%}
+                        <li>                          
+                          <a href="{{ link.url }}" class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>
+                            {{ link.title }}
+                          </a>
+                        </li>
+                        {%- endif -%}
+                      
+                    {%- endfor -%} 
+                  </ul>
+                 </nav>
+                <div class="menu-drawer__utility-links">
+                   {% comment %}{%- if shop.customer_accounts_enabled -%}
+                     <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="menu-drawer__account link link--text focus-inset h5">
+                      {% render 'icon-account' %}
+                      {%- liquid
+                        if customer
+                          echo 'customer.account_fallback' | t
+                        else
+                          echo 'customer.log_in' | t
+                        endif
+                      -%}
+                    </a> 
+                  {%- endif -%} {% endcomment %}
+                 <ul class="draw-footer-menu menu-drawer__menu list-menu">
+                    {% if section.settings.right_menu != blank %}
+                      {%- for link in section.settings.right_menu.links -%}
+                        <li>
+                            <a href="{{ link.url }}" class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>
+                              {{ link.title }}
+                            </a>
+                        </li>
+                      {%- endfor -%} 
+                    {% endif %}        
+                 </ul>
+                 <ul class="list list-social list-unstyled" role="list">
+                    {%- if settings.social_twitter_link != blank -%}
+                      <li class="list-social__item list-social__link">
+                        <a href="{{ settings.social_twitter_link }}" class="link link--text" aria-describedby="a11y-external-message">
+                          {%- render 'icon-twitter' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_facebook_link != blank -%}
+                      <li class="list-social__item list-social__link">
+                        <a href="{{ settings.social_facebook_link }}" class="link link--text" aria-describedby="a11y-external-message">
+                          {%- render 'icon-facebook' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_pinterest_link != blank -%}
+                      <li class="list-social__item list-social__link">
+                        <a href="{{ settings.social_pinterest_link }}" class="link link--text" aria-describedby="a11y-external-message">
+                          {%- render 'icon-pinterest' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.pinterest' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_instagram_link != blank -%}
+                      <li class="list-social__item list-social__link">
+                        <a href="{{ settings.social_instagram_link }}" class="link link--text" aria-describedby="a11y-external-message">
+                          {%- render 'icon-instagram' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.instagram' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_tumblr_link != blank -%}
+                      <li class="list-social__item list-social__link">
+                        <a href="{{ settings.social_tumblr_link }}" class="link link--text" aria-describedby="a11y-external-message">
+                          {%- render 'icon-tumblr' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.tumblr' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_snapchat_link != blank -%}
+                      <li class="list-social__item list-social__link">
+                        <a href="{{ settings.social_snapchat_link }}" class="link link--text" aria-describedby="a11y-external-message">
+                          {%- render 'icon-snapchat' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.snapchat' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_youtube_link != blank -%}
+                      <li class="list-social__item list-social__link">
+                        <a href="{{ settings.social_youtube_link }}" class="link link--text" aria-describedby="a11y-external-message">
+                          {%- render 'icon-youtube' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.youtube' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_vimeo_link != blank -%}
+                      <li class="list-social__item list-social__link">
+                        <a href="{{ settings.social_vimeo_link }}" class="link link--text" aria-describedby="a11y-external-message">
+                          {%- render 'icon-vimeo' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.vimeo' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_tiktok_link != blank -%}
+                      <li class="list-social__item list-social__link">
+                      <a href="{{ settings.social_tiktok_link }}" class="link link--text" aria-describedby="a11y-external-message">
+                          {%- render 'icon-tiktok' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.tiktok' | t }}</span>
+                      </a>
+                      </li>
+                    {%- endif -%}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </header-drawer>
+    {%- endif -%}    
+    <h1 class="header__heading" style="width:{{section.settings.logo_width}}px">               
+         <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset" style="width:100%">
+            {%- if section.settings.logo != blank -%}
+            {%- assign image_size = section.settings.logo_width | append: 'x' -%}
+               <img srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
+                    src="{{ section.settings.logo | img_url: image_size }}"
+                    loading="lazy"
+                    class="header__heading-logo"
+                    width="{{ section.settings.logo.width }}"
+                    height="{{ section.settings.logo.height }}"
+                    alt="{{ section.settings.logo.alt | default: shop.name | escape }}"
+                >
+             {%- else -%}
+             <span><svg class="svg-logo" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 1503 374.6" xml:space="preserve"><path fill="currentColor" class="st0" d="M294.4 35c-7.6 0-9.6 11.2-9.6 21.8v196.4c0 83.8-66.5 121.3-126.4 121.3-69 0-135-24.4-135-135.5V54.3c0-15.2-5.1-19.3-9.6-19.3C2 35 0 28.9 0 22.3 0 10.1 14.7 5.1 26.4 5.1h60.9c11.2 0 26.4 5.1 26.4 17.2 0 6.6-1.5 12.7-13.7 12.7-5.1 0-9.1 4.1-9.1 19.3v162.9c0 77.1 9.1 124.8 74.6 124.8 75.1 0 79.2-80.2 79.2-103.5V56.8c0-12.7-2-21.8-10.1-21.8-11.2 0-13.2-6.6-13.2-11.7C221.4 9.6 236.1 5 247.3 5h34c14.7 0 26.9 6.1 26.9 16.8-.1 6.6-1.6 13.2-13.8 13.2zM973 320.3c-.5 2.7-.9 5.4-1 8.1 0 4.6 1.5 7.6 4.6 7.6 9.1 0 11.7 3.5 11.7 8.1 0 14.2-15.7 20.3-28.9 20.3H905c-14.2 0-21.3-5.1-21.3-14.7 0-6.6 3.6-12.2 14.7-13.7 6.6-1 10.1-5.1 12.2-15.7l32-151.8c1-4.3 1.5-8.8 1.5-13.2 0-4.6-1.5-6.6-5.1-6.6-8.6-.5-10.7-4.1-10.7-9.1 0-14.2 12.7-21.3 29.4-21.3h44.2c7.1 0 9.6 5.1 9.6 13.2 0 7.1-1.5 16.2-3.5 26.4l-35 162.4zm16.7-244.2c-18.8 0-30-11.7-30-28.9 0-26.9 18.3-42.1 39.1-42.1 21.3 0 31.5 9.1 31.5 27.4 0 25.9-17.2 43.6-40.6 43.6zM1236.4 306c-1 4.6-2.5 13.2-2.5 18.3 0 13.7 16.2 9.6 16.2 21.8 0 13.7-21.8 22.8-46.2 22.8-11.2 0-28.4-4.6-28.4-32.5.1-5.8.6-11.6 1.5-17.3-21.3 31.5-46.2 50.2-84.8 50.2-39.6 0-67-31.5-67-81.7 0-109.1 76.6-173.6 139.1-173.6 24.9 0 39.6 4.6 47.7 14.2l17.3-79.7c.5-3.4.9-6.7 1-10.2 0-4.6-1.5-7.1-5.1-7.1-8.6 0-11.2-6.1-11.2-10.1 0-15.7 19.3-21.3 30-21.3h42.1c10.2 0 11.7 4.6 11.7 12.2 0 5.6-1 12.7-3.6 24.9L1236.4 306zm-68.5-165.4c-44.7 0-79.2 68-79.2 143.1 0 31 13.2 45.2 32 45.2 29.4 0 55.8-36 62.9-68l10.7-50.2c2-8.6 6.6-32.5 6.6-46.2-.1-15.8-10.7-23.9-33-23.9zM1285.7 275.1c0-92.9 62.4-160.9 141.6-160.9 27.9 0 75.6 3.6 75.6 49.7 0 49.7-54.3 73.6-100 77.6-19.8 2-52.8 2-52.8 2-1.6 8.7-2.4 17.5-2.5 26.4 0 32 11.7 61.4 46.7 61.4 15.7 0 29.4-5.1 46.2-19.8 7.6-7.1 12.7-11.2 17.2-11.2 8.1 0 14.7 5.1 14.7 14.2 0 3.5-1.5 7.6-4.6 12.2-16.8 23.9-50.8 42.6-91.4 42.6-60.7.2-90.7-32.8-90.7-94.2zm131-132.5c-34.5 0-54.3 38.1-61.9 77.6 0 0 18.3-1 30-2 28.4-2 59.9-13.2 59.9-47.2-.1-20.3-10.3-28.4-28-28.4zM569.9 334.1c2.9-2.4 5.8-8.3 7.8-18L633 54.3c.6-3 .9-6.1 1-9.1 0-7.6-4.1-10.1-7.6-10.1-9.1 0-11.7-6.1-11.7-10.7 0-13.7 13.2-19.3 26.4-19.3h65c10.2 0 23.3 4.1 23.3 14.7 0 11.7-6.6 15.2-16.2 15.2-5.1 0-9.6 4.1-12.7 19.3l-21.9 106.6h127.9l21.8-106.6c.5-3 .9-6.1 1-9.1 0-7.6-4.1-10.1-7.6-10.1-9.1 0-11.7-6.1-11.7-10.7 0-13.7 13.2-19.3 26.4-19.3h65c10.2 0 23.3 4.1 23.3 14.7 0 11.7-6.6 15.2-16.2 15.2-5.1 0-9.6 4.1-12.7 19.3l-55.3 261.8c-.6 3-.9 6.1-1 9.1 0 7.6 4.1 10.1 7.6 10.1 9.1 0 11.7 5.2 11.7 9.7 0 13.7-13.2 19.3-26.4 19.3h-65c-10.2 0-23.8-4.6-23.8-16.2s7.1-12.8 16.7-12.8c5.1 0 9.1-4.1 12.7-19.3l25.9-121.2H671L645.2 316c-.6 3-.9 6.1-1 9.1 0 7.6 4.1 10.1 7.6 10.1 9.1 0 11.7 5.2 11.7 9.7 0 13.7-13.2 19.3-26.4 19.3H486.2c-15.2 0-24.4-6.6-24.4-17.2 0-6.1 1-11.2 12.2-11.2 6.1 0 8.6-5.1 8.6-15.7V215.7c0-28.9-5.1-57.3-37.6-57.3-20.3 0-42.4 13.1-42.4 56.2v105.6c0 9.1 2.5 15.7 7.1 15.7 11.2 0 13.2 5.1 13.2 11.2 0 10.7-8.1 17.2-24.9 17.2h-52.5c-16.2 0-24.9-6.6-24.9-17.2 0-6.1 1-11.2 12.2-11.2 6.6 0 8.6-3 8.6-15.7V167c0-10.7-3-17.8-8.1-17.8-11.7 0-13.2-5.1-13.2-12.2 0-12.7 14.7-18.8 25.4-18.8h42.8c13.7 0 14.2 16.8 14.2 32 18.8-25.9 49.2-38.1 74.6-38.1 45.2 0 66.5 26.9 66.5 82.7V321c0 4.7.8 9.3 2 11.5 3.5 6.4 16.8 7.7 24.3 1.6z"></path></svg></span>
+               {%- endif -%}
+          </a>                
+     </h1>
+              
+     {%- if section.settings.menu != blank -%}
+      <nav class="header__inline-menu">
+        <ul class="list-menu list-menu--inline active" role="list" >
+          {%- for link in section.settings.menu.links -%}
+            <li>
+              {%- if link.links != blank -%}
+                <details-disclosure>
+                  <details>
+                    <summary data-href="{{ link.url }}" class="header__menu-item list-menu__item link focus-inset">
+                      <span {%- if link.child_active %} class="header__active-menu-item"{% endif %}>{{ link.title }}</span>
+                      {% render 'icon-caret' %}
+                    </summary>
+                    <div class="header__submenu list-menu--disclosure caption-large motion-reduce" tabindex="-1">
+                      <div class="header__submenu_inner-wraper">
+                        <ul class="list-menu main-sub-menus">
+                          {% if link.title == "Bundles"%} {% else %}
+                           <h3 class="bc-mega-menu__title h2"><a href="/collections/blankets">Blankets</a></h3>{% endif %}                          
+                          {%- for childlink in link.links -%}
+                            {% comment %}
+                            <li>
+                              {%- if childlink.links == blank -%}
+                                {% if childlink.url == '#'%}
+                                  <h3 class="bc-mega-menu__title sub-title">{{ childlink.title }}</h3>
+                                {% else %}
+                                  <a href="{{ childlink.url }}" class="main-menu-sub-link header__menu-item list-menu__item link link--text focus-inset caption-large{% if childlink.current %} list-menu__item--active{% endif %} {% if forloop.index == 2 %}activated{% endif %}"{% if childlink.current %} aria-current="page"{% endif %} data-target="{{ childlink.title | downcase }}">
+                                    <span>{{ childlink.title }}</span>
+                                  </a>
+                                {% endif%}
+                              {%- endif -%}
+                            </li>
+                            {% endcomment %}
+                            <li>
+                              {%- if childlink.links == blank and childlink.url != '#' -%}
+                                  <a href="{{ childlink.url }}" class="main-menu-sub-link header__menu-item list-menu__item link link--text focus-inset caption-large{% if childlink.current %} list-menu__item--active{% endif %} {% if forloop.index == 2 %}activated{% endif %}"{% if childlink.current %} aria-current="page"{% endif %} data-target="{{ childlink.title | downcase }}">
+                                    <span>{{ childlink.title }}</span>
+                                  </a>
+                              {%- endif -%}
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                        <ul class="list-menu">
+                          {%- for childlink in link.links -%}
+                            {%- if childlink.links != blank -%}
+                              {%- for grandchildlink in childlink.links -%}
+                                <li>
+                                  <a href="{{ grandchildlink.url }}" class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if grandchildlink.current %} list-menu__item--active{% endif %}"{% if grandchildlink.current %} aria-current="page"{% endif %}>
+                                    {{ grandchildlink.title }}
+                                  </a>
+                                </li>
+                              {%- endfor -%}
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </ul>
+                        {%- if section.blocks.size > 0 -%}
+                          {% assign sub_mega_blocks = 0 %}
+                          {%- for block in section.blocks -%}
+                            {%- liquid 
+                              assign name = block.settings.name | strip | downcase
+                              assign title = link.title | strip | downcase 
+                            -%}
+                            {%- if block.type == 'mega_menu' and name == title -%}
+                              {%- for i in (1..4) -%}
+                                {%- liquid 
+                                  assign menuHandle = 'menu_' | append: i 
+                                  assign imageHandle = 'image_' | append: i
+                                  assign titleHandel = 'title_' | append: i
+                                  assign urlHandle = 'link_' | append: i
+                                  assign menuLinkHandle = 'menu_link_' | append: i
+                                  assign menu = block.settings[menuHandle]
+                                  assign menuTitleLink = block.settings[menuLinkHandle]
+                                  assign image = block.settings[imageHandle]
+                                  assign title = block.settings[titleHandel]
+                                  assign url = block.settings[urlHandle] 
+                                -%}
+                                {%- if menu != blank -%}
+                                  <ul class="list-menu">
+                                    <h3 class="bc-mega-menu__title h2">{% if menuTitleLink != blank %}<a href="{{ menuTitleLink }}">{{ menu.title }}</a>{% else %}{{ menu.title }}{% endif %}</h3>
+                                    {%- for link in menu.links -%}
+                                      <li>
+                                        <a href="{{ link.url }}" class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if link.current %} list-menu__item--active{% endif %}"{% if link.current %} aria-current="page"{% endif %}  data-target="{{ link.title | downcase }}">
+                                          {{ link.title }}
+                                        </a>
+                                      </li>
+                                    {%- endfor -%}
+                                  {% if i == 2 %}
+                                  {% elsif i == 3 %}
+                                    </ul></ul>
+                                  {% else %}
+                                  </ul>
+                                  {% endif %}
+                                {%- endif -%}
+                                
+                              {%- endfor -%}
+                            <div class="bc-mega-menu-image-col {{block.settings.img_col_position}}">
+                              {%- for i in (1..4) -%}
+                                {%- liquid 
+                                  assign menuHandle = 'menu_' | append: i 
+                                  assign imageHandle = 'image_' | append: i
+                                  assign titleHandel = 'title_' | append: i
+                                  assign urlHandle = 'link_' | append: i
+                                  assign menu = block.settings[menuHandle]
+                                  assign image = block.settings[imageHandle]
+                                  assign title = block.settings[titleHandel]
+                                  assign url = block.settings[urlHandle] 
+                                -%}
+                                {%- if image != blank -%}
+                                  <div class="bc-mega-menu-image">
+                                    {%- if url != blank -%}
+                                      <a href="{{ url }}">
+                                    {%- endif -%}
+                                      {%- render 'resimg', image: image -%}
+                                      {%- if title != blank -%}
+                                      <h3 class="bc-mega-menu-image__title">{{ title }}{% render 'icon-arrow' %}</h3>
+                                      {%- endif -%}
+                                    {%- if url != blank -%}
+                                      </a>
+                                    {%- endif -%}
+                                  </div>
+                                {%- endif -%}
+                                
+                              {%- endfor -%}
+                            </div>
+                            {%- endif -%}
+
+                            {% if block.type == 'sub_mega_menu'%}
+                              {% for childlink in link.links %}
+                                {% if childlink.title == block.settings.name %}
+                                  {% assign sub_mega_blocks = sub_mega_blocks | plus: 1 %}
+                                  <div class="bc-mega-menu-image-col sub-mega-image-col {{block.settings.img_col_position}} {% if sub_mega_blocks == 1 %}active{% endif %}" data-target="{{ block.settings.name | downcase }}">
+                                    
+                                      {%- liquid   
+                                        assign image = block.settings.image_1
+                                        assign title = block.settings.title_1
+                                        assign description = block.settings.description_1
+                                        assign url = block.settings.link_1
+                                        assign image2 = block.settings.image_2
+                                        assign title2 = block.settings.title_2
+                                        assign description2 = block.settings.description_2
+                                        assign url2 = block.settings.link_2
+                                      -%}                                      
+                                      
+                                      {%- if image != blank -%}
+                                        <div class="bc-mega-menu-image left-col">
+                                          {%- if url != blank -%}
+                                            <a href="{{ url }}">
+                                          {%- endif -%}
+                                            {%- render 'resimg', image: image -%}
+                                            <div class="short-info-wraper">                                            
+                                              <h3 class="bc-mega-menu-image__title ">{{ title }}</h3> 
+                                              <p class="bc-mega-menu-image__desc ">{{ description }}</p>                                            
+                                            </div>
+                                          {%- if url != blank -%}
+                                            </a>
+                                          {%- endif -%}
+                                        </div>
+                                      {%- endif -%} 
+                                      {%- if image2 != blank -%}
+                                        <div class="bc-mega-menu-image right-col">
+                                          {%- if url2 != blank -%}
+                                            <a href="{{ url2 }}">
+                                          {%- endif -%}
+                                            {%- render 'resimg', image: image2 -%}
+                                            <div class="short-info-wraper">                                            
+                                              <h3 class="bc-mega-menu-image__title ">{{ title2 }}</h3> 
+                                              <p class="bc-mega-menu-image__desc ">{{ description2 }}</p>                                            
+                                            </div>
+                                          {%- if url2 != blank -%}
+                                            </a>
+                                          {%- endif -%}
+                                        </div>
+                                      {%- endif -%}            
+                                  </div>
+                                  {% break %}
+                                {% endif %}
+                              {% endfor %}
+                              
+                              {% comment %}#START: get another megamenu subcolumn image banner block {% endcomment %}
+                              {% for i in (1..4) %}
+                                {% capture menu_handle %}menu_{{ i }}{% endcapture %}
+                                {%- for childlink in linklists[section.blocks.first.settings[menu_handle]].links -%}
+                                  {% if childlink.title == block.settings.name %}                                  
+                                    <div class="bc-mega-menu-image-col sub-mega-image-col {{block.settings.img_col_position}}" data-target="{{ block.settings.name | downcase }}">
+                                      
+                                        {%- liquid   
+                                          assign image = block.settings.image_1
+                                          assign title = block.settings.title_1
+                                          assign description = block.settings.description_1
+                                          assign url = block.settings.link_1
+                                          assign image2 = block.settings.image_2
+                                          assign title2 = block.settings.title_2
+                                          assign description2 = block.settings.description_2
+                                          assign url2 = block.settings.link_2
+                                        -%}                                      
+                                        
+                                        {%- if image != blank -%}
+                                          <div class="bc-mega-menu-image left-col">
+                                            {%- if url != blank -%}
+                                              <a href="{{ url }}">
+                                            {%- endif -%}
+                                              {%- render 'resimg', image: image -%}
+                                              <div class="short-info-wraper">                                            
+                                                <h3 class="bc-mega-menu-image__title ">{{ title }}</h3> 
+                                                <p class="bc-mega-menu-image__desc ">{{ description }}</p>                                            
+                                              </div>
+                                            {%- if url != blank -%}
+                                              </a>
+                                            {%- endif -%}
+                                          </div>
+                                        {%- endif -%} 
+                                        {%- if image2 != blank -%}
+                                          <div class="bc-mega-menu-image right-col">
+                                            {%- if url2 != blank -%}
+                                              <a href="{{ url2 }}">
+                                            {%- endif -%}
+                                              {%- render 'resimg', image: image2 -%}
+                                              <div class="short-info-wraper">                                            
+                                                <h3 class="bc-mega-menu-image__title ">{{ title2 }}</h3> 
+                                                <p class="bc-mega-menu-image__desc ">{{ description2 }}</p>                                            
+                                              </div>
+                                            {%- if url2 != blank -%}
+                                              </a>
+                                            {%- endif -%}
+                                          </div>
+                                        {%- endif -%}            
+                                    </div>
+                                    {% break %}
+                                  {% endif %}
+                                {% endfor %}
+                              {% endfor %}
+                              {% comment %}#END: get another megamenu subcolumn image banner block {% endcomment %}  
+                            {% endif %}
+
+                          {%- endfor -%}
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  </details>
+                </details-disclosure>
+              {%- else -%}
+                <a href="{{ link.url }}" class="header__menu-item list-menu__item link link--text focus-inset"{% if link.current %} aria-current="page"{% endif %}>
+                  <span>{{ link.title }}</span>
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>        
+      </nav>
+     {%- endif -%}    
+    {%- if section.settings.logo_position == 'top-left' -%}
+        <div class="header-search-container {{" "}}{%- if section.settings.search_style == 'search_page' -%} hidden{%- endif -%}">
+          <details-modal class="header__search">
+            <details>
+              <summary class="header__icon--search header__icon--summary link link--text focus-inset modal__toggle" aria-haspopup="dialog" aria-label="{{ 'general.search.search' | t }}">
+                <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form" {% if section.settings.search_hide_tags %} data-hide-tags = "{{section.settings.search_hide_tags}}" {%endif%}>
+                  <div class="field">
+                    <input class="search__input field__input" id="Search-In-Modal" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.search' | t }}" autocomplete="off">
+                    <label class="field__label" for="Search-In-Modal">{{section.settings.py_search_placeholder}}</label>
+                    <input type="hidden" name="type" value="product">
+                    <input type="hidden" name="options[fields]" value="title,product_type,variants.title">
+                    <input type="hidden" name="options[prefix]" value="last">
+                    <button class="search__button field__button focus-inset" aria-label="{{ 'general.search.search' | t }}">
+                      <svg class="icon icon-search" aria-hidden="true" focusable="false" role="presentation">
+                        <use href="#icon-search">
+                      </svg>
+                    </button>
+                  </div>                
+                </form>            
+              </summary>
+              <div class="search-modal modal__content" role="dialog" aria-modal="true" aria-label="{{ 'general.search.search' | t }}">
+                <div class="search-modal__content" tabindex="-1">             
+
+                  <div class="bc-search-result-wrapper" data_btn_class="py-c-{{section.settings.card_color_view_btn}} py-bg-c-{{section.settings.card_bg_color_view_btn}} py-hv-c-{{section.settings.card_color_view_btn_hover}} py-hv-bg-c-{{section.settings.card_bg_color_view_btn_hover}} py-btn-{{section.settings.view_btn_size}}">
+                    <div class="bc-cart__not-products">Sorry no results found</div>
+                    <div class="bc-search-result-inner-wrapper"></div>
+                    {%- if section.settings.search_menu != blank -%}
+                    <ul class="list-menu bc-search-menu">
+                      <h3 class="bc-search-menu__title">{{  section.settings.search_menu.title }}</h3>
+                      {%- for link in  section.settings.search_menu.links -%}
+                      <li>
+                        <a href="{{ link.url }}" class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if link.current %} list-menu__item--active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>
+                          {{ link.title }}
+                        </a>
+                      </li>
+                      {%- endfor -%}
+                    </ul>
+                    {%- endif -%}
+                  </div>
+                  <button type="button" class="search-modal__close-button modal__close-button link link--text focus-inset" aria-label="{{ 'accessibility.close' | t }}">
+                    <svg class="icon icon-close" aria-hidden="true" focusable="false" role="presentation">
+                      <use href="#icon-close">
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </details>
+          </details-modal>
+        </div>
+    {% endif %}
+    <div class="header__icons">      
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="header__icon header__icon--account link link--text focus-inset">
+          {% render 'icon-account' %}
+          <span class="visually-hidden">
+            {%- liquid
+              if customer
+                echo 'customer.account_fallback' | t
+              else
+                echo 'customer.log_in' | t
+              endif
+            -%}
+          </span>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.search_style == 'search_page' -%} 
+        <a href="/search?" class="header__icon header__icon--account link link--text focus-inset">
+          <svg class="modal__toggle-open icon icon-search" aria-hidden="true" focusable="false" role="presentation">
+                <use href="#icon-search">
+          </svg>
+        </a>
+      {% else %}
+      <details-modal class="header__search {{" "}} {%- if section.settings.logo_position == 'top-left' -%}hidden{%- endif -%}">
+        <details>
+          <summary class="header__icon header__icon--search header__icon--summary link link--text focus-inset modal__toggle" aria-haspopup="dialog" aria-label="{{ 'general.search.search' | t }}">
+            <span>
+              <svg class="modal__toggle-open icon icon-search" aria-hidden="true" focusable="false" role="presentation">
+                <use href="#icon-search">
+              </svg>
+              <svg class="modal__toggle-close icon icon-close" aria-hidden="true" focusable="false" role="presentation">
+                <use href="#icon-close">
+              </svg>
+            </span>
+          </summary>
+          <div class="search-modal modal__content " role="dialog" aria-modal="true" aria-label="{{ 'general.search.search' | t }}">
+            <div class="search-modal__content" tabindex="-1">
+              <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form" {% if section.settings.search_hide_tags %} data-hide-tags = "{{section.settings.search_hide_tags}}" {%endif%}>
+                <div class="bc-search__input-title">{{section.settings.py_search_title}}</div>
+                <div class="field">
+                  <input class="search__input field__input" id="Search-In-Modal" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.search' | t }}" autocomplete="off">
+                  <label class="field__label" for="Search-In-Modal">{{section.settings.py_search_placeholder}}</label>
+                  <input type="hidden" name="type" value="product">
+                  <input type="hidden" name="options[fields]" value="title,product_type,variants.title">
+                  <input type="hidden" name="options[prefix]" value="last">
+                  <button class="search__button field__button focus-inset" aria-label="{{ 'general.search.search' | t }}">
+                    <svg class="icon icon-search" aria-hidden="true" focusable="false" role="presentation">
+                      <use href="#icon-search">
+                    </svg>
+                  </button>
+                </div>                
+                <div class="bc-search-result-wrapper" data_btn_class="py-c-{{section.settings.card_color_view_btn}} py-bg-c-{{section.settings.card_bg_color_view_btn}} py-hv-c-{{section.settings.card_color_view_btn_hover}} py-hv-bg-c-{{section.settings.card_bg_color_view_btn_hover}} py-btn-{{section.settings.view_btn_size}}">
+                  <div class="bc-cart__not-products">Sorry no results found</div>
+                  <div class="bc-search-result-inner-wrapper"></div>
+                  {%- if section.settings.search_menu != blank -%}
+                    <ul class="list-menu bc-search-menu">
+                      <h3 class="bc-search-menu__title">{{  section.settings.search_menu.title }}</h3>
+                      {%- for link in  section.settings.search_menu.links -%}
+                        <li>
+                          <a href="{{ link.url }}" class="header__menu-item list-menu__item link link--text focus-inset caption-large {% if link.current %} list-menu__item--active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>
+                            {{ link.title }}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+              </form>
+              <button type="button" class="search-modal__close-button modal__close-button link link--text focus-inset" aria-label="{{ 'accessibility.close' | t }}">
+                <svg class="icon icon-close" aria-hidden="true" focusable="false" role="presentation">
+                  <use href="#icon-close">
+                </svg>
+              </button>
+            </div>
+          </div>
+        </details>
+      </details-modal>
+      {%- endif -%}
+      {% if shop.enabled_currencies.size > 1 %}
+        {% form 'currency', class: "currency-selector" %}
+        <div class="currency-selector__input-wrapper select-group font--accent">
+          <select name="currency" id="CurrencySelector" class="currency-selector__dropdown" aria-describedby="a11y-refresh-page-message" data-currency-selector>
+            {% for currency in shop.enabled_currencies %}
+            {%- if currency.iso_code != 'EUR' -%}
+            <option value="{{currency.iso_code}}"{% if currency == cart.currency %} selected="true"{% endif %}>{{currency.iso_code}}</option>
+            {%- endif -%}
+            {% endfor %}
+          </select>
+        </div>
+        {% endform %}
+      {% endif %}
+       
+       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link link--text focus-inset" id="cart-icon-bubble">
+        {% render 'icon-cart' %}
+        <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+          <div class="cart-count-bubble">
+            <span aria-hidden="true" id="cart-count">{{ cart.item_count }}</span>
+            <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+          </div>
+        
+      </a>
+      {% if settings.cart_style == 'style-3' %}
+         {%- render 'cart-notification-3' -%}
+      {% endif %}       
+
+    </div>
+  </header>
+</sticky-header>
+
+</div>        
+<div id="shopify-section-cart-template" class="shopify-section">
+  {% if settings.cart_style == 'style-4' %}
+          {%- render 'cart-notification-4' -%}      
+        {% elsif settings.cart_style == 'style-3' %}
+          
+        {% elsif settings.cart_style == 'style-2' %}
+          {%- render 'cart-notification-2',
+              cart_layout: settings.cart_layout,
+              enable_dynamic_pay: settings.enable_dynamic_pay,
+          -%}
+        {% else %}
+          {%- render 'cart-notification',
+            checkoutbtn_position: settings.checkoutbtn_position,
+            enable_dynamic_pay: settings.enable_dynamic_pay,
+          -%}
+        {% endif%}
+          </div>  </div>      
+{% javascript %}
+  class StickyHeader extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      this.announcementBar = document.getElementById('shopify-section-announcement-bar');
+      this.header = document.getElementById('shopify-section-header');
+      this.headerBounds = {};
+      this.currentScrollTop = 0;
+      this.collFilters = document.querySelector('.coll-filters');
+      this.proInfo = document.querySelector('.product__info-container--sticky');
+      this.filterDrawer = document.querySelector('.coll-filter-drawer');
+      this.filterDrawerForm = document.querySelector('.coll-filter-drawer__form');
+      this.deleyTop = this.collFilters && this.announcementBar ? this.announcementBar.offsetHeight + this.header.offsetHeight : this.header.offsetHeight;
+      this.deleyTop = this.header.offsetHeight;  
+      this.collFilters && this.collFilters !== null ? this.collFilters.style.top = this.deleyTop + 'px' : null;
+      if(document.querySelector('.header-position-fixed') !== null){
+         this.proInfo && this.proInfo !== null ? this.proInfo.style.top = this.deleyTop + 'px' : null;
+      }else{
+         this.proInfo && this.proInfo !== null ? this.proInfo.style.top = -10  + 'px' : null;
+      }
+      this.filterDrawer && this.filterDrawer !== null && this.announcementBar && this.announcementBar !== null ? this.filterDrawer.style.top = this.announcementBar.offsetHeight + 'px' : null;
+      this.filterDrawerForm && this.filterDrawerForm !== null && this.announcementBar && this.announcementBar !== 'null' ? this.filterDrawerForm.style.height = 'calc(100vh - ' + (169 + this.announcementBar.offsetHeight) + 'px)' : null; 
+
+      this.onScrollHandler = this.onScroll.bind(this);
+
+      window.addEventListener('scroll', this.onScrollHandler, false);
+
+      this.createObserver();
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener('scroll', this.onScrollHandler);
+    }
+
+    createObserver() {
+      let observer = new IntersectionObserver((entries, observer) => {
+        this.headerBounds = entries[0].intersectionRect;
+        observer.disconnect();
+      });
+
+      observer.observe(this.header);
+    }
+
+    onScroll() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+        requestAnimationFrame(this.hide.bind(this));
+      } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+        requestAnimationFrame(this.reveal.bind(this));
+      } else if (scrollTop <= this.headerBounds.top) {
+        requestAnimationFrame(this.reset.bind(this));
+      }
+
+      this.currentScrollTop = scrollTop;
+    }
+
+    hide() {
+      this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
+      this.closeMenuDisclosure();
+      this.closeSearchModal();
+    }
+
+    reveal() {
+      this.header.classList.add('shopify-section-header-sticky', 'animate');
+      this.header.classList.remove('shopify-section-header-hidden');
+    }
+
+    reset() {
+      this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
+    }
+
+    closeMenuDisclosure() {
+      this.disclosures = this.disclosures || this.header.querySelectorAll('details-disclosure');
+      this.disclosures.forEach(disclosure => disclosure.close());
+    }
+
+    closeSearchModal() {
+      this.searchModal = this.searchModal || this.header.querySelector('details-modal');
+      this.searchModal.close(false);
+    }
+  }
+
+  customElements.define('sticky-header', StickyHeader);
+
+  /*document.querySelector('[data-currency-selector]').addEventListener('change', function(e){
+    this.closest('form').submit();
+  });*/
+
+{% endjavascript %}
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    {% if section.settings.logo %}
+      {% assign image_size = section.settings.logo.width | append: 'x' %}
+      "logo": {{ section.settings.logo | img_url: image_size | prepend: "https:" | json }},
+    {% endif %}
+    "sameAs": [
+      {{ settings.social_twitter_link | json }},
+      {{ settings.social_facebook_link | json }},
+      {{ settings.social_pinterest_link | json }},
+      {{ settings.social_instagram_link | json }},
+      {{ settings.social_tumblr_link | json }},
+      {{ settings.social_snapchat_link | json }},
+      {{ settings.social_youtube_link | json }},
+      {{ settings.social_vimeo_link | json }}
+    ],
+    "url": {{ shop.url | append: page.url | json }}
+  }
+</script>
+
+{%- if request.page_type == 'index' -%}
+  {% assign potential_action_target = shop.url | append: routes.search_url | append: "?q={search_term_string}" %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      },
+      "url": {{ shop.url | append: page.url | json }}
+    }
+  </script>
+{%- endif -%}
+<script>    
+    var parentMenu = document.querySelectorAll('nav> ul.list-menu details-disclosure>details>summary');
+    var i;
+
+    for (i = 0; i < parentMenu.length; i++) {
+      if(parentMenu[i].getAttribute('data-href')!=null)
+      parentMenu[i].addEventListener("click", function() {
+        window.location.href = this.getAttribute('data-href');
+      });
+    }
+    document.querySelector('.cart-notification-overaly').addEventListener('click', (evt) =>{
+      document.querySelector('#cart-notification .modal__close-button').click();
+    });
+    document.querySelector('.search-sidebar .search-modal').addEventListener('click', (evt) =>{
+      if(evt.target.hasAttribute('aria-modal')){
+        document.querySelector('.search-sidebar .search-modal .search-modal__close-button').click();
+      }      
+    });
+    document.addEventListener('click', (evt) =>{
+      if(evt.target.getAttribute('id') == "PopupModal-preorder"){
+        document.querySelector('#ModalClose-preorder').click();
+      }
+      else if(evt.target.getAttribute('class') == "coll-filter-overlay"){
+        document.querySelector('.coll-filter-drawer__close').click();
+      }
+    });
+
+    document.querySelectorAll('.sub-mega-image-col').forEach(item=>{
+      item.closest('.header__submenu').querySelector('.list-menu__item[data-target="'+ item.getAttribute('data-target') +'"]')?.classList.add('has-sub_mega_block');
+    })
+
+    document.querySelectorAll('.list-menu details .header__submenu a.header__menu-item.has-sub_mega_block').forEach(item=>{
+      item.addEventListener('mouseenter', function(event){
+        event.target.closest('.header__submenu').querySelector('.sub-mega-image-col.active')?.classList.remove('active');
+        document.querySelector('.list-menu details .header__submenu a.header__menu-item.has-sub_mega_block.activated')?.classList.remove('activated');
+        if(event.target.hasAttribute('data-target')){
+          event.target.classList.add('activated');
+          event.target.closest('.header__submenu').querySelector('.sub-mega-image-col[data-target="'+event.target.getAttribute('data-target')+'"]')?.classList.add('active')
+        }
+      })
+    })
+
+    document.querySelectorAll('.trigger_submega_block').forEach(item=>{
+      item.addEventListener('click', function(event){
+        event.preventDefault();
+        this.toggleAttribute('open');
+        this.nextElementSibling.toggleAttribute('open');
+      })
+    })
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:sections.header.settings.logo.label"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 250,
+      "step": 10,
+      "default": 100,
+      "unit": "t:sections.header.settings.logo_width.unit",
+      "label": "t:sections.header.settings.logo_width.label"
+    },
+    {
+      "type": "select",
+      "id": "header_position",
+      "options": [
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "static",
+          "label": "Static"
+        }
+      ],
+      "default": "static",
+      "label": "Header Position"
+    },
+    {
+      "type": "select",
+      "id": "logo_position",
+      "options": [
+        {
+          "value": "middle-left",
+          "label": "Middle Left"
+        },
+        {
+          "value": "middle-left-center-nav",
+          "label": "Middle Left with Nav Center"
+        },
+        {
+          "value": "middle-center",
+          "label": "Middle Center"
+        },
+        {
+          "value": "top-left",
+          "label": "Top Left"
+        }
+      ],
+      "default": "middle-left",
+      "label": "t:sections.header.settings.logo_position.label"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "t:sections.header.settings.menu.label"
+    },
+    {
+      "type": "link_list",
+      "id": "right_menu",
+      "label": "Right Menu"
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "select",
+      "id": "search_style",
+      "label": "Search Styles",
+      "options": [
+        {
+          "value": "sidebar",
+          "label": "Sidebar"
+        },
+        {
+          "value": "full_screen",
+          "label": "Full Screen"
+        },
+        {
+          "value": "search_page",
+          "label": "Search Page"
+        }   
+      ],
+      "default": "full_screen"
+    },
+    {
+      "type": "text",
+      "id": "search_hide_tags",
+      "label": "Tags for hide on Search",
+      "info": "Please contain tags that you want to hide from search result. Use '|' to seperate tags. example: hide1|hide2|hide3"
+    },
+    {
+      "type": "select",
+      "id": "py_search_bg_color",
+      "label": "Search Area Background Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+          }
+        ],
+        "default": "var(--py-bg-color-light)"
+    },
+    {
+      "type": "select",
+      "id": "py_search_field_bg_color",
+      "label": "Search Field Background Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+          }
+        ],
+        "default": "var(--py-bg-color-light)"
+    },
+    {
+      "type": "select",
+      "id": "py_search_field_color",
+      "label": "Search Field Text Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-dark)"
+    },
+    {
+      "type": "select",
+      "id": "py_search_field_color_br",
+      "label": "Search Field Border Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-dark)"
+    },
+    {
+      "type": "text",
+      "id": "py_search_field_br_width",
+      "label": "Search Field Border Width",
+      "info": "Enter correct value. Example: 1px"
+    },
+    {
+      "type": "text",
+      "id": "py_search_field_br_radius",
+      "label": "Search Field Border Radius",
+      "info": "Enter correct value. Example: 5px"
+    },
+    {
+      "type": "text",
+      "id": "py_search_field_font_size",
+      "label": "Search Field Font Size",
+      "info": "Enter correct value. Example: 18px"
+    },
+    {
+      "type": "select",
+      "id": "py_search_field_focus_bg_color",
+      "label": "Search Field Focus Background Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+          }
+        ],
+        "default": "var(--py-bg-color-light)"
+    },
+    {
+      "type": "select",
+      "id": "py_search_field_focus_color",
+      "label": "Search Field Focus Text Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-avarge)"
+    },
+    {
+      "type": "text",
+      "id": "py_search_placeholder",
+      "label": "Search Bar Placeholder Text",
+      "default": "Search Products"
+    },
+    {
+      "type": "text",
+      "id": "py_search_title",
+      "label": "Title for Search",
+      "default": "Search Product and More"
+    },
+    {
+      "type": "text",
+      "id": "py_search_title_font_size",
+      "label": "Search Title Font Size",
+      "info": "Enter correct value. Example: 24px"
+    },
+    {
+      "type": "select",
+      "id": "py_search_color_title",
+      "label": "Search Title Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-avarge)"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.header__3.content"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "square",
+      "label": "t:sections.main-collection-product-grid.settings.image_ratio.label"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+          }
+        ],
+        "default": "var(--py-bg-color-dark)"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 7,
+      "label": "Card Border Radius"
+    },
+    {
+      "type": "range",
+      "id": "item_space",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 10,
+      "label": "Card Padding"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.main-collection-product-grid.settings.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_product",
+      "default": true,
+      "label": "Show View Product Button"
+    },
+    {
+      "type": "select",
+      "id": "info_align",
+      "label": "Card Info Alignment",
+      "options": [     
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "card_color",
+      "label": "Card Info Color",
+      "options": [     
+        {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "var(--py-color-middle-dark)"
+        },
+        {
+          "label": "Average",
+          "value": "var(--py-color-avarge)"
+        },
+        {
+          "label": "Middle Light",
+          "value": "var(--py-color-middle-light)"
+        },
+        {
+          "label": "Light",
+          "value": "var(--py-color-light)"
+        }
+      ],
+        "default": "var(--py-color-light)"
+    },
+    {
+      "type": "header",
+      "content": "Card Button Style"
+    },
+    {
+      "type": "select",
+      "id": "view_btn_size",
+      "label": "View Button Size",
+      "options": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "card_color_view_btn",
+      "label": "View Button Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color_view_btn",
+      "label": "View Button Background Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "card_color_view_btn_hover",
+      "label": "View Button Hover Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color_view_btn_hover",
+      "label": "View Button Hover Background Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "header",
+      "content": "Card Product Title Font Style"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_font_style",
+      "default": false,
+      "label": "Use Custom Style"
+    },
+    {
+      "type": "text",
+      "id": "title_fontsize",
+      "label": "Font size Desktop",
+      "info": "Ex: 20px "
+    },
+    {
+      "type": "text",
+      "id": "title_fontsize_m",
+      "label": "Font size Mobile"
+    },
+    {
+      "type": "text",
+      "id": "title_fontweight",
+      "label": "Font-weight"      
+    },
+    {
+      "type": "text",
+      "id": "title_fontstretch",
+      "label": "Font-stretch",
+      "info": "Ex: 40%"
+    },
+    {
+      "type": "select",
+      "id": "title_fontstyle",
+      "options": [
+        {
+          "value": "normal",
+          "label": "normal"
+        },
+        {
+          "value": "italic",
+          "label": "italic"
+        }
+      ],
+      "default": "normal",
+      "label": "Font-style"
+    },
+    {
+      "type": "text",
+      "id": "title_lineheight",
+      "label": "Lineheight"      
+    },
+    {
+      "type": "text",
+      "id": "title_letterspacing",
+      "label": "Letter-spacing",
+      "info":"Ex: 0.5px"
+    },
+    {
+      "type": "header",
+      "content": "Card Product info Font Style"
+    },
+    {
+      "type": "text",
+      "id": "info_fontsize",
+      "label": "Font size Desktop",
+      "info": "Ex: 20px "
+    },
+    {
+      "type": "text",
+      "id": "info_fontsize_m",
+      "label": "Font size Mobile"
+    },
+    {
+      "type": "text",
+      "id": "info_fontweight",
+      "label": "Font-weight"      
+    },
+    {
+      "type": "text",
+      "id": "info_fontstretch",
+      "label": "Font-stretch",
+      "info": "Ex: 40%"
+    },
+    {
+      "type": "select",
+      "id": "info_fontstyle",
+      "options": [
+        {
+          "value": "normal",
+          "label": "normal"
+        },
+        {
+          "value": "italic",
+          "label": "italic"
+        }
+      ],
+      "default": "normal",
+      "label": "Font-style"
+    },
+    {
+      "type": "text",
+      "id": "info_lineheight",
+      "label": "Lineheight"      
+    },
+    {
+      "type": "text",
+      "id": "info_letterspacing",
+      "label": "Letter-spacing",
+      "info":"Ex: 0.5px"     
+    },
+    {
+      "type": "header",
+      "content": "Header Colors"
+    },
+    {
+      "type": "select",
+      "id": "py_header_bg_color_1",
+      "label": "Header Background Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+          }
+        ],
+        "default": "var(--py-bg-color-dark)"
+    },
+    {
+      "type": "select",
+      "id": "py_header_bg_color_2",
+      "label": "Mega Menu Bottom Header Background Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+          }
+        ],
+        "default": "var(--py-bg-color-dark)"
+    },
+    {
+      "type": "select",
+      "id": "py_header_color",
+      "label": "Mega Menu Text Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-light)"
+    },
+    {
+      "type": "select",
+      "id": "py_header_color_link_1",
+      "label": "Main Link Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-light)"
+    },
+    {
+      "type": "select",
+      "id": "py_header_color_link_hov_1",
+      "label": "Main Link Hover Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-avarge)"
+    },
+    {
+      "type": "select",
+      "id": "py_header_color_link_2",
+      "label": "Bottom Link Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-avarge)"
+    },
+    {
+      "type": "select",
+      "id": "py_header_link_hov_color_2",
+      "label": "Bottom Link Hover Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-avarge)"
+    },
+    {
+      "type": "select",
+      "id": "py_header_color_border",
+      "label": "Header Border Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-dark)"
+    },
+    {
+      "type": "select",
+      "id": "page_width",
+      "label": "Container (Width)",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "width-un"
+        },
+        {
+          "label": "Large",
+          "value": "width-l"
+        },
+        {
+          "label": "Medium",
+          "value": "width-m"
+        },
+        {
+          "label": "Small",
+          "value": "width-s"
+        }
+      ],
+      "default": "width-un"
+    },
+    {
+      "type": "select",
+      "id": "page_x_pd",
+      "label": "Container Padding Horizontal",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "pd-x-un"
+        },
+        {
+          "label": "None",
+          "value": "pd-x-n"
+        },
+        {
+          "label": "XL",
+          "value": "pd-x-xl"
+        },
+        {
+          "label": "L",
+          "value": "pd-x-l"
+        },
+        {
+          "label": "M",
+          "value": "pd-x-m"
+        },
+        {
+          "label": "S",
+          "value": "pd-x-s"
+        },
+        {
+          "label": "XS",
+          "value": "pd-x-xs"
+        }
+      ],
+      "default": "pd-x-m"
+    },
+    {
+      "type": "select",
+      "id": "page_y_pd",
+      "label": "Container Padding Vertical",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "pd-y-un"
+        },
+        {
+          "label": "None",
+          "value": "pd-y-n"
+        },
+        {
+          "label": "XL",
+          "value": "pd-y-xl"
+        },
+        {
+          "label": "L",
+          "value": "pd-y-l"
+        },
+        {
+          "label": "M",
+          "value": "pd-y-m"
+        },
+        {
+          "label": "S",
+          "value": "pd-y-s"
+        },
+        {
+          "label": "XS",
+          "value": "pd-y-xs"
+        }
+      ],
+      "default": "pd-y-m"
+    },
+    {
+      "type": "select",
+      "id": "br",
+      "label": "Border",
+      "options": [
+        {
+          "label": "None",
+          "value": "br-none"
+        },
+        {
+          "label": "Horizontal and Vertical",
+          "value": "br"
+        },
+        {
+          "label": "Horizontal",
+          "value": "br-x"
+        },
+        {
+          "label": "Vertical",
+          "value": "br-y"
+        }
+      ],
+      "default": "br-none"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mega_menu",
+      "name": "Main Mega Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name (Menu) for adding Mega Menu"
+        },
+        {
+          "type": "text",
+          "id": "mega_menu_title",
+          "label": "Menu Title"
+        },
+        {
+          "type": "link_list",
+          "id": "menu_1",
+          "label": "Menu 1"
+        },
+        {
+          "type": "url",
+          "id": "menu_link_1",
+          "label": "Menu 1 Title Link"
+        },
+        {
+          "type": "link_list",
+          "id": "menu_2",
+          "label": "Menu 2"
+        },
+        {
+          "type": "url",
+          "id": "menu_link_2",
+          "label": "Menu 2 Title Link"
+        },
+        {
+          "type": "link_list",
+          "id": "menu_3",
+          "label": "Menu 3"
+        },
+        {
+          "type": "url",
+          "id": "menu_link_3",
+          "label": "Menu 3 Title Link"
+        },
+        {
+          "type": "link_list",
+          "id": "menu_4",
+          "label": "Menu Four"
+        },
+        {
+          "type": "url",
+          "id": "menu_link_4",
+          "label": "Menu 4 Title Link"
+        },
+        {
+          "type": "header",
+          "content": "Image with Link One"
+        },
+        {
+          "type": "select",
+          "id": "img_col_position",
+          "label": "Image Column Position",
+          "options": [
+            {
+              "label": "First",
+              "value": "first"
+            },
+            {
+              "label": "Last",
+              "value": "last"
+            }
+          ],
+          "default": "last"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title_1",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "link_1",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Image with Link Two"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title_2",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "link_2",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Image with Link Three"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title_3",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "link_3",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Image with Link Four"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title_4",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "link_4",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "sub_mega_menu",
+      "name": "Sub Mega Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name (Sub Menu) for adding Mega Menu"
+        },
+        {
+          "type": "header",
+          "content": "Image with Link"
+        },
+        {
+          "type": "select",
+          "id": "img_col_position",
+          "label": "Image Column Position",
+          "options": [
+            {
+              "label": "First",
+              "value": "first"
+            },
+            {
+              "label": "Last",
+              "value": "last"
+            }
+          ],
+          "default": "first"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image 1"
+        },
+        {
+          "type": "text",
+          "id": "title_1",
+          "label": "Title 1"
+        },
+        {
+          "type": "textarea",
+          "id": "description_1",
+          "label": "Description 1"
+        },
+        {
+          "type": "url",
+          "id": "link_1",
+          "label": "Link 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2"
+        },
+        {
+          "type": "text",
+          "id": "title_2",
+          "label": "Title 2"
+        },
+        {
+          "type": "textarea",
+          "id": "description_2",
+          "label": "Description 2"
+        },
+        {
+          "type": "url",
+          "id": "link_2",
+          "label": "Link 2"
+        },
+        {
+          "type": "header",
+          "content": "Mobile Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image (optional)",
+          "info": "If this leave blank, the Image 1 will be set automatically."
+        },
+        {
+          "type": "header",
+          "content": "Tag Settings"
+        },
+        {
+          "type": "text",
+          "id": "tag_name",
+          "label": "Tag Name"
+        },
+        {
+          "type": "color",
+          "id": "tag_color",
+          "label": "Tag Text Color"
+        },
+        {
+          "type": "color",
+          "id": "tag_bg_color",
+          "label": "Tag Background Color"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

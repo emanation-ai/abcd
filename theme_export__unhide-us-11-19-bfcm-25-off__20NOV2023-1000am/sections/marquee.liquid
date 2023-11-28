@@ -1,0 +1,385 @@
+{%- assign d = section.settings -%}
+<div class="bc-marquee-wrapper py-{{d.br}} py-{{d.py_section_bg_color}} py-{{d.page_x_mg}} py-{{d.page_y_mg}}">
+  <div class="page-width page-{{d.page_width}} py-{{d.page_x_pd}} py-{{d.page_y_pd}}">
+    {%- if d.marquee != blank -%}
+    <marquee class="bc-marquee-wrapper__marquee" 
+        direction="{{d.direction}}" 
+        behavior="{{d.behavior}}" 
+        scrollamount="{{d.speed}}"
+        {% if d.pause %}
+        onmouseover="this.stop();"
+        onmouseout="this.start();"
+        {% endif %}
+    >
+        <span class="py-{{d.font_size}} py-{{d.py_section_color}}">{{section.settings.marquee}}<span>
+    </marquee>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Marquee",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "marquee",
+      "label": "Marquee Text",
+      "default": "Your Marquee Text is Here!"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause",
+      "label": "Hover in Pause",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Direction",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "up",
+          "label": "Up"
+        },
+        {
+          "value": "down",
+          "label": "Down"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "behavior",
+      "label": "Behavior",
+      "options": [
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "slide",
+          "label": "Slide"
+        },
+        {
+          "value": "alternate",
+          "label": "Alternate"
+        }
+      ],
+      "default": "scroll"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Speed",
+      "min": 6,
+      "max": 50,
+      "step": 4,
+      "unit": " px",
+      "default": 22
+    },
+    {
+      "type": "header",
+      "content": "Custom Styles"
+    },
+    {
+      "type": "select",
+      "id": "py_section_bg_color",
+      "label": "Background Color",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "bg-c-un"
+        },
+        {
+          "label": "None",
+          "value": "bg-c-none"
+        },        
+        {
+          "label": "Dark",
+          "value": "bg-c-dark"
+        },
+        {
+          "label": "Average",
+          "value": "bg-c-average"
+        },
+        {
+          "label": "Light",
+          "value": "bg-c-light"
+        }
+      ],
+      "default": "bg-c-un"
+    },
+    {
+      "type": "select",
+      "id": "py_section_color",
+      "label": "Color",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Dark",
+          "value": "c-dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "c-middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "c-average"
+        },
+        {
+          "label": "Light",
+          "value": "c-middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "c-light"
+        }
+      ],
+      "default": "c-dark"
+    },
+    {
+      "type": "select",
+      "id": "page_width",
+      "label": "Container (Width)",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "width-un"
+        },
+        {
+          "label": "Large",
+          "value": "width-l"
+        },
+        {
+          "label": "Medium",
+          "value": "width-m"
+        },
+        {
+          "label": "Small",
+          "value": "width-s"
+        }
+      ],
+      "default": "width-un"
+    },
+    {
+      "type": "select",
+      "id": "page_x_mg",
+      "label": "Section Margin Horizontal",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "mg-x-un"
+        },
+        {
+          "label": "None",
+          "value": "mg-x-n"
+        },
+        {
+          "label": "XL",
+          "value": "mg-x-xl"
+        },
+        {
+          "label": "L",
+          "value": "mg-x-l"
+        },
+        {
+          "label": "M",
+          "value": "mg-x-m"
+        },
+        {
+          "label": "S",
+          "value": "mg-x-s"
+        },
+        {
+          "label": "XS",
+          "value": "mg-x-xs"
+        }
+      ],
+      "default": "mg-x-un"
+    },
+    {
+      "type": "select",
+      "id": "page_y_mg",
+      "label": "Section Margin Vertical",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "mg-y-un"
+        },
+        {
+          "label": "None",
+          "value": "mg-y-n"
+        },
+        {
+          "label": "XL",
+          "value": "mg-y-xl"
+        },
+        {
+          "label": "L",
+          "value": "mg-y-l"
+        },
+        {
+          "label": "M",
+          "value": "mg-y-m"
+        },
+        {
+          "label": "S",
+          "value": "mg-y-s"
+        },
+        {
+          "label": "XS",
+          "value": "mg-y-xs"
+        }
+      ],
+      "default": "mg-y-un"
+    },
+    {
+      "type": "select",
+      "id": "page_x_pd",
+      "label": "Container Padding Horizontal",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "pd-x-un"
+        },
+        {
+          "label": "None",
+          "value": "pd-x-n"
+        },
+        {
+          "label": "XL",
+          "value": "pd-x-xl"
+        },
+        {
+          "label": "L",
+          "value": "pd-x-l"
+        },
+        {
+          "label": "M",
+          "value": "pd-x-m"
+        },
+        {
+          "label": "S",
+          "value": "pd-x-s"
+        },
+        {
+          "label": "XS",
+          "value": "pd-x-xs"
+        }
+      ],
+      "default": "pd-x-un"
+    },
+    {
+      "type": "select",
+      "id": "page_y_pd",
+      "label": "Container Padding Vertical",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "pd-y-un"
+        },
+        {
+          "label": "None",
+          "value": "pd-y-n"
+        },
+        {
+          "label": "XL",
+          "value": "pd-y-xl"
+        },
+        {
+          "label": "L",
+          "value": "pd-y-l"
+        },
+        {
+          "label": "M",
+          "value": "pd-y-m"
+        },
+        {
+          "label": "S",
+          "value": "pd-y-s"
+        },
+        {
+          "label": "XS",
+          "value": "pd-y-xs"
+        }
+      ],
+      "default": "pd-y-un"
+    },
+    {
+      "type": "select",
+      "id": "font_size",
+      "label": "Font Size",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "fs-un"
+        },
+        {
+          "label": "X Large",
+          "value": "fs-xl"
+        },
+        {
+          "label": "Large",
+          "value": "fs-l"
+        },
+        {
+          "label": "Medium",
+          "value": "fs-m"
+        },
+        {
+          "label": "X Small",
+          "value": "fs-xs"
+        },
+        {
+          "label": "Small",
+          "value": "fs-s"
+        }
+      ],
+      "default": "fs-un"
+    },
+    {
+      "type": "select",
+      "id": "br",
+      "label": "Border",
+      "options": [
+        {
+          "label": "None",
+          "value": "br-none"
+        },
+        {
+          "label": "Horizontal and Vertical",
+          "value": "br"
+        },
+        {
+          "label": "Horizontal",
+          "value": "br-x"
+        },
+        {
+          "label": "Vertical",
+          "value": "br-y"
+        }
+      ],
+      "default": "br-y"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee"
+    }
+  ]
+}
+{% endschema %}

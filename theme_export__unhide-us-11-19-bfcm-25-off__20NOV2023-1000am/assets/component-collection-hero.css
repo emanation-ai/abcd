@@ -1,0 +1,188 @@
+.collection-hero {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* .collection-hero--with-image {
+  background-color: var(--color-foreground-4);
+} */
+
+.collection-hero__inner {
+  display: flex;
+  flex-direction: column;  
+}
+
+.collection-hero__description * {
+  color: #373737;
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.collection-hero__description p {
+  margin-bottom: 1.3rem;
+}
+
+.collection-hero-password .collection-hero__image-container {
+  height: calc(100vh - 65px);
+}
+
+
+.collection-hero--with-image .collection-hero__text-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  padding: 0;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 1;
+  text-align: center;
+}
+
+.collection-hero--with-image .collection-hero__inner {
+  position: relative;
+  width: 100%;  
+}
+
+@media screen and (min-width: 750px) { 
+
+  .collection-hero__inner {
+    align-items: center;
+    flex-direction: row;    
+  }
+}
+
+.collection-hero__title {
+  margin: 0;
+  font-size: 36px;
+  color: #373737;
+  font-weight: 100;
+  margin-left: -0.3rem;
+  margin-top: 2rem;
+}
+
+.collection-hero__title + .collection-hero__description {
+  margin-top: 0;
+  font-size: 1.6rem;
+  line-height: 1.5;
+}
+
+
+.bc-password-form {
+  width: 450px;
+  max-width: 100%;
+  margin: 20px auto;
+  display: flex;
+  text-align: left;
+  flex-wrap: nowrap;
+}
+.bc-password-form .bc-password-wrapper {
+  width: 100%;  
+}
+.bc-password-form #coll-password-field.field__input{
+  background: #fff;
+  box-shadow: none !important;
+  outline: 0px !important;
+  padding: 5px 15px;
+  outline-offset: 0 !important;
+  border:none !important;
+}
+
+.bc-password-form .bc-submit {
+  box-shadow: none;
+  outline: none;
+  background-color: #5C4842;
+  height:4.5rem;
+}
+.bc-password-wrapper .bc-error-message  {
+  color: #ffffff;
+  font-weight: 400;
+  font-style: italic;
+  font-size: small;  
+  padding: 2px 15px;
+  display: inline-block;
+  margin-top: 5px;
+}
+.bc-hide {
+  display: none!important;
+}
+.bounce {
+  animation-name: bounce;
+  animation-duration: .5s;
+  animation-delay: 0.25s;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateX(0px);
+    timing-function: ease-in;
+  }
+  37% {
+    transform: translateX(5px);
+    timing-function: ease-out;
+  }
+  55% {
+    transform: translateX(-5px);
+    timing-function: ease-in;
+  }
+  73% {
+    transform: translateX(4px);
+    timing-function: ease-out;
+  }
+  82% {
+    transform: translateX(-4px);
+    timing-function: ease-in;
+  }
+  91% {
+    transform: translateX(2px);
+    timing-function: ease-out;
+  }
+  96% {
+    transform: translateX(-2px);
+    timing-function: ease-in;
+  }
+  100% {
+    transform: translateX(0px);
+    timing-function: ease-in;
+  }
+}
+@media screen and (min-width: 750px) {
+  .collection-hero__title + .collection-hero__description {
+    font-size: 1.8rem;
+    margin-top: 0;
+  }
+
+  .collection-hero--with-image .collection-hero__description {
+    max-width: 100%;
+  }
+}
+
+.collection-hero--with-image .collection-hero__title {
+  color: inherit;
+  margin: 0;
+}
+
+.collection-hero--with-image .collection-hero__text-wrapper {
+  padding: 0;
+  width: 100%;
+}
+
+@media screen and (min-width: 750px) {
+  .collection-hero--with-image .collection-hero__text-wrapper {
+    padding: 0;
+  }
+
+  .collection-hero__image-container {
+    align-self: stretch;
+    flex: 1 0 100%;
+    margin-left: 0;
+    min-height: 20rem;
+  }
+}
+
+@media screen and (max-width: 749px) {  
+  .bc-password-form{
+    max-width:300px;
+  }  
+}

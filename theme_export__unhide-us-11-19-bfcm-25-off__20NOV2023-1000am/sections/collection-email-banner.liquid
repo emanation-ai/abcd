@@ -1,0 +1,464 @@
+{%- if section.blocks.size > 0 -%}
+{%- for block in section.blocks -%}
+{%- case block.type -%}
+
+    {%- when 'collection' -%}
+    {%- if block.settings.coll != blank and block.settings.coll == collection.handle -%}
+    {{ 'component-collection-email.css' | asset_url | stylesheet_tag }}
+    <div class="bc-collection-email-bunner" id="bc-{{ block.id }}">
+        <div class="bc-collection-email-bunner__wrapper bc-collection-email-bunner__wrapper-{{ block.id }}">
+        {%- render 'bcstyle', css: block.settings, self: 'w', class: '.bc-collection-email-bunner__wrapper', id: block.id -%}
+          <div class="bc-collection-email-bunner__content bc-collection-email-bunner__content-{{ block.id }}">
+          {%- render 'bcstyle', css: block.settings, self: 'c', class: '.bc-collection-email-bunner__content', id: block.id -%}           
+            {%- if block.settings.form != blank -%}
+            {{ block.settings.form }}
+            {%- endif -%}
+          </div>
+        </div>
+      {%- if block.settings.show_title -%}
+      <h1 style="color:inherit" class="bc-collection-email__title bc-collection-email__title-{{ block.id }}">
+        {{ collection.title }}
+      </h1>
+      {%- render 'bcstyle', css: block.settings, self: 't', class: '.bc-collection-email__title', id: block.id -%}
+      {%- endif -%}
+      {%- if block.settings.show_desc -%}
+        <div class="bc-collection-email__description">
+          {{ collection.description }}
+        </div>
+      {%- endif -%}
+    </div>
+    {%- endif -%}
+
+{%- endcase -%}
+{%- endfor -%}
+{%- endif -%}
+
+
+
+
+
+{% schema %}
+{
+  "name": "Collection Email",
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "coll",
+          "label": "Select Collection",
+          "info": "Please select Collection where you want to show Banner Settings!"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_title",
+          "label": "Show Title",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_desc",
+          "label": "Show Description",
+          "default": false
+        },
+        {
+          "type": "html",
+          "id": "form",
+          "label": "Email Form"
+        },
+        {
+          "type": "header",
+          "content": "Desktop Settings"
+        },
+        {
+          "type": "paragraph",
+          "content": "Section"
+        },
+        {
+          "type": "text",
+          "id": "w_height",
+          "label": "height",
+          "default": "70vh"
+        },
+        {
+          "type": "select",
+          "id": "w_bg_color",
+          "label": "Background",
+          "options": [          
+              {
+                "label": "Transparent",
+                "value": "transparent"
+              },        
+              {
+                "label": "Dark",
+                "value": "var(--py-bg-color-dark)"
+              },
+              {
+                "label": "Middle Dark",
+                "value": "var(--py-bg-color-middle-dark)"
+              },
+              {
+                "label": "Average",
+                "value": "var(--py-bg-color-avarge)"
+              },
+              {
+                "label": "Middle Light",
+                "value": "var(--py-bg-color-middle-light)"
+              },
+              {
+                "label": "Light",
+                "value": "var(--py-bg-color-light)"
+              }
+            ],
+          "default": "transparent"
+        },
+        {
+          "type": "image_picker",
+          "id": "w_bg_image",
+          "label": "Background"
+        },
+        {
+          "type": "select",
+          "id": "w_bg_style",
+          "options": [
+            {
+              "label": "Content",
+              "value": "content"    
+            },
+            {
+              "label": "Cover",
+              "value": "cover"    
+            },
+            {
+              "label": "Repeat",
+              "value": "repeat"    
+            }
+          ],
+          "default": "cover",
+          "label": "Background Image Style"
+        },
+        {
+          "type": "select",
+          "id": "w_horizontal",
+          "options": [
+            {
+              "label": "Left",
+              "value": "flex-start"    
+            },
+            {
+              "label": "Center",
+              "value": "center"    
+            },
+            {
+              "label": "Right",
+              "value": "flex-end"    
+            }
+          ],
+          "default": "center",
+          "label": "Position Horizontal"
+        },
+        {
+          "type": "select",
+          "id": "w_vertical",
+          "options": [
+            {
+              "label": "Top",
+              "value": "flex-start"    
+            },
+            {
+              "label": "Center",
+              "value": "center"    
+            },
+            {
+              "label": "Bottom",
+              "value": "flex-end"    
+            }
+          ],
+          "default": "center",
+          "label": "Position Vertical"
+        },
+        {
+          "type": "paragraph",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "c_width",
+          "label": "Width",
+          "default": "70%"
+        },
+        {
+          "type": "select",
+          "id": "c_align",
+          "options": [
+            {
+              "label": "Left",
+              "value": "left"
+            },
+            {
+              "label": "Center",
+              "value": "center"
+            },
+            {
+              "label": "Right",
+              "value": "right"
+            }
+          ],
+          "default": "center",
+          "label": "Text Align"
+        },
+        {
+          "type": "text",
+          "id": "c_padding",
+          "label": "Padding",
+          "default": "0 25px"
+        },
+        {
+          "type": "paragraph",
+          "content": "Title"
+        },
+        {
+          "type": "text",
+          "id": "t_size",
+          "label": "Font Size"
+        },
+        {
+          "type": "text",
+          "id": "t_weight",
+          "label": "Font Weight"
+        },
+        {
+          "type": "text",
+          "id": "t_margin",
+          "label": "Margin",
+          "default": "0 0 20px 0"
+        },
+        {
+          "type": "select",
+          "id": "w_color",
+          "label": "Content Color",
+          "options": [ 
+              {
+                "label": "Dark",
+                "value": "var(--py-color-dark)"
+              },
+              {
+                "label": "Middle Dark",
+                "value": "var(--py-color-middle-dark)"
+              },
+              {
+                "label": "Average",
+                "value": "var(--py-color-avarge)"
+              },
+              {
+                "label": "Middle Light",
+                "value": "var(--py-color-middle-light)"
+              },
+              {
+                "label": "Light",
+                "value": "var(--py-color-light)"
+              }
+            ],
+            "default": "var(--py-color-light)"
+        },
+        {
+          "type": "header",
+          "content": "Mobile Settings"
+        },
+        {
+          "type": "paragraph",
+          "content": "Section"
+        },
+        {
+          "type": "text",
+          "id": "w_m_height",
+          "label": "height",
+          "default": "50vh"
+        },
+        {
+          "type": "select",
+          "id": "w_m_bg_color",
+          "label": "Background Color",
+          "options": [          
+              {
+                "label": "Transparent",
+                "value": "transparent"
+              },        
+              {
+                "label": "Dark",
+                "value": "var(--py-bg-color-dark)"
+              },
+              {
+                "label": "Middle Dark",
+                "value": "var(--py-bg-color-middle-dark)"
+              },
+              {
+                "label": "Average",
+                "value": "var(--py-bg-color-avarge)"
+              },
+              {
+                "label": "Middle Light",
+                "value": "var(--py-bg-color-middle-light)"
+              },
+              {
+                "label": "Light",
+                "value": "var(--py-bg-color-light)"
+              }
+            ],
+          "default": "transparent"
+        },
+        {
+          "type": "image_picker",
+          "id": "w_m_bg_image",
+          "label": "Background"
+        },
+        {
+          "type": "select",
+          "id": "w_m_bg_style",
+          "options": [
+            {
+              "label": "Content",
+              "value": "content"    
+            },
+            {
+              "label": "Cover",
+              "value": "cover"    
+            },
+            {
+              "label": "Repeat",
+              "value": "repeat"    
+            }
+          ],
+          "default": "cover",
+          "label": "Background Image Style"
+        },
+        {
+          "type": "select",
+          "id": "w_m_horizontal",
+          "options": [
+            {
+              "label": "Left",
+              "value": "flex-start"    
+            },
+            {
+              "label": "Center",
+              "value": "center"    
+            },
+            {
+              "label": "Right",
+              "value": "flex-end"    
+            }
+          ],
+          "default": "center",
+          "label": "Position Horizontal"
+        },
+        {
+          "type": "select",
+          "id": "w_m_vertical",
+          "options": [
+            {
+              "label": "Top",
+              "value": "flex-start"    
+            },
+            {
+              "label": "Center",
+              "value": "center"    
+            },
+            {
+              "label": "Bottom",
+              "value": "flex-end"    
+            }
+          ],
+          "default": "center",
+          "label": "Position Vertical"
+        },
+        {
+          "type": "paragraph",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "c_m_width",
+          "label": "Width"
+        },
+        {
+          "type": "select",
+          "id": "c_m_align",
+          "options": [
+            {
+              "label": "Left",
+              "value": "left"
+            },
+            {
+              "label": "Center",
+              "value": "center"
+            },
+            {
+              "label": "Right",
+              "value": "right"
+            }
+          ],
+          "default": "center",
+          "label": "Text Align"
+        },
+        {
+          "type": "text",
+          "id": "c_m_padding",
+          "label": "Padding",
+          "default": "0 15px"
+        },
+        {
+          "type": "paragraph",
+          "content": "Title"
+        },
+        {
+          "type": "text",
+          "id": "t_m_size",
+          "label": "Font Size"
+        },
+        {
+          "type": "text",
+          "id": "t_m_weight",
+          "label": "Font Weight"
+        },
+        {
+          "type": "text",
+          "id": "t_m_margin",
+          "label": "Margin",
+          "default": "0 0 20px 0"
+        },
+        {
+          "type": "select",
+          "id": "w_m_color",
+          "label": "Content Color",
+          "options": [ 
+              {
+                "label": "Dark",
+                "value": "var(--py-color-dark)"
+              },
+              {
+                "label": "Middle Dark",
+                "value": "var(--py-color-middle-dark)"
+              },
+              {
+                "label": "Average",
+                "value": "var(--py-color-avarge)"
+              },
+              {
+                "label": "Middle Light",
+                "value": "var(--py-color-middle-light)"
+              },
+              {
+                "label": "Light",
+                "value": "var(--py-color-light)"
+              }
+            ],
+            "default": "var(--py-color-light)"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,126 @@
+{%- if style.size != blank or style.content_color != blank or style.weight != blank or style.border != blank or style.bg != blank or style.pv != blank or style.ph != blank or style.align != blank or style.padding != blank or style.margin != blank or style.width != blank or style.height != blank or style.b_width != blank or style.c_css != blank or style.show_override or style.content_bg_color != blank or style.ov_bg_image != blank or style.ov_opacity != blank
+or style.m_size != blank or style.content_color_m != blank or style.m_weight != blank or style.m_border != blank or style.m_bg != blank or style.m_pv != blank or style.m_ph != blank or style.m_align != blank or style.m_padding != blank or style.m_margin != blank or style.m_width != blank or style.m_height != blank or style.m_b_width != blank or style.m_c_css != blank -%}
+<style type="text/css">
+{%- if style.size != blank or style.content_color != blank or style.weight != blank or style.border != blank or style.bg != blank or style.pv != blank or style.ph != blank or style.align != blank or style.padding != blank or style.margin != blank or style.width != blank or style.height != blank or style.b_width != blank or style.c_css != blank -%}
+{{ sufix }}-{{ id }} {
+    {%- if style.size != blank -%}
+    font-size: {{ style.size }};
+    {%- endif -%}
+    {%- if style.content_color != blank -%}
+    color: {{ style.content_color }};
+    {%- endif -%}
+    {%- if style.weight != blank -%}
+    font-weight: {{ style.weight }};
+    {%- endif -%}
+    {%- if style.border != blank -%}
+    border-color: {{ style.border }};
+    box-shadow: 0 0 0 0.1rem {{ style.border }};
+    {%- endif -%}
+    {%- if style.b_width != blank -%}
+    border-width: {{ style.b_width }};
+    {%- endif -%}
+    {%- if style.bg != blank -%}
+    background-color: {{ style.bg }};
+    {%- endif -%}
+    {%- if style.pv != blank -%}
+    align-items: {{ style.pv }};
+    {%- endif -%}
+    {%- if style.ph != blank -%}
+    justify-content: {{ style.ph }};
+    {%- endif -%}
+    {%- if style.align != blank -%}
+    text-align: {{ style.align }};
+    {%- endif -%}
+    {%- if style.padding != blank -%}
+    padding: {{ style.padding }};
+    {%- endif -%}
+    {%- if style.margin != blank -%}
+    margin: {{ style.margin }};
+    {%- endif -%}
+    {%- if style.width != blank -%}
+    width: {{ style.width }};
+    {%- endif -%}
+    {%- if style.height != blank -%}
+    height: {{ style.height }};
+    {%- endif -%}
+    {%- if style.c_css != blank -%} 
+    {{ style.c_css }}
+    {%- endif -%}
+    {%- if style.show_override -%}
+    position: relative;
+    {%- endif -%}
+}
+{%- endif -%}
+{%- if style.show_override -%}
+{%- if style.content_bg_color != blank or style.ov_bg_image != blank or style.ov_opacity != blank -%}
+{{ sufix }}-{{ id }}::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    {%- if style.content_bg_color != blank -%}
+    background-color: {{ style.content_bg_color }};
+    {%- endif -%}
+    {%- if style.ov_bg_image != blank -%}
+    background-image: url("{{ style.ov_bg_image | img_url: 'original' }}");
+    {%- endif -%}
+    {%- if style.ov_opacity != blank -%}
+    opacity: {{ style.ov_opacity }};
+    {%- endif -%}
+}
+{%- endif -%}
+{%- endif -%}
+{%- if style.m_size != blank or style.content_color_m != blank or style.m_weight != blank or style.m_border != blank or style.m_bg != blank or style.m_pv != blank or style.m_ph != blank or style.m_align != blank or style.m_padding != blank or style.m_margin != blank or style.m_width != blank or style.m_height != blank or style.m_b_width != blank or style.m_c_css != blank -%}
+@media screen and (max-width: 749px){
+    {{ sufix }}-{{ id }} {
+        {%- if style.m_size != blank -%}
+        font-size: {{ style.m_size }};
+        {%- endif -%}
+        {%- if style.content_color_m != blank -%}
+        color: {{ style.content_color_m }};
+        {%- endif -%}
+        {%- if style.m_weight != blank -%}
+        font-weight: {{ style.m_weight }};
+        {%- endif -%}
+        {%- if style.m_border != blank -%}
+        border-color: {{ style.m_border }};
+        box-shadow: unset;
+        {%- endif -%}
+        {%- if style.m_b_width != blank -%}
+        border-width: {{ style.m_b_width }};
+        border-style: solid;
+        {%- endif -%}
+        {%- if style.m_bg != blank -%}
+        background-color: {{ style.m_bg }};
+        {%- endif -%}
+        {%- if style.m_pv != blank -%}
+        align-items: {{ style.m_pv }};
+        {%- endif -%}
+        {%- if style.m_ph != blank -%}
+        justify-content: {{ style.m_ph }};
+        {%- endif -%}
+        {%- if style.m_align != blank -%}
+        text-align: {{ style.m_align }};
+        {%- endif -%}
+        {%- if style.m_padding != blank -%}
+        padding: {{ style.m_padding }};
+        {%- endif -%}
+        {%- if style.m_margin != blank -%}
+        margin: {{ style.m_margin }};
+        {%- endif -%}
+        {%- if style.m_width != blank -%}
+        width: {{ style.m_width }};
+        {%- endif -%}
+        {%- if style.m_height != blank -%}
+        height: {{ style.m_height }};
+        {%- endif -%}
+        {%- if style.m_c_css != blank -%} 
+        {{ style.m_c_css }}
+        {%- endif -%}
+    }
+}
+{%- endif -%}
+</style>
+{%- endif -%}

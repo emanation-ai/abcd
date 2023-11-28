@@ -1,0 +1,641 @@
+<style>
+    .takeiteverywear-full-width{
+        background-color: #696f59;
+    }
+    .takeiteverywear-headline{
+        display: flex;
+        justify-content: center;
+        padding-top:60px;
+    }
+    .takeiteverywear-headline h2{
+     color: #c8a977; 
+     text-transform: capitalize;  
+     font-size: 113px;
+    }
+    .takeiteverywear-block-image-wrapper img,   .takeiteverywear-block-image-wrapper video{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        position: relative;
+        z-index: 2;
+    
+    
+    }
+    
+    .takeiteverywear-block-image-wrapper{
+        width: 70%;
+        margin: 0 auto;
+        height: 65vh;
+        position: relative;
+    }
+    
+    
+    /* .takeiteverywear-block-image-wrapper:before, .takeiteverywear-block-image-wrapper:after {
+        z-index: 1;
+        position: absolute;
+        content: "";
+        bottom: 26px;
+        left: 32px;
+        width: 50%;
+        top: 86%;
+        max-width: 408px;
+        background: #000;
+        -webkit-box-shadow: 0 15px 10px #000;
+        -moz-box-shadow: 0 15px 10px #000;
+        box-shadow: 0px 46px 20px #000;
+        -webkit-transform: rotate(-3deg);
+        -moz-transform: rotate(-3deg);
+        -o-transform: rotate(-3deg);
+        -ms-transform: rotate(-3deg);
+        transform: rotate(-6deg);
+    }
+    .takeiteverywear-block-image-wrapper:after {
+        -webkit-transform: rotate(3deg) !;
+        -moz-transform: rotate(3deg);
+        -o-transform: rotate(3deg);
+        -ms-transform: rotate(3deg);
+        transform: rotate(6deg);
+        right: 29px;
+        left: auto;
+    } */
+    .takeiteverywear-block{
+        padding:30px 0 90px 0;
+    }
+    .takeiteverywear-block-headline{
+        display: flex;
+        justify-content: center;
+        position: relative;
+    
+    }
+    .takeiteverywear-block-headline h3{
+          color: #fff;
+        text-transform: capitalize;
+        font-size: 40px;
+        max-width: 330px;
+        text-align: center;
+    }
+    .takeiteverywear-block-arrow{
+        
+        position: absolute;
+        left: 33%;
+        bottom: -26px;
+        z-index: 3;
+    
+    }
+    .takeiteverywear-text-wrapper{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 50px 0 120px 0;
+    }
+    .takeiteverywear-text{
+        width: 45%;
+        margin: 0 auto;
+        margin-bottom: 60px;
+        margin-top: 100px;
+
+
+    }
+    .takeiteverywear-text h4{
+        color: #fff;
+        font-size: 33px;
+    line-height: 40px;
+    }
+    .takeiteverywear-text,.takeiteverywear-cta{
+        text-align: center;
+    }
+    .takeiteverywear-cta a{
+        text-decoration: none;
+        color: #fff;
+        background-color: #c7a877;
+        padding: 15px 50px;
+        border-radius: 50px;
+        transition: all 0.3s;
+    }
+    .takeiteverywear-cta a:hover{
+        box-shadow: 0px 10px 10px rgb(60 60 60 / 50%);
+    }
+    .takeiteverywear-v1-block{
+        display: flex;
+        justify-content: center;
+        padding: 0;
+    }
+    .takeiteverywear-subheadline{
+        max-width: 900px;
+        margin: 25px auto 50px auto;
+    }
+ .takeiteverywear-subheadline h2{
+
+        font-size: 73px;
+        text-align: center;
+        /* margin: 0 auto; */
+        /* max-width: 600px; */
+        color: #fff;
+
+    }
+    .takeiteverywear-v1-block:nth-child(odd)  .takeiteverywear-v1-block-image-wrapper img, .takeiteverywear-v1-block:nth-child(odd)  .takeiteverywear-v1-block-image-wrapper video{
+        border-radius: 0;
+        border-top-right-radius: 40px;
+    }
+    .takeiteverywear-v1-block:nth-child(odd) .takeiteverywear-v1-block-text-wrapper{
+        order:1;
+    }
+    .takeiteverywear-v1-block:nth-child(odd) .takeiteverywear-v1-block-image-wrapper{
+        order:2;
+    }
+    
+    .takeiteverywear-v1-block:nth-child(even) .takeiteverywear-v1-block-text-wrapper{
+        order:2;
+    }
+    .takeiteverywear-v1-block:nth-child(even) .takeiteverywear-v1-block-image-wrapper{
+        order:1;
+    }
+
+
+    .takeiteverywear-v1-block:nth-child(even)  .takeiteverywear-v1-block-image-wrapper img, .takeiteverywear-v1-block:nth-child(even)  .takeiteverywear-v1-block-image-wrapper video{
+        border-radius: 0;
+        border-top-left-radius: 40px;
+    }
+    
+    .takeiteverywear-v1-block-text-wrapper{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 70px;
+    }
+    .takeiteverywear-block-text-numb{
+        font-size:107px;
+        color:#fff;
+        margin: 0;
+    }
+    .takeiteverywear-v1-block-image-wrapper{
+        width: 50%;
+        height: 65vh;
+        margin: unset;
+    }
+    .takeiteverywear-v1-block .heading-wrapper p{
+        color: #c8a977;
+        font-size: 34px;
+        font-weight: bolder;
+        margin:  0;
+        letter-spacing: 1px;
+        margin-top: 10px;
+
+    }
+    .takeiteverywear-v1-block .subheading-wrapper p{
+     max-width: 100%;
+     padding-right: 70px;
+     margin: 10px 0;
+    color: #fff !important;
+    /* max-width: 280px; */
+
+    font-size: 23px;
+
+    }
+    .takeiteverywear-blocks-wrapper{
+        margin-top: 30px;
+    }
+    @media screen and (max-width:1600px) {
+
+    .takeiteverywear-headline h2{
+        font-size: 100px;
+    }
+    .takeiteverywear-subheadline{
+        max-width: 850px;
+    }
+    .takeiteverywear-subheadline h2{
+        font-size: 63px;
+    }
+    .takeiteverywear-block-text-numb{
+        font-size: 97px;
+    }
+    .takeiteverywear-v1-block .heading-wrapper p{
+        font-size: 30px;
+    }
+    .takeiteverywear-v1-block .subheading-wrapper p{
+        font-size: 20px;
+    }
+    .takeiteverywear-text h4{
+        font-size: 30px;
+    }
+        .takeiteverywear-blocks-wrapper{
+            max-width: 90%;
+            margin: 0 auto;
+        }
+    }
+    @media screen and (max-width:1280px) {
+        .takeiteverywear-block-headline h3{
+            font-size: 36px;
+        }
+        .takeiteverywear-text{
+            width: 55%;
+            margin-bottom: 50px;
+        }
+        .takeiteverywear-block-arrow{
+            left: 30%;
+        bottom: -26px;
+        }
+        .takeiteverywear-block-image-wrapper{
+            height: 55vh;
+        }
+        .takeiteverywear-headline h2{
+            font-size: 85px;
+
+        }
+        .takeiteverywear-subheadline h2{font-size: 53px;}
+        .takeiteverywear-subheadline{
+            max-width: 750px;
+        }
+        .takeiteverywear-blocks-wrapper{
+            max-width: 90%;
+
+        }
+        .takeiteverywear-v1-block-image-wrapper{
+            height: 450px;
+        }
+        .takeiteverywear-block-text-numb{
+            font-size: 87px;
+        }
+        .takeiteverywear-v1-block .heading-wrapper p{
+            font-size: 25px;
+        }
+        .takeiteverywear-v1-block .subheading-wrapper p{
+            font-size: 18px;
+            padding-right: 20px;
+        }
+    }
+    @media screen and (max-width:992px) {
+        .takeiteverywear-headline h2{
+            font-size: 50px;
+        }
+        .takeiteverywear-block-headline h3 {
+        font-size: 34px;
+    }
+    .takeiteverywear-block-arrow {
+        left: 19%;
+        bottom: -25px;
+    }
+    .takeiteverywear-text {
+        width: 70%;
+    }
+    .takeiteverywear-text p{
+        font-size: 24px;
+    }
+        .takeiteverywear-v1-block-image-wrapper{
+            height: 400px;
+        }
+
+        .takeiteverywear-v1-block-image-wrapper{
+            height: 370px;
+        }
+        .takeiteverywear-block-text-numb{
+            font-size: 77px;
+        }
+        .takeiteverywear-subheadline{
+            max-width: 700px;
+        }
+        .takeiteverywear-subheadline h2{
+            font-size:48px;
+        }
+        .takeiteverywear-headline h2{
+            font-size: 75px;
+        }
+        .takeiteverywear-v1-block .subheading-wrapper p{
+            font-size: 17px;
+            padding-right: 10px;
+        }
+        .takeiteverywear-v1-block .subheading-wrapper p{
+        -webkit-line-clamp: unset;
+    -webkit-box-orient: unset;
+    }
+    
+    }
+    @media screen and (max-width:768px) {
+        .takeiteverywear-block-headline h3{
+            font-size: 24px;
+        }
+        .takeiteverywear-block-arrow {
+            bottom: -30px;
+        }
+        .takeiteverywear-headline h2{
+            font-size: 40px;
+        }
+        .takeiteverywear-block {
+            padding: 0px 0 90px 0;
+        }
+        .takeiteverywear-block-image-wrapper{
+            width: 100%;
+        }
+        .takeiteverywear-text {
+            width: 80%;
+        }
+
+        .takeiteverywear-v1-block{
+            flex-direction: column;
+        }
+        .takeiteverywear-v1-block-text-wrapper{
+            width: 100%;
+            order: 1 !important;
+            align-items: center;
+        }
+        .takeiteverywear-v1-block-image-wrapper{
+            width: 100%;
+        }
+
+        .takeiteverywear-v1-block  .takeiteverywear-v1-block-image-wrapper{
+            order: 2 !important;
+        }
+    .takeiteverywear-v1-block  .takeiteverywear-v1-block-image-wrapper img,.takeiteverywear-v1-block  .takeiteverywear-v1-block-image-wrapper video{
+        border-radius: 20px !important;
+    }
+    .takeiteverywear-v1-block .subheading-wrapper h3{
+        max-width: 100%;
+        width: 100%;
+        text-align: center;
+    }
+    .takeiteverywear-v1-block{
+       gap: 0; 
+    }
+    .takeiteverywear-v1-block-text-wrapper{
+        padding-left: 0;
+    }
+    .takeiteverywear-block-text-numb{
+        font-size: 65px;
+    }
+    
+    
+}
+    @media screen and (max-width:500px){
+        .takeiteverywear-v1-block .heading-wrapper p{
+            font-size: 22px;
+        }
+        .takeiteverywear-subheadline h2
+        {
+            font-size:25px;
+            line-height: 30px;
+        }
+        .takeiteverywear-block-image-wrapper{
+            height: 25vh;
+        }
+        .takeiteverywear-text-wrapper{
+            padding: 20px 0 80px 0;
+        }
+        .takeiteverywear-text{
+            width: 100%;
+        }
+        .takeiteverywear-text p{
+            font-size: 17px;
+        }
+        .takeiteverywear-block-arrow{
+            left: 11%;
+            bottom: -35px;
+        }
+           
+        .shadow img{
+            width: 90%;
+            margin: 0 auto; 
+            }
+        .takeiteverywear-v1-block .subheading-wrapper p{
+            text-align: center;
+            margin: 15px 0;
+        }
+        .takeiteverywear-block{
+            padding: 30px 0 40px 0;
+        }
+        .takeiteverywear-text{
+            margin-top: 0;
+        }
+        .takeiteverywear-subheadline{
+            max-width: 300px;
+        }
+        .takeiteverywear-subheadline h2{
+            font-size: 26px;
+            line-height: 26px;
+        }
+        .takeiteverywear-headline h2{
+            font-size: 55px;
+        }
+        .takeiteverywear-subheadline{
+            margin: 25px auto 25px auto;
+        }
+        .takeiteverywear-v1-block .subheading-wrapper p{
+            font-size: 17px;
+        }
+        .takeiteverywear-text h4{
+            font-size: 18px;
+            line-height: 25px;
+        }
+    }
+
+
+    
+    </style>
+    {% assign takeItEveryWearBlocks= section.blocks | where :"type","block-v1" %}
+    
+    <div class="landing-page-full-width-wrapper takeiteverywear-full-width">
+        <div class="landing-page-wrapper">
+            <div class="takeiteverywear-headline">
+                <h2>{{section.settings.takeiteverywear-heading}}</h2>
+            </div>
+            <div class="takeiteverywear-subheadline">
+                <h2>{{section.settings.takeiteverywear-subheading}}</h2>
+            </div>
+            {%assign num =0%}
+            <div class="takeiteverywear-blocks-wrapper">
+                {%for block in takeItEveryWearBlocks%}
+                <div class="takeiteverywear-block takeiteverywear-v1-block">
+                    <div class="takeiteverywear-block-text-wrapper takeiteverywear-v1-block-text-wrapper">
+                        <div class="number-wrapper">
+                            {%assign num =num |plus:1%}
+                            <h2 class="takeiteverywear-block-text-numb">{{num}}</h2>
+
+                        </div>
+                        <div class="heading-wrapper">
+                            <p>{{block.settings.takeiteverywear-heading}}</p>
+                        </div>
+                        <div class="subheading-wrapper">
+                            <p>{{block.settings.takeiteverywear-subheading}}</p>
+                        </div>
+                        
+                    </div>
+                    {%assign blockMediaType= block.settings.block_media_type%}
+                    <div class="takeiteverywear-block-image-wrapper takeiteverywear-v1-block-image-wrapper">
+                        {%if blockMediaType == "image"%}
+                            <img src="{{block.settings.block_img | img_url: 'master'}}" alt="">
+                        {%else%}
+                        <video {%if block.settings.video_cb_autoplay %}autoplay{%endif%} {%if block.settings.video_cb_loop%}loop{%endif%} {%if block.settings.video_cb_muted%}muted{%endif%} {%if block.settings.video_cb_controls%}controls{%endif%}>
+                            <source src="{{block.settings.video_url_files}}" type="video/mp4">
+                            Your browser does not support the video tag.
+                          </video>
+                        {%endif%}
+                        <div class="shadow">
+                            <img src="{{'shadow.png' | asset_url}}" alt="">
+                        </div>
+                    </div>
+                   
+    
+                </div>
+                {%endfor%}
+    <!--             
+                    <div class="takeiteverywear-block">
+                        <div class="takeiteverywear-block-headline">
+                            <h3>Bringing Comfy to A Whole New Level</h3>
+                            <div class="takeiteverywear-block-arrow">
+                                <img src="{{'arrow.png' | asset_url}}" alt=""/>
+                            </div>
+                        </div>
+                        <div class="takeiteverywear-block-image-wrapper">
+                            <img src="{{'couch.jpg' | asset_img_url: '1024x'}}" alt="">
+                        </div>
+    
+                    </div>
+                    <div class="takeiteverywear-block">
+                        <div class="takeiteverywear-block-headline">
+                            <h3>Bringing Comfy to A Whole New Level</h3>
+                            <div class="takeiteverywear-block-arrow">
+                                <img src="{{'arrow.png' | asset_url}}" alt=""/>
+                            </div>
+                        </div>
+                        <div class="takeiteverywear-block-image-wrapper">
+                            <img src="{{'couch.jpg' | asset_img_url: '1024x'}}" alt="">
+                        </div>
+    
+                    </div> -->
+            
+                
+            </div>
+            <div class="takeiteverywear-text-wrapper">
+    
+                <div class="takeiteverywear-text">
+    
+                <h4>{{section.settings.takeiteverywear-desc}}</h4>
+                </div>
+                <div class="takeiteverywear-cta">
+                    <a href="{{section.settings.takeiteverywear-link}}">{{section.settings.takeiteverywear-text}}</a>
+                </div>
+    
+            </div>
+           
+    
+        </div>
+    </div>
+    {% schema %}
+    {
+        "name": "Take it everywear",
+       "max_blocks": 7,
+        "settings":[
+            {
+                "type": "text",
+                "id": "takeiteverywear-heading",
+                "label": "Heading",
+                "default": "7 Reasons"
+            },
+            {
+                "type": "text",
+                "id": "takeiteverywear-subheading",
+                "label": "Subheading",
+                "default": "Why UnHide is the King of the Couch"
+            },
+            {
+                "type": "text",
+                "id": "takeiteverywear-desc",
+                "label": "Description",
+                "default": "Still thinking? Check out our full collection and let us help you make your decision"
+            },
+            {
+                "type": "url",
+                "id": "takeiteverywear-link",
+                "label": "Button link"
+            },
+            {
+                "type": "text",
+                "id": "takeiteverywear-text",
+                "label": "Button text",
+                "default": "Shop Now"
+            }     
+        ],
+        "blocks": [
+         {
+           "name": "Take it everywear block",
+           "type": "block-v1",
+           "settings": [
+                {
+                    "type": "text",
+                    "id": "takeiteverywear-heading",
+                    "label": "Heading",
+                    "default": "Therapeutic"
+                },
+                {
+                    "type": "text",
+                    "id": "takeiteverywear-subheading",
+                    "label": "Subheading",
+                    "default": "The Blanket of Comfort is Always There for When You Need a Hug."
+                },
+                {
+                    "type": "radio",
+                    "id": "block_media_type",
+                    "label": "Media type",
+                    "options": [
+                    {
+                        "value": "image",
+                        "label": "Image"
+                      },
+                      {
+                        "value": "video",
+                        "label": "Video"
+                      }
+                    ],
+                    "default": "image"
+                  },
+                {
+                "type": "image_picker",
+                "id": "block_img",
+                "label": "Image"
+                },
+                {
+                    "type": "text",
+                    "id": "video_url_files",
+                    "label": "Video url from files"
+                },
+                {
+                    "type": "header",
+                    "content": "Video options"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "video_cb_autoplay",
+                    "label": "Video on autoplay",
+                    "default": true
+                },
+                {
+                    "type": "checkbox",
+                    "id": "video_cb_loop",
+                    "label": "Video on loop",
+                    "default": true
+                },
+                {
+                    "type": "checkbox",
+                    "id": "video_cb_muted",
+                    "label": "Video muted",
+                    "default": true
+                },
+                {
+                    "type": "checkbox",
+                    "id": "video_cb_controls",
+                    "label": "Video controls",
+                    "default": true
+                }
+
+
+           ]
+         }
+       ],
+        "presets": [
+            {
+             "name": "Take it everywear"
+            }
+         ]
+      }
+    {% endschema %}

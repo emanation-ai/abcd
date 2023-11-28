@@ -1,0 +1,504 @@
+div.customer:not(.account, .order, .addresses) {
+  margin: 6rem auto 9rem;
+  max-width: 33.4rem;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+@media screen and (min-width: 750px) {
+  div.customer:not(.account, .order, .addresses) {
+    max-width: 47.8rem;
+  }
+}
+
+div.customer form {
+  margin-top: 4rem;
+}
+
+div.customer button {
+  margin: 4rem 0 1.5rem;
+}
+
+div.customer ul {
+  line-height: 1.6;
+  padding-left: 4.4rem;
+  margin-bottom: 4rem;
+}
+
+div.customer ul a {
+  display: inline;
+}
+
+div.customer strong {
+  font-weight: normal;
+  color: var(--color-foreground);
+}
+
+div.customer h2.form__message {
+  font-size: 1.8rem;
+}
+
+@media only screen and (min-width: 750px) {
+  div.customer h2.form__message {
+    font-size: 2.2rem;
+  }
+}
+
+div.customer .field {
+  margin: 2rem 0 0 0;
+}
+
+div.customer .field:first-of-type {
+  margin-top: 0;
+}
+
+/* Customer Table */
+div.customer table {
+  table-layout: auto;
+  width: 100%;
+  font-size: 1.6rem;
+  position: relative;
+}
+
+/* Pagination */
+div.customer .pagination {
+  margin-top: 5rem;
+  margin-bottom: 7rem;
+}
+
+@media screen and (min-width: 960px) {
+  div.customer .pagination {
+    margin-top: 7rem;
+    margin-bottom: 10rem;
+  }
+}
+
+div.customer .pagination ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+div.customer .pagination li {
+  flex: 1 1;
+  max-width: 4rem;
+}
+
+div.customer .pagination li:not(:last-child) {
+  margin-right: 1rem;
+}
+
+div.customer .pagination li :first-child {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 4rem;
+  width: 100%;
+  padding: 0;
+  text-decoration: none;
+}
+
+div.customer .pagination li :first-child svg {
+  height: 0.6rem;
+}
+
+div.customer .pagination li:first-of-type svg {
+  margin-left: -0.2rem;
+  transform: rotate(90deg);
+}
+
+div.customer .pagination li:last-of-type svg {
+  margin-right: -0.2rem;
+  transform: rotate(-90deg);
+}
+
+div.customer .pagination li [aria-current]::after {
+  content: '';
+  display: block;
+  width: 2rem;
+  height: 0.01rem;
+  position: absolute;
+  bottom: 0.08rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: currentColor;
+}
+
+/* Login */
+div.login a {
+  display: block;
+  margin: 0 auto;
+}
+
+div.login a[href='#recover'] {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+div.login .field + a {
+  margin-top: 4rem;
+}
+
+div.login p {
+  margin: 1.5rem 0;
+}
+
+div.login h3 {
+  margin-top: 1.5rem;
+  text-align: left;
+  font-size: 1.6rem;
+}
+
+#customer_login_guest button {
+  margin-top: 0;
+}
+
+#recover,
+#recover + div {
+  display: none;
+}
+
+#recover:target {
+  display: inline;
+}
+
+#recover:target + div {
+  display: block;
+}
+
+#recover:target ~ #login,
+#recover:target ~ #login + div {
+  display: none;
+}
+
+@media only screen and (min-width: 750px) {
+  .activate button[name='decline'] {
+    margin-top: inherit;
+    margin-left: 1rem;
+  }
+}
+
+/* Account/Order */
+div:is(.account, .order, .addresses) {
+  margin: 6rem auto 9rem;
+  max-width: 120rem;
+  padding: 0 2rem;
+}
+
+@media screen and (min-width: 750px) {
+  div:is(.account, .order, .addresses) {
+    padding: 0 5rem;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  div:is(.account, .order, .addresses) > div:nth-of-type(3) {
+    display: flex;
+    margin-top: 5rem;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  div:is(.account, .order, .addresses)
+    > div:nth-of-type(3)
+    > div:first-of-type {
+    flex-grow: 1;
+    padding-right: 3.2rem;
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 959px) {
+  div.order > div:nth-of-type(2) > div:last-of-type {
+    display: flex;
+  }
+
+  div.order > div:nth-of-type(2) > div:last-of-type div {
+    padding-right: 3.2rem;
+  }
+}
+
+div:is(.account, .order, .addresses) p {
+  margin: 0 0 2rem;
+  font-size: 1.6rem;
+}
+
+div:is(.account, .order, .addresses) h1 {
+  margin-bottom: 1rem;
+}
+
+div:is(.account, .order, .addresses) h2 {
+  margin-top: 4rem;
+  margin-bottom: 3rem;
+}
+
+@media screen and (min-width: 960px) {
+  div:is(.account, .order, .addresses) h2 {
+    margin-top: 0;
+  }
+}
+
+div.account h1 + a {
+  display: inline-flex;
+  align-items: center;
+}
+
+div.account a svg {
+  width: 1.5rem;
+  margin-right: 1rem;
+}
+
+div.order tfoot tr:last-of-type td,
+div.order tfoot tr:last-of-type th {
+  font-size: 2.2rem;
+  padding-top: 1.5rem;
+  padding-bottom: 4rem;
+}
+
+@media screen and (min-width: 750px) {
+  div.order tfoot tr:last-of-type td,
+  div.order tfoot tr:last-of-type th {
+    padding-bottom: 2.4rem;
+  }
+}
+
+div.order tfoot tr:last-of-type td:before {
+  font-size: 2.2rem;
+}
+
+div.order table p,
+div.order > div:nth-of-type(2) > div:first-of-type h2,
+div.order > div:nth-of-type(2) > div:last-of-type h2 + p {
+  margin-bottom: 0;
+}
+
+div.order > div:nth-of-type(2) > div:first-of-type h2 ~ p {
+  margin-bottom: 0;
+  font-size: 1.4rem;
+}
+
+div.order > div:nth-of-type(2) > div:first-of-type h2 ~ p:last-of-type {
+  margin-bottom: 3rem;
+}
+
+div.order .item-props {
+  font-size: 1.4rem;
+  margin-top: 0.05px;
+  display: flex;
+  flex-direction: column;
+}
+
+div.order .item-props > span {
+  word-break: break-all;
+  line-height: 1.2;
+}
+
+div.order .fulfillment {
+  width: fit-content;
+  border: 0.01rem solid var(--color-foreground-20);
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+div.order .fulfillment a {
+  margin: 0.7rem 0;
+}
+
+div.order .fulfillment span {
+  display: block;
+}
+
+div.order .cart-discount {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+@media screen and (min-width: 750px) {
+  div.order td .cart-discount {
+    display: none;
+  }
+}
+
+div.order tbody ul {
+  list-style: none;
+  font-size: 1.2rem;
+  text-align: right;
+  padding-left: 0;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+@media screen and (min-width: 750px) {
+  div.order tbody ul {
+    text-align: left;
+  }
+}
+
+div.order table a {
+  color: var(--color-foreground-85);
+  line-height: 1.2;
+}
+
+div.order table a:hover {
+  color: var(--color-foreground-75);
+}
+
+div.order tbody tr:first-of-type td:first-of-type > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+@media screen and (min-width: 750px) {
+  div.order tbody tr:first-of-type td:first-of-type > div {
+    align-items: flex-start;
+  }
+}
+
+div.order .properties {
+  font-size: 1.4rem;
+  margin-top: 1rem;
+}
+
+div.order .properties span {
+  display: block;
+  line-height: 1.2;
+}
+
+div.order svg {
+  width: 1.1rem;
+  color: var(--color-base-accent-2);
+  margin-right: 0.5rem;
+}
+
+div.order dl {
+  margin: 0;
+}
+
+div.order dd {
+  margin-left: 0;
+  line-height: 1.3;
+}
+
+div.order dd s {
+  color: var(--color-foreground-70);
+}
+
+/* Addresses */
+div.addresses li > button {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+div.addresses li > button + button,
+div.addresses form button + button {
+  margin-top: 0rem;
+}
+
+@media screen and (min-width: 750px) {
+  div.addresses li > button:first-of-type {
+    margin-top: 3rem;
+  }
+}
+
+div.addresses form button:first-of-type {
+  margin-right: 1rem;
+}
+
+label[for='AddressCountryNew'],
+label[for='AddressProvinceNew'] {
+  display: block;
+  font-size: 1.4rem;
+  margin-bottom: 0.6rem;
+}
+
+div.addresses form {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+div.addresses form > div {
+  width: 100%;
+  text-align: left;
+}
+
+div.addresses ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li[data-address] {
+  margin-top: 5rem;
+}
+
+div.addresses [aria-expanded='false'] ~ div[id] {
+  display: none;
+}
+
+div.addresses [aria-expanded='true'] ~ div[id] {
+  display: block;
+}
+
+li[data-address] > h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0;
+}
+
+@media only screen and (min-width: 750px) {
+  li[data-address] > h2 {
+    font-size: 2.2rem;
+  }
+}
+
+div.addresses ul p {
+  margin-bottom: 0;
+}
+
+div.addresses input[type='checkbox'] {
+  margin-top: 2rem;
+  margin-left: 0;
+}
+
+@media only screen and (min-width: 750px) {
+  div.addresses form > div:nth-of-type(1) {
+    padding-right: 2rem;
+  }
+
+  div.addresses form > div:nth-of-type(2) {
+    margin-top: 0;
+  }
+
+  div.addresses form > div:nth-of-type(1),
+  div.addresses form > div:nth-of-type(2) {
+    flex-basis: 50%;
+    box-sizing: border-box;
+  }
+}
+
+div.addresses form > div:nth-of-type(7),
+div.addresses form > div:nth-of-type(7) + div[id] {
+  margin-top: 1.5rem;
+}
+.page-container .customer .field {
+  display: block;
+}
+.page-container .customer .field label {
+  position: relative;
+  left: auto;
+  top: auto;
+  margin-bottom: 1rem;
+  pointer-events: inherit;
+  display: block;
+  text-align: left;
+}
+.account-details-content p {
+  line-height: 1.6;
+}
+.errors {
+  text-align: left;
+}

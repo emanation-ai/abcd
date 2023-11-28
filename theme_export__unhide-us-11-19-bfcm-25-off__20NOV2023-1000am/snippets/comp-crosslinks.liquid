@@ -1,0 +1,92 @@
+{% if blocks.size > 0 %}
+	<section class="comp-crosslink">
+		{% if type == 'blog' %}
+			{% for tag in blog.all_tags %}
+				{% if tag != blank %}
+					{% assign current_tag = current_tags.first | handleize %}
+					{% assign blog_tag = true %}
+				{% endif %}
+			{% endfor %}
+
+			{% for tag in article.tags %}
+				{% assign article_tag = tag | handleize %}
+			{% endfor %}
+
+			<div class="blog-headers">
+				{% for i in blocks %}
+				{% assign handle = i.settings.blog_category | handleize %}
+				{% assign index = forloop.index %}
+					{% if i.settings.blog_title != blank %}
+						<div 
+							class="blog-header type-spacing{% if handle == article_tag %} active{% endif %}"
+							data-title="{{ handle }}">
+							<h2 class="t-h-2">{{ i.settings.blog_category }}</h2>
+
+							{% if paragraph != blank %}
+								<div class="t-b-3">{{ paragraph }}</div>
+							{% endif%}
+						</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+		{% endif %}
+
+		<ul>
+			{% if type == 'link' %}
+				{% for i in blocks %}
+					{% assign c = collections[i.settings.collection] %}
+					{% if c.products.size > 0 and c.published_at != empty %}
+						<li class="py-bg-c-light user-select-disable
+							{% if c == collection.handle %}is-active{% endif %}">
+							<a class="p-fill" href="{{ i.settings.collection.url }}">{{ i.settings.collection.title }}</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+			{% elsif type == 'faq' %}
+				{% for i in blocks %}
+					{% assign index = forloop.index %}
+					<li class="py-bg-c-light user-select-disable
+						{% if index == 1 %}is-active{% endif %}">
+						<a class="p-fill" href="#faq-{{ i.settings.faq_category | handleize }}">{{ i.settings.faq_category }}</a>
+					</li>
+				{% endfor %}
+			{% elsif type == 'blog' %}
+				{% for i in blocks %}
+					{% assign handle = i.settings.blog_category | handleize %}
+					{% assign index = forloop.index %}
+					<li 
+						class="py-bg-c-light user-select-disable{% if handle == current_tag %} is-active disable-hover{% elsif handle == article_tag %} is-active disable-hover{% elsif template.name == 'blog' and current_tag == '' and index == 1 %} is-active disable-hover{% endif %}" 
+						data-filter="{{ handle }}">
+						<a 
+							class="p-fill" 
+							href="
+							{% if index == 1 %}
+								{{ shop.url }}/blogs/{{ handle }}
+							{% else %}
+								{{ shop.url }}/blogs/understand/tagged/{{ handle }}
+							{% endif%}">
+								{{ i.settings.blog_title }}</a>
+					</li>
+				{% endfor %}
+			{% endif %}
+		</ul>
+		
+		<button class="crosslink-trigger">
+			<span>{% if type == 'link' %}Filters{% else %}Categories{% endif %}</span>
+			{% render 'svg-icons', icon: 'arrow-down' %}
+		</button>
+
+		{% if type == 'faq' %}
+			{% if paragraph != blank and email != blank %}
+				<div class="faq-email type-spacing">
+					<div class="t-b-2">
+						{{ paragraph }}
+					</div>
+					<a href="mailto:{{email}}" target="_blank" style="text-decoration: underline;display: block; margin-top: 20px;" aria-label="Email Unhide customer support">Email Unhide Support</a>
+				</div>
+			{% endif %}
+		{% endif %}
+	</section>
+{% endif %}
+
+<div class="mobile-crosslink-overlay mobile-crosslink-close"></div>

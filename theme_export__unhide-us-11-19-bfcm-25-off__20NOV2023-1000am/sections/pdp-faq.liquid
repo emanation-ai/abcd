@@ -1,0 +1,119 @@
+{% if section.blocks.size > 0 %}
+  <style>
+    .pdp-faq {
+  width: 100%;
+  max-width: 750px;
+  margin: auto;
+  margin-top:50px
+}
+
+.pdp-faq h2 {
+  text-align: center;
+  margin-bottom: 2.2rem;
+}
+.pdp-faq .accordion__title {
+  font-size: 2.4rem;
+  margin:0px;
+}
+.comp-accordion .accordion-label {
+    position: relative;
+    padding: 20px 40px 20px 0;
+    padding-right: 10px;   
+    cursor: pointer;
+    border-top: 1px solid var(--py-color-dark);
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    display:flex;
+    align-items:center;
+}
+.comp-accordion:last-child {
+   border-bottom: 1px solid var(--py-color-dark);
+}
+.comp-accordion .accordion-label .svg-caret-down {
+    width: 8px;
+    height: 8px;
+    transition: 0.4s;
+}
+.comp-accordion details[open] .accordion-label .svg-caret-down{
+  transform: rotate(-180deg);
+}
+ .accordion__content .type-spacing p {
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}  
+.comp-accordion .accordion__content .accordion-content-interior {
+    padding: 1px 0 20px;
+    max-width: 650px;
+}
+@media only screen and (min-width: 769px) {
+  .pdp-faq{
+    margin-top:100px;
+  }
+  .pdp-faq h2 {
+    text-align: center;
+  }
+}
+  </style>
+<h2 class="py-fs-xl" id="faq-{{ section.settings.title | replace: "& ","" | replace: " ","-"| downcase}}">{{ section.settings.title }}</h2>
+
+{% for block in section.blocks %}  
+  <div class="comp-accordion">
+    <details>
+      <summary>
+        <div class="accordion-label f-h-center user-select-disable">         
+          <h2 class="accordion__title">
+            {{ block.settings.title }}
+          </h2>
+          <svg class="svg-caret-down" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8"><path d="M4.5 1a.5.5 0 0 0-1 0h1Zm-.854 6.354a.5.5 0 0 0 .708 0l3.182-3.182a.5.5 0 1 0-.708-.708L4 6.293 1.172 3.464a.5.5 0 1 0-.708.708l3.182 3.182ZM3.5 1v6h1V1h-1Z" fill="currentColor"></path></svg>  
+        </div>
+        
+      </summary>
+      <div class="accordion__content">                    
+        <div class="accordion-content-interior type-spacing">
+          <p>{{ block.settings.response }}</p>
+        </div>                                 
+      </div>
+    </details>
+  </div>
+{% endfor %}
+{% endif %}
+{% schema %}
+{
+  "name": "PDP - FAQ",
+  "tag": "section",
+  "class": "pdp-faq py-pd-y-m",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default":"FAQ"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "name": "Content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "response",
+          "label": "Response"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP - FAQ"      
+    }
+  ]
+}
+{% endschema %}

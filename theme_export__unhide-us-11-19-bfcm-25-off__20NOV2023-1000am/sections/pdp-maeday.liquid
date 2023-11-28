@@ -1,0 +1,133 @@
+<style>
+  .pdp-maeday {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  text-align: center;
+}
+.pdp-maeday h1{    
+  margin-bottom: 0rem;
+  margin-top:0px;
+}
+.pdp-maeday p{
+  margin-top:0px;
+  margin-bottom:0px;
+}
+.pdp-maeday--meta {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+.pdp-maeday--meta p {
+  width: 100%;
+  max-width: 750px;
+  margin: auto;
+}
+.pdp-maeday--meta a {
+  text-decoration: underline;
+}
+
+.pdp-maeday--grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.maeday-item {
+  position: relative;
+}
+.maeday-item p {
+  font-size: 1.36rem;
+  position: absolute;
+  display: block;
+  width: 100%;
+  max-width: 100px;
+  color: #F7F1E3;
+  background: #696F59;
+  padding: 5px;
+  bottom: 1.6rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: auto;
+  border-radius: 5px;
+}
+
+@media only screen and (min-width: 769px) {
+  .pdp-maeday {
+    text-align: center;
+  }
+
+  .pdp-maeday svg {
+    width: 150px;
+    margin: auto;
+  }
+  
+  .pdp-maeday--grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.6rem;
+  }
+}
+</style>
+<div class="pdp-maeday--meta">
+  <h1 class="py-fs-xl">{{ section.settings.heading }}</h1>
+  <p>{{ section.settings.description }}</p>
+  <a href="{{ section.settings.url }}" target="_blank" rel="noopener noreferrer">Learn More</a>
+</div>
+<div class="pdp-maeday--grid">
+  {% for block in section.blocks %}
+    <div class="maeday-item">
+      <img src="{{ block.settings.image | image_url: width: 400 }}" alt="UnHide x Maeday - {{ block.settings.title }}" />
+      <p>{{ block.settings.title }}</p>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "PDP - Maeday",
+  "tag": "section",
+  "class": "pdp-maeday py-pd-y-m",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "url",
+      "label": "URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "name": "Content",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP - Maeday"      
+    }
+  ]
+}
+{% endschema %}

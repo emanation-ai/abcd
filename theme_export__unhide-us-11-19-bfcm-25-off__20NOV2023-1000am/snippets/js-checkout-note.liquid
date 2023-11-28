@@ -1,0 +1,50 @@
+<script>
+  (function ($) {
+    function initGiftNote() {
+      if ($('.GiftNote').length == 0) {
+        let giftNoteHtml =
+          '<div class="GiftNote">' +
+          '<div class="GiftNote__Inner">' +
+          '<input type="checkbox" id="GiftNote__Check" class="GiftNote__Check js-GiftNote__Check">' +
+          '<label for="GiftNote__Check">' +
+          '<span class="GiftNote__Title">Add Gift Note (optional)</span>' +
+          '</label>' +
+          '</div>' +
+          '<div class="GiftNote__Input">' +
+          '<div class="GiftNote__InputInner">' +
+          '<div class="GiftNote__Content">' +
+          '<textarea minlength="1" maxlength="300" placeholder="Add gift notes here..."></textarea>' +
+          '<button class="GiftNote__Save js-GiftNote__Save">Save</button>';
+        '</div>' + '</div>' + '</div>' + '</div>';
+        $(giftNoteHtml).insertAfter('.order-summary__section--total-lines');
+      }
+      if ($('.checkout-note__form').length == 0) {
+        $('.section--shipping-address').append('<input type="hidden" class="checkout-note__form" value="{{ checkout.note }}" name="checkout[note]">');
+      }
+    }
+
+    $(document).on("page:load page:change", function() {
+      if (Shopify.Checkout.step == 'contact_information') {
+        initGiftNote();
+      }
+    });
+
+    $(document).on('change', '.js-GiftNote__Check', function () {
+      $('.GiftNote__Input').toggleClass('GiftNote__Input--Active');
+      if (!$('.GiftNote__Input').hasClass('GiftNote__Input--Active')) {
+        $('.checkout-note__form').val('');
+      }
+    });
+
+    $(document).on('click', '.js-GiftNote__Save', function () {
+      $('.checkout-note__form').val($('.GiftNote__Content textarea').val());
+      $('.GiftNote__Save').text('Saved');
+    });
+
+    $(document).on('change', '.GiftNote__Content textarea', function () {
+      if ($('.GiftNote__Save').text().indexOf('Saved')) {
+        $('.GiftNote__Save').text('Save');
+      }
+    });
+  })(Checkout.$);
+</script>

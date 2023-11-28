@@ -1,0 +1,169 @@
+{% schema %}
+	{
+		"name": "Contact Header",
+		"settings": [
+			{
+				"type": "text",
+				"id": "title",
+				"label": "Contact Title"
+			},
+			{
+				"type": "textarea",
+				"id": "subtitle",
+				"label": "Contact Subtitle"
+			},
+			{
+				"type": "image_picker",
+				"id": "image",
+				"label": "Contact Image"
+			},
+			{
+				"type": "image_picker",
+				"id": "image_mobile",
+				"label": "Contact Image Mobile"
+			},
+			{
+				"type": "richtext",
+				"id": "form_paragraph",
+				"label": "Form Paragraph"
+			},
+			{
+				"type": "richtext",
+				"id": "form_text",
+				"label": "Form Text"
+			}
+		]
+	}
+{% endschema %}
+<style>
+  .contact-left {
+    width: calc(100% - 360px - 4vw - 4vw)
+}
+
+.contact-left .contact-header {
+    margin: calc(40px + 15px) 0 calc(40px + 15px) 4vw
+}
+
+.contact-left .contact-header .t-b-1 {
+    max-width: 700px;
+  font-size:18px;
+}
+
+.contact-left .image {
+    position: relative;
+    overflow: hidden
+}
+
+.contact-left .image:after {
+    content: '';
+    display: block;
+    padding-top: 72%
+}
+
+.mobile-contact-header {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0)
+}
+.cx-wrapper{
+  margin-top:120px;
+}
+@media screen and (max-width: 600px) {
+    #template-page-fur-love-not-fur main {
+        margin:0
+    }
+.cx-wrapper{
+  margin-top:40px;
+}
+    #template-page-fur-love-not-fur .contact-left .image:after {
+        content: '';
+        display: block;
+        padding-top: 195%
+    }
+
+    #template-page-fur-love-not-fur .mobile-contact-header {
+        position: absolute;
+        top: unset;
+        left: 50%;
+        bottom: 10px;
+        text-align: center;
+        transform: translate(-50%, 0)
+    }
+
+    #template-page-fur-love-not-fur .mobile-contact-header .t-b-1 {
+        font-size: 16px
+    }
+
+    .corporate-gifting .mobile-contact-header {
+        position: absolute;
+        white-space: nowrap;
+        top: unset;
+        left: 50%;
+        bottom: 10px;
+        text-align: center;
+        transform: translate(-50%, 0)
+    }
+
+    .corporate-gifting .mobile-contact-header .t-b-1 {
+        display: none
+    }
+
+    .contact-left {
+        width: 100%
+    }
+
+    .contact-header {
+        display: none
+    }
+
+    .mobile-contact-header {
+        display: block
+    }
+}
+</style>
+<section class="contact-container">
+	<div class="contact-content f-h">
+		<div class="contact-left">
+			<div class="contact-header type-spacing">
+				{% if section.settings.title != blank %}
+					<h1 class="header-tt py-fs-xl">{{ section.settings.title }}</h1>
+				{% endif %}
+
+				{% if section.settings.subtitle != blank %}
+					<div class="t-b-1">{{ section.settings.subtitle }}</div>
+				{% endif %}
+			</div>
+
+			<div class="image">
+				<span class="object-fit">
+					{% if section.settings.image != blank %}
+						{% render 'img-srcset-responsive', 
+							image: section.settings.image,
+							image_responsive: section.settings.image_mobile,
+							max_width: 600,
+							breakpoint: 600,
+							alt: section.settings.image.alt %}
+					{% endif %}
+				</span>
+
+				<div class="mobile-contact-header">
+					{% if section.settings.title != blank %}
+						<h1 class="header-tt py-fs-xl">{{ section.settings.title }}</h1>
+					{% endif %}
+
+					{% if section.settings.subtitle != blank %}
+						<div class="t-b-1">{{ section.settings.subtitle }}</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>	
+
+		{% render 'comp-contact-form', 
+			corporate: true, 
+			form_title: section.settings.title, 
+			form_paragraph: section.settings.form_paragraph, 
+			form_text: section.settings.form_text %}
+	</div>
+</section>

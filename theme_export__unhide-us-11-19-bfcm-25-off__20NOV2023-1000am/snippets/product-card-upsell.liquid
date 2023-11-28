@@ -1,0 +1,70 @@
+{% if is_variant %}
+	{% assign item_product = item.product %}
+{% else %}
+	{% assign item_product = item %}
+{% endif %}
+
+<div class="product-card-upsell f-h {% if item_product.title == 'UnHide Gift Card' %}upsell-gift-card{% endif %}">
+	<div class="upsell-image">
+		<span class="object-fit">
+			{% if item.image != nil %}
+				{% render 'img-srcset',
+					image: item.image,
+					max_width: 600,
+					alt: item.image.alt %}
+
+			{% elsif item_product.featured_image != nil %}
+				{% render 'img-srcset',
+					image: item_product.featured_image,
+					max_width: 600,
+					alt: item_product.featured_image.alt %}
+			{% endif %}
+		</span>
+	</div>
+
+	<div class="upsell-info f-v">
+		<h3 class="t-b-2">{{ item_product.title }}</h3>
+
+		<h3 class="info-title-variant t-b-2 cr-gray">
+			{% if is_variant == true %}
+				{% assign variant_color = item.title | split: ' / ' | first %}
+				{% assign variant_size = item.title | split: ' / ' | last %}
+			{% else %}
+				{% assign variant_color = item_product.first_available_variant.title | split: ' / ' | first %}
+				{% assign variant_size = item_product.first_available_variant.title | split: ' / ' | last %}
+			{% endif %}
+
+				{% unless variant_color == 'Default Title' %}
+					{{ variant_color }}
+				{% endunless %}
+
+				{% unless variant_color == variant_size %}
+					{% if variant_size contains 'Extra Small' %}
+						XS
+					{% elsif variant_size contains 'Small' %}
+						S
+					{% elsif variant_size contains 'Medium' %}
+						M
+					{% elsif variant_size != empty %}
+						{{ variant_size }}
+					{% endif %}
+				{% endunless %}
+			</h3>
+
+		<div class="product-info-price t-b-2">
+			{% if is_variant == true %}
+				{% render 'item-price-variant', variant: item %}
+			{% else %}
+				{% render 'item-price-variant', variant: item_product.first_available_variant %}
+			{% endif %}
+		</div>
+
+		<div class="product-quick-add user-select-disable">
+			<button 
+				class="btn-pill bg-black cr-white" 
+				data-quick-add-id="{% if is_variant == true %}{{ item.id }}{% else %}{{ item_product.first_available_variant.id }}{% endif %}">
+				Add
+			</button>
+		</div>
+	</div>
+</div>

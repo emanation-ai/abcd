@@ -1,0 +1,63 @@
+{% capture none %}
+	<!--
+		- image: object, Shopify image object to display
+		- max_width: number, the maximum width that an image can extend towards in pixels
+		- classes: string, list of class to be applied to the <img> tag, separated by space (example: class-1 class-2 class-3)
+		- atributes: string, list of atributes to be applied to the <img> tag, separated by space (example: data-version="1" data-another-attr="tehe")
+
+		usecase:
+		{% render 'img-srcset-accentuate',
+			image: product.metafields.accentuate.secondary_thumbnail[0],
+			max_width: 600,
+			alt: product.title %}
+	-->
+
+	{% if image.aspect_ratio < 1 %}
+		{% assign max_size = max_width | divided_by: image.aspect_ratio %}
+		{% assign orientation = 'w' %}
+	{% else %}
+		{% assign max_size = max_width %}
+		{% assign orientation = 'h' %}
+	{% endif %}
+
+	{% if max_size > 2048 %}
+		{% assign image_size = orientation | append: '_2400' %}
+	{% elsif max_size > 1024 and max_size <= 2048 %}
+		{% assign image_size = orientation | append: '_2048' %}
+	{% elsif max_size > 600 and max_size <= 1024 %}
+		{% assign image_size = orientation | append: '_1024' %}
+	{% elsif max_size > 480 and max_size <= 600 %}
+		{% assign image_size = orientation | append: '_600' %}
+	{% elsif max_size > 240 and max_size <= 480 %}
+		{% assign image_size = orientation | append: '_480' %}
+	{% elsif max_size <= 240 %}
+		{% assign image_size = orientation | append: '_240' %}
+	{% endif %}
+{% endcapture %}
+
+{% capture image_html %}
+	<img 
+		width="{{ image.width | round }}" 
+		height="{{ image.height | round }}" 
+		src="{{ image.cloudinary_src | append: image_size }}" 
+		data-srcset="
+			{{ image.cloudinary_src | append: orientation | append: '_160' }} 160w,
+			{{ image.cloudinary_src | append: orientation | append: '_240' }} 240w,
+			{{ image.cloudinary_src | append: orientation | append: '_480' }} 480w,
+			{{ image.cloudinary_src | append: orientation | append: '_600' }} 600w,
+			{{ image.cloudinary_src | append: orientation | append: '_1024' }} 1024w,
+			{{ image.cloudinary_src | append: orientation | append: '_2048' }} 2048w,
+		" 
+		data-sizes="auto" 
+		{% if alt %}
+			alt="{{ alt | strip_html | escape }}" 
+		{% else %}
+			alt="{{ image.alt | strip_html | escape }}" 
+		{% endif %}
+		class="lazyload {% if classes %}{{ classes }}{% endif %}" 
+		{% if attributes %}
+			{{ attributes }}
+		{% endif %}>
+{% endcapture %}
+
+{{ image_html | strip_newlines | replace: '	', '' }}

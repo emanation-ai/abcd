@@ -1,0 +1,265 @@
+<script>
+
+  function addLeadingZeros(num, totalLength) {
+    return String(num).padStart(totalLength, '0');
+  }
+
+  function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    let expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
+  function getCookie(cname) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  var comparePrice = [], savingPrice = [], productPrice = [];  
+  var savings = ''; 
+  var subtotal = '';  
+  var scriptSavings = '';
+  
+  {% assign savings = 0 %}
+  {% assign subtotal = 0 %}
+  {% assign count = 0 %}
+  {% assign script_savings = 0 %}
+  {% for item in checkout.line_items %}
+    productPrice['{{ item.variant.id }}'] = {{ item.variant.price }};
+    {% if item.variant.compare_at_price > item.variant.price %}
+      comparePrice['{{ item.variant.id }}'] = '{{ item.variant.compare_at_price | times: item.quantity | money }}';
+      {% assign item_savings = item.variant.compare_at_price | minus: item.variant.price | times: item.quantity %}
+      savingPrice['{{ item.variant.id }}'] = '{{ item_savings | money }}';
+      {% assign savings = savings | plus: item_savings %}
+      {% assign item_subtotal = item.variant.compare_at_price | times: item.quantity %}
+      {% assign subtotal = subtotal | plus: item_subtotal %}
+    {% else %}
+      {% assign item_subtotal = item.variant.price | times: item.quantity %}
+      {% assign subtotal = subtotal | plus: item_subtotal %}
+    {% endif %}
+    {% if item.variant.price > item.price %}
+      {% assign item_scriptsavings = item.variant.price | minus: item.price %}
+      {% assign script_savings = script_savings | plus: item_scriptsavings %}
+    {% endif %}
+    {% assign count = count | plus: 1 %}
+  {% endfor %}
+  savings = '-{{ savings | money }}';
+  subtotal = '{{ subtotal | money }}';
+  scriptSavings = -'{{ script_savings | money }}';
+  
+  (function($) {
+    {% if savings > 0 or script_savings > 0 %}
+      $(document).on("page:load page:change", function() {
+        /* Update Image Quality */
+        $('.product-thumbnail__image').each(function () {
+          var src = $(this).attr('src').replace('_small.jpg', '_medium.jpg');
+          $(this).attr('src', src);
+        });
+
+        {% if checkout.total_price >= 8000 %}
+          if ($('.total-line--shipping').length) {
+            $('.total-line--shipping .order-summary__small-text').text('Free');
+          }
+        {% endif %}
+      
+        $('[data-order-summary-section="line-items"] tr').each(function () {
+          var variantId = $(this).attr('data-variant-id');
+          var htmlItemSavings = '';
+          if (comparePrice[variantId]) {
+            if ($(this).find('.product__price__compare').length == 0) {
+              $(this).find('.product__price').prepend('<span class="product__price__compare">' + comparePrice[variantId] + '</span>');
+            }
+            if ($(this).find('.product__description .reduction-code--savings').length == 0 && savingPrice[variantId]) {
+              if ($(this).find('.product__description ul').length == 0) {
+                htmlItemSavings = '<ul>' + 
+                                '<li class="reduction-code reduction-code--savings">' +
+                                  '<svg  class="icon-svg icon-svg--color-adaptive-light icon-svg--size-16 reduction-code__icon remove-while-loading" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"><g clip-path="url(#clip0_7_522)"><path d="M7.9995 17.3333C7.812 17.1233 7.599 16.8848 7.437 16.8533C7.1752 16.8644 6.92126 16.946 6.702 17.0895L6.70725 17.0858C6.44251 17.2414 6.14729 17.3381 5.84175 17.3693L5.83275 17.37H5.82525C5.73079 17.3701 5.63724 17.3515 5.55 17.3153L5.5545 17.3167C5.18625 17.1637 5.037 16.7378 4.8945 16.3253C4.83736 16.0769 4.7196 15.8465 4.55175 15.6547L4.55325 15.6562C4.42355 15.5933 4.27906 15.5671 4.1355 15.5805H4.1385C4.029 15.5805 3.9135 15.5872 3.798 15.594C3.6735 15.6015 3.549 15.6075 3.4305 15.6075C3.2882 15.6209 3.14464 15.6061 3.00809 15.5639C2.87153 15.5217 2.74465 15.4529 2.63475 15.3615L2.63625 15.363C2.51825 15.1948 2.43691 15.0036 2.3975 14.8019C2.3581 14.6002 2.3615 14.3925 2.4075 14.1923L2.406 14.202C2.44995 13.9455 2.42827 13.6821 2.343 13.4363L2.346 13.4475C2.15769 13.282 1.93154 13.1653 1.6875 13.1077L1.677 13.1055C1.2645 12.9623 0.837 12.8137 0.6855 12.4455C0.64204 12.2469 0.640469 12.0414 0.680889 11.8421C0.721309 11.6429 0.80283 11.4542 0.92025 11.2882L0.91725 11.2928C1.05427 11.0728 1.13348 10.8218 1.1475 10.563V10.5592C1.116 10.3965 0.8775 10.1842 0.6675 9.99675C0.339 9.70575 0 9.4035 0 8.99925C0 8.595 0.339 8.29275 0.66675 7.9995C0.87675 7.812 1.11525 7.599 1.14675 7.437C1.13153 7.17571 1.05024 6.92256 0.9105 6.70125L0.91425 6.70725C0.797158 6.54 0.716322 6.35013 0.676929 6.1498C0.637535 5.94948 0.640455 5.74313 0.6855 5.544L0.684 5.55375C0.837 5.1855 1.263 5.03625 1.6755 4.89375C1.935 4.833 2.16075 4.71375 2.346 4.55025L2.3445 4.55175C2.42905 4.3062 2.4492 4.04306 2.403 3.7875L2.4045 3.7965C2.3603 3.59661 2.35814 3.38971 2.39817 3.18894C2.43819 2.98817 2.51952 2.79791 2.637 2.63025L2.634 2.63475C2.74447 2.54372 2.87183 2.47539 3.00877 2.43369C3.14571 2.39199 3.28954 2.37774 3.432 2.39175H3.4275C3.5475 2.39175 3.67125 2.3985 3.795 2.40525C3.9105 2.412 4.026 2.41875 4.1355 2.41875C4.27969 2.43196 4.42474 2.40523 4.55475 2.3415L4.55025 2.34375C4.7115 2.15925 4.83075 1.93425 4.88925 1.68525L4.8915 1.67475C5.0355 1.26225 5.184 0.83475 5.5515 0.68325C5.6374 0.648039 5.72942 0.630195 5.82225 0.63075H5.8305H5.82975C6.15675 0.6645 6.45375 0.76575 6.7155 0.92025L6.705 0.915C6.92153 1.05739 7.1728 1.13803 7.43175 1.14825H7.43475C7.5975 1.11675 7.80975 0.87825 7.99725 0.66825C8.29275 0.339 8.59575 0 9 0C9.40425 0 9.7065 0.339 9.99975 0.6675C10.1873 0.8775 10.4003 1.116 10.5623 1.1475C10.824 1.13542 11.0778 1.05359 11.2972 0.9105L11.2913 0.91425C11.5562 0.758594 11.8517 0.662135 12.1575 0.6315L12.1665 0.63075H12.174C12.2715 0.63075 12.3645 0.65025 12.4493 0.6855L12.4447 0.684C12.813 0.837 12.9622 1.263 13.1047 1.6755C13.1655 1.935 13.2847 2.16 13.4475 2.346L13.446 2.3445C13.576 2.4074 13.7208 2.4331 13.8645 2.41875H13.8615C13.971 2.41875 14.0865 2.412 14.202 2.406C14.3265 2.39925 14.451 2.3925 14.5695 2.3925C14.7119 2.37919 14.8556 2.39406 14.9922 2.43627C15.1289 2.47848 15.2559 2.5472 15.366 2.6385L15.3645 2.637C15.4821 2.80542 15.5632 2.9966 15.6024 3.19824C15.6417 3.39988 15.6383 3.6075 15.5925 3.80775L15.594 3.798C15.5499 4.05452 15.5719 4.31804 15.6578 4.56375L15.6547 4.55325C15.8385 4.71525 16.0642 4.8345 16.3132 4.89225L16.3237 4.8945C16.7362 5.0385 17.1637 5.187 17.3153 5.5545C17.3583 5.7531 17.3597 5.95845 17.3194 6.15762C17.2791 6.35679 17.198 6.54547 17.0812 6.71175L17.0842 6.70725C16.9469 6.92554 16.8669 7.17502 16.8517 7.4325V7.437C16.8832 7.59975 17.1217 7.812 17.3317 7.9995C17.6625 8.29425 18.0015 8.5965 18.0015 9.00075C18.0015 9.405 17.6625 9.708 17.334 10.0013C17.124 10.1888 16.8855 10.401 16.854 10.5638C16.8705 10.836 16.9552 11.0857 17.0903 11.3003L17.0865 11.2935C17.2036 11.4606 17.2845 11.6503 17.3239 11.8505C17.3633 12.0508 17.3603 12.257 17.3153 12.456L17.3167 12.4462C17.1645 12.8152 16.7378 12.9638 16.3253 13.1063C16.0767 13.1634 15.8463 13.2814 15.6547 13.4498L15.6562 13.4482C15.5717 13.6938 15.5516 13.9569 15.5978 14.2125L15.5963 14.2035C15.6403 14.4033 15.6424 14.61 15.6024 14.8107C15.5624 15.0113 15.4811 15.2014 15.3638 15.369L15.3668 15.3645C15.2565 15.4557 15.1293 15.5242 14.9925 15.5662C14.8557 15.6082 14.7119 15.6227 14.5695 15.609H14.574C14.454 15.609 14.3302 15.6023 14.2065 15.5955C14.0932 15.5878 13.9796 15.5832 13.866 15.582C13.7218 15.5685 13.5767 15.5953 13.4468 15.6593L13.4513 15.657C13.2862 15.8455 13.1698 16.0716 13.1122 16.3155L13.11 16.326C12.966 16.7385 12.8175 17.166 12.45 17.3175C12.3641 17.3527 12.2721 17.3706 12.1793 17.37H12.171H12.1718C11.8591 17.3388 11.5571 17.2398 11.2867 17.0798L11.2965 17.085C11.0801 16.9425 10.8287 16.8621 10.5697 16.8525H10.5667C10.404 16.884 10.1917 17.1225 10.0042 17.3325C9.708 17.661 9.40575 18 9.00075 18C8.59575 18 8.29425 17.661 8.00025 17.3333H7.9995ZM10.6485 5.48175L6.9885 12.1327C6.97809 12.1517 6.97278 12.173 6.9731 12.1946C6.97342 12.2162 6.97936 12.2374 6.99033 12.256C7.0013 12.2746 7.01693 12.29 7.03568 12.3008C7.05442 12.3115 7.07564 12.3172 7.09725 12.3173H7.7325C7.75456 12.3173 7.77623 12.3114 7.79524 12.3002C7.81424 12.289 7.82987 12.2728 7.8405 12.2535V12.2528L11.4952 5.601C11.5057 5.58207 11.511 5.56075 11.5106 5.53915C11.5103 5.51754 11.5044 5.49639 11.4934 5.47778C11.4824 5.45917 11.4668 5.44373 11.4481 5.43298C11.4293 5.42224 11.4081 5.41656 11.3865 5.4165H10.7572C10.735 5.41656 10.7132 5.42257 10.6941 5.43392C10.675 5.44526 10.6592 5.46152 10.6485 5.481V5.48175ZM10.1205 8.8935C10.0252 8.97229 9.94848 9.07117 9.89584 9.18306C9.8432 9.29495 9.81594 9.41709 9.816 9.54075V11.3415C9.816 11.5995 9.9345 11.8298 10.1198 11.9813L10.1213 11.9827C10.3133 12.1432 10.5623 12.24 10.8345 12.24C11.1068 12.24 11.3558 12.1425 11.5492 11.9813L11.5478 11.9827C11.7353 11.8305 11.8538 11.6003 11.8538 11.3422V9.54225C11.8538 9.28425 11.7375 9.0525 11.5553 8.898L11.5538 8.89725C11.3637 8.72645 11.117 8.63213 10.8615 8.6325H10.8383H10.8398H10.8165C10.5602 8.63214 10.3127 8.7255 10.1205 8.895L10.122 8.89425L10.1205 8.8935ZM6.9375 5.66325C6.8422 5.74204 6.76548 5.84092 6.71284 5.95281C6.6602 6.0647 6.63294 6.18684 6.633 6.3105V8.1105C6.633 8.36925 6.75075 8.601 6.93675 8.75325L6.93825 8.75475C7.13025 8.9175 7.38 9.01575 7.653 9.01575C7.926 9.01575 8.1765 8.91675 8.36925 8.75325L8.36775 8.75475C8.55675 8.601 8.676 8.36925 8.676 8.109V6.3135C8.676 6.05325 8.55825 5.8215 8.37225 5.667L8.37075 5.66625C8.17047 5.49566 7.91595 5.40204 7.65286 5.40217C7.38978 5.40231 7.13535 5.4962 6.93525 5.667L6.93675 5.6655L6.9375 5.66325ZM10.671 11.439C10.6549 11.4262 10.6418 11.4098 10.6329 11.3913C10.6239 11.3727 10.6193 11.3524 10.6193 11.3317V9.531C10.6193 9.4875 10.6395 9.44925 10.6702 9.4245C10.7092 9.39072 10.759 9.37208 10.8105 9.372H10.8202H10.8195H10.8285C10.8802 9.37196 10.9301 9.3903 10.9695 9.42375C10.9855 9.43651 10.9985 9.4527 11.0075 9.47113C11.0164 9.48956 11.0211 9.50976 11.0212 9.53025V11.3317C11.0213 11.3522 11.0167 11.3724 11.0079 11.3908C10.999 11.4092 10.9862 11.4254 10.9703 11.4383C10.9298 11.4713 10.8772 11.4908 10.8202 11.4908C10.7632 11.4908 10.7108 11.4712 10.6695 11.4375H10.6702L10.671 11.439ZM7.491 8.2095C7.47495 8.19659 7.46199 8.18026 7.45303 8.16171C7.44408 8.14316 7.43937 8.12285 7.43925 8.10225V6.30225C7.43925 6.25875 7.4595 6.2205 7.49025 6.195C7.53075 6.162 7.58325 6.1425 7.64025 6.1425C7.69725 6.1425 7.74975 6.162 7.791 6.19575H7.79025C7.80638 6.20859 7.8194 6.2249 7.82836 6.24347C7.83732 6.26204 7.84198 6.28238 7.842 6.303V8.10375C7.84197 8.12429 7.83737 8.14456 7.82855 8.16311C7.81973 8.18165 7.80691 8.19801 7.791 8.211C7.7505 8.244 7.698 8.2635 7.641 8.2635C7.584 8.2635 7.5315 8.244 7.49025 8.21025H7.491V8.2095Z" fill="#717171"/></g><defs><clipPath id="clip0_7_522"><rect width="18" height="18" fill="white"/></clipPath></defs></svg>' +
+                                  '<span class="skeleton-while-loading--left"> SALE (-' + savingPrice[variantId] + ')</span>' +
+                                '</li>' +
+                              '</ul>';
+                $(this).find('.product__description').append(htmlItemSavings);
+              }
+              else {
+                htmlItemSavings = '<li class="reduction-code reduction-code--savings">' +
+                                '<svg  class="icon-svg icon-svg--color-adaptive-light icon-svg--size-16 reduction-code__icon remove-while-loading" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"><g clip-path="url(#clip0_7_522)"><path d="M7.9995 17.3333C7.812 17.1233 7.599 16.8848 7.437 16.8533C7.1752 16.8644 6.92126 16.946 6.702 17.0895L6.70725 17.0858C6.44251 17.2414 6.14729 17.3381 5.84175 17.3693L5.83275 17.37H5.82525C5.73079 17.3701 5.63724 17.3515 5.55 17.3153L5.5545 17.3167C5.18625 17.1637 5.037 16.7378 4.8945 16.3253C4.83736 16.0769 4.7196 15.8465 4.55175 15.6547L4.55325 15.6562C4.42355 15.5933 4.27906 15.5671 4.1355 15.5805H4.1385C4.029 15.5805 3.9135 15.5872 3.798 15.594C3.6735 15.6015 3.549 15.6075 3.4305 15.6075C3.2882 15.6209 3.14464 15.6061 3.00809 15.5639C2.87153 15.5217 2.74465 15.4529 2.63475 15.3615L2.63625 15.363C2.51825 15.1948 2.43691 15.0036 2.3975 14.8019C2.3581 14.6002 2.3615 14.3925 2.4075 14.1923L2.406 14.202C2.44995 13.9455 2.42827 13.6821 2.343 13.4363L2.346 13.4475C2.15769 13.282 1.93154 13.1653 1.6875 13.1077L1.677 13.1055C1.2645 12.9623 0.837 12.8137 0.6855 12.4455C0.64204 12.2469 0.640469 12.0414 0.680889 11.8421C0.721309 11.6429 0.80283 11.4542 0.92025 11.2882L0.91725 11.2928C1.05427 11.0728 1.13348 10.8218 1.1475 10.563V10.5592C1.116 10.3965 0.8775 10.1842 0.6675 9.99675C0.339 9.70575 0 9.4035 0 8.99925C0 8.595 0.339 8.29275 0.66675 7.9995C0.87675 7.812 1.11525 7.599 1.14675 7.437C1.13153 7.17571 1.05024 6.92256 0.9105 6.70125L0.91425 6.70725C0.797158 6.54 0.716322 6.35013 0.676929 6.1498C0.637535 5.94948 0.640455 5.74313 0.6855 5.544L0.684 5.55375C0.837 5.1855 1.263 5.03625 1.6755 4.89375C1.935 4.833 2.16075 4.71375 2.346 4.55025L2.3445 4.55175C2.42905 4.3062 2.4492 4.04306 2.403 3.7875L2.4045 3.7965C2.3603 3.59661 2.35814 3.38971 2.39817 3.18894C2.43819 2.98817 2.51952 2.79791 2.637 2.63025L2.634 2.63475C2.74447 2.54372 2.87183 2.47539 3.00877 2.43369C3.14571 2.39199 3.28954 2.37774 3.432 2.39175H3.4275C3.5475 2.39175 3.67125 2.3985 3.795 2.40525C3.9105 2.412 4.026 2.41875 4.1355 2.41875C4.27969 2.43196 4.42474 2.40523 4.55475 2.3415L4.55025 2.34375C4.7115 2.15925 4.83075 1.93425 4.88925 1.68525L4.8915 1.67475C5.0355 1.26225 5.184 0.83475 5.5515 0.68325C5.6374 0.648039 5.72942 0.630195 5.82225 0.63075H5.8305H5.82975C6.15675 0.6645 6.45375 0.76575 6.7155 0.92025L6.705 0.915C6.92153 1.05739 7.1728 1.13803 7.43175 1.14825H7.43475C7.5975 1.11675 7.80975 0.87825 7.99725 0.66825C8.29275 0.339 8.59575 0 9 0C9.40425 0 9.7065 0.339 9.99975 0.6675C10.1873 0.8775 10.4003 1.116 10.5623 1.1475C10.824 1.13542 11.0778 1.05359 11.2972 0.9105L11.2913 0.91425C11.5562 0.758594 11.8517 0.662135 12.1575 0.6315L12.1665 0.63075H12.174C12.2715 0.63075 12.3645 0.65025 12.4493 0.6855L12.4447 0.684C12.813 0.837 12.9622 1.263 13.1047 1.6755C13.1655 1.935 13.2847 2.16 13.4475 2.346L13.446 2.3445C13.576 2.4074 13.7208 2.4331 13.8645 2.41875H13.8615C13.971 2.41875 14.0865 2.412 14.202 2.406C14.3265 2.39925 14.451 2.3925 14.5695 2.3925C14.7119 2.37919 14.8556 2.39406 14.9922 2.43627C15.1289 2.47848 15.2559 2.5472 15.366 2.6385L15.3645 2.637C15.4821 2.80542 15.5632 2.9966 15.6024 3.19824C15.6417 3.39988 15.6383 3.6075 15.5925 3.80775L15.594 3.798C15.5499 4.05452 15.5719 4.31804 15.6578 4.56375L15.6547 4.55325C15.8385 4.71525 16.0642 4.8345 16.3132 4.89225L16.3237 4.8945C16.7362 5.0385 17.1637 5.187 17.3153 5.5545C17.3583 5.7531 17.3597 5.95845 17.3194 6.15762C17.2791 6.35679 17.198 6.54547 17.0812 6.71175L17.0842 6.70725C16.9469 6.92554 16.8669 7.17502 16.8517 7.4325V7.437C16.8832 7.59975 17.1217 7.812 17.3317 7.9995C17.6625 8.29425 18.0015 8.5965 18.0015 9.00075C18.0015 9.405 17.6625 9.708 17.334 10.0013C17.124 10.1888 16.8855 10.401 16.854 10.5638C16.8705 10.836 16.9552 11.0857 17.0903 11.3003L17.0865 11.2935C17.2036 11.4606 17.2845 11.6503 17.3239 11.8505C17.3633 12.0508 17.3603 12.257 17.3153 12.456L17.3167 12.4462C17.1645 12.8152 16.7378 12.9638 16.3253 13.1063C16.0767 13.1634 15.8463 13.2814 15.6547 13.4498L15.6562 13.4482C15.5717 13.6938 15.5516 13.9569 15.5978 14.2125L15.5963 14.2035C15.6403 14.4033 15.6424 14.61 15.6024 14.8107C15.5624 15.0113 15.4811 15.2014 15.3638 15.369L15.3668 15.3645C15.2565 15.4557 15.1293 15.5242 14.9925 15.5662C14.8557 15.6082 14.7119 15.6227 14.5695 15.609H14.574C14.454 15.609 14.3302 15.6023 14.2065 15.5955C14.0932 15.5878 13.9796 15.5832 13.866 15.582C13.7218 15.5685 13.5767 15.5953 13.4468 15.6593L13.4513 15.657C13.2862 15.8455 13.1698 16.0716 13.1122 16.3155L13.11 16.326C12.966 16.7385 12.8175 17.166 12.45 17.3175C12.3641 17.3527 12.2721 17.3706 12.1793 17.37H12.171H12.1718C11.8591 17.3388 11.5571 17.2398 11.2867 17.0798L11.2965 17.085C11.0801 16.9425 10.8287 16.8621 10.5697 16.8525H10.5667C10.404 16.884 10.1917 17.1225 10.0042 17.3325C9.708 17.661 9.40575 18 9.00075 18C8.59575 18 8.29425 17.661 8.00025 17.3333H7.9995ZM10.6485 5.48175L6.9885 12.1327C6.97809 12.1517 6.97278 12.173 6.9731 12.1946C6.97342 12.2162 6.97936 12.2374 6.99033 12.256C7.0013 12.2746 7.01693 12.29 7.03568 12.3008C7.05442 12.3115 7.07564 12.3172 7.09725 12.3173H7.7325C7.75456 12.3173 7.77623 12.3114 7.79524 12.3002C7.81424 12.289 7.82987 12.2728 7.8405 12.2535V12.2528L11.4952 5.601C11.5057 5.58207 11.511 5.56075 11.5106 5.53915C11.5103 5.51754 11.5044 5.49639 11.4934 5.47778C11.4824 5.45917 11.4668 5.44373 11.4481 5.43298C11.4293 5.42224 11.4081 5.41656 11.3865 5.4165H10.7572C10.735 5.41656 10.7132 5.42257 10.6941 5.43392C10.675 5.44526 10.6592 5.46152 10.6485 5.481V5.48175ZM10.1205 8.8935C10.0252 8.97229 9.94848 9.07117 9.89584 9.18306C9.8432 9.29495 9.81594 9.41709 9.816 9.54075V11.3415C9.816 11.5995 9.9345 11.8298 10.1198 11.9813L10.1213 11.9827C10.3133 12.1432 10.5623 12.24 10.8345 12.24C11.1068 12.24 11.3558 12.1425 11.5492 11.9813L11.5478 11.9827C11.7353 11.8305 11.8538 11.6003 11.8538 11.3422V9.54225C11.8538 9.28425 11.7375 9.0525 11.5553 8.898L11.5538 8.89725C11.3637 8.72645 11.117 8.63213 10.8615 8.6325H10.8383H10.8398H10.8165C10.5602 8.63214 10.3127 8.7255 10.1205 8.895L10.122 8.89425L10.1205 8.8935ZM6.9375 5.66325C6.8422 5.74204 6.76548 5.84092 6.71284 5.95281C6.6602 6.0647 6.63294 6.18684 6.633 6.3105V8.1105C6.633 8.36925 6.75075 8.601 6.93675 8.75325L6.93825 8.75475C7.13025 8.9175 7.38 9.01575 7.653 9.01575C7.926 9.01575 8.1765 8.91675 8.36925 8.75325L8.36775 8.75475C8.55675 8.601 8.676 8.36925 8.676 8.109V6.3135C8.676 6.05325 8.55825 5.8215 8.37225 5.667L8.37075 5.66625C8.17047 5.49566 7.91595 5.40204 7.65286 5.40217C7.38978 5.40231 7.13535 5.4962 6.93525 5.667L6.93675 5.6655L6.9375 5.66325ZM10.671 11.439C10.6549 11.4262 10.6418 11.4098 10.6329 11.3913C10.6239 11.3727 10.6193 11.3524 10.6193 11.3317V9.531C10.6193 9.4875 10.6395 9.44925 10.6702 9.4245C10.7092 9.39072 10.759 9.37208 10.8105 9.372H10.8202H10.8195H10.8285C10.8802 9.37196 10.9301 9.3903 10.9695 9.42375C10.9855 9.43651 10.9985 9.4527 11.0075 9.47113C11.0164 9.48956 11.0211 9.50976 11.0212 9.53025V11.3317C11.0213 11.3522 11.0167 11.3724 11.0079 11.3908C10.999 11.4092 10.9862 11.4254 10.9703 11.4383C10.9298 11.4713 10.8772 11.4908 10.8202 11.4908C10.7632 11.4908 10.7108 11.4712 10.6695 11.4375H10.6702L10.671 11.439ZM7.491 8.2095C7.47495 8.19659 7.46199 8.18026 7.45303 8.16171C7.44408 8.14316 7.43937 8.12285 7.43925 8.10225V6.30225C7.43925 6.25875 7.4595 6.2205 7.49025 6.195C7.53075 6.162 7.58325 6.1425 7.64025 6.1425C7.69725 6.1425 7.74975 6.162 7.791 6.19575H7.79025C7.80638 6.20859 7.8194 6.2249 7.82836 6.24347C7.83732 6.26204 7.84198 6.28238 7.842 6.303V8.10375C7.84197 8.12429 7.83737 8.14456 7.82855 8.16311C7.81973 8.18165 7.80691 8.19801 7.791 8.211C7.7505 8.244 7.698 8.2635 7.641 8.2635C7.584 8.2635 7.5315 8.244 7.49025 8.21025H7.491V8.2095Z" fill="#717171"/></g><defs><clipPath id="clip0_7_522"><rect width="18" height="18" fill="white"/></clipPath></defs></svg>' +
+                                '<span class="skeleton-while-loading--left"> SALE (-' + savingPrice[variantId] + ')</span>' +
+                              '</li>';
+                $(this).find('.product__description ul').prepend(htmlItemSavings);
+              }
+            }
+          }
+
+          var discount = parseInt($('.total-line-table__tbody .total-line--reduction .order-summary__emphasis.skeleton-while-loading').attr('data-checkout-discount-amount-target')) / 100;
+          var amount = discount +  {{ checkout.subtotal_price | divided_by: 100.00 }};
+          amount = discount / amount;
+
+          if (amount) {
+            var priceAmount = (productPrice[variantId] / 100);
+            var discountAmount = (priceAmount * amount).toFixed(2);
+            if ($('.product__description .reduction-code__text').length == 0){
+              $(this).find('.product__description').append(`<ul><li class="reduction-code reduction-code--savings">
+                <svg class="icon-svg icon-svg--color-adaptive-light icon-svg--size-18 reduction-code__icon" aria-hidden="true" focusable="false"> <use xlink:href="#tags-filled"></use> </svg>
+                <span class="skeleton-while-loading--left"> DISCOUNT (-$${discountAmount})</span>
+                </span>
+              </li></ul>`);
+            }
+            if ($(this).find('.order-summary__small-text.skeleton-while-loading--sm').length == 0){
+              $(`<del class="order-summary__small-text skeleton-while-loading--sm">$${priceAmount}</del><br>`).insertBefore($(this).find('.product__price .order-summary__emphasis.skeleton-while-loading'));
+              $(this).find('.order-summary__emphasis.skeleton-while-loading').text('$'+((priceAmount) - discountAmount).toFixed(2))
+            }
+          }
+        });
+        
+        {% if script_savings > 0 %}
+          if ($('.product__description .reduction-code:not(.reduction-code--savings)').length > 0) {
+            var htmlDiscount = '';
+            var discountCode = '', discountAmount = 0, discountAmountMoney = '';
+            discountCode = $('.product__description .reduction-code:not(.reduction-code--savings) .reduction-code__text').text().split('(')[0];
+            $('.product-table .reduction-code').each(function() {
+              if (!$(this).hasClass('reduction-code--savings')) {
+                console.log($(this).find('.reduction-code__text').text().split('(')[1].split(')')[0].replace('-$', ''));
+                discountAmount += parseFloat($(this).find('.reduction-code__text').text().split('(')[1].split(')')[0].replace('-$', ''));
+              }
+            });
+            discountAmountMoney = '$' + discountAmount.toFixed(2);
+            htmlDiscount = '<tr class="total-line total-line--reduction " data-discount-type="percentage">' +
+                              '<th class="total-line__name" scope="row">' +
+                                '<span>Discount</span>' +
+                                '<span class="reduction-code">' +
+                                  '<svg class="icon-svg icon-svg--color-adaptive-light icon-svg--size-18 reduction-code__icon" aria-hidden="true" focusable="false"> <use xlink:href="#tags-filled"></use> </svg>' +
+                                  '<span class="reduction-code__text"> ' + discountCode + '</span>' +
+                                '</span>' +
+                              '</th>' +
+                              '<td class="total-line__price">' +
+                                '<span class="order-summary__emphasis skeleton-while-loading" aria-hidden="true">-' + discountAmountMoney + '</span>' +
+                                '<span class="visually-hidden skeleton-while-loading-sr">' + discountAmountMoney + ' off total order price</span>' +
+                              '</td>' +
+                            '</tr>';
+            $(htmlDiscount).insertBefore('.total-line-table__tbody .total-line--shipping');
+          }
+        {% endif %}
+        if ($('.total-line-table__tbody .total-line--reduction').length == 0 && $('.tags-list .tag').length > 0) {
+          var htmlDiscount = '';
+          var discountCode = '', discountAmount = 0, discountAmountMoney = '';
+          discountCode = $('.tags-list .reduction-code__text').text();
+          $('.product-table .reduction-code').each(function() {
+            if (!$(this).hasClass('reduction-code--savings')) {
+              console.log($(this).find('.reduction-code__text').text().split('(')[1].split(')')[0].replace('-$', ''));
+              discountAmount += parseFloat($(this).find('.reduction-code__text').text().split('(')[1].split(')')[0].replace('-$', ''));
+            }
+          });
+          discountAmountMoney = '$' + discountAmount;
+          htmlDiscount = '<tr class="total-line total-line--reduction " data-discount-type="percentage">' +
+                            '<th class="total-line__name" scope="row">' +
+                              '<span>Discount</span>' +
+                              '<span class="reduction-code">' +
+                                '<svg class="icon-svg icon-svg--color-adaptive-light icon-svg--size-18 reduction-code__icon" aria-hidden="true" focusable="false"> <use xlink:href="#tags-filled"></use> </svg>' +
+                                '<span class="reduction-code__text"> ' + discountCode + '</span>' +
+                              '</span>' +
+                            '</th>' +
+                            '<td class="total-line__price">' +
+                              '<span class="order-summary__emphasis skeleton-while-loading" aria-hidden="true">-' + discountAmountMoney + '</span>' +
+                              '<span class="visually-hidden skeleton-while-loading-sr">' + discountAmountMoney + ' off total order price</span>' +
+                            '</td>' +
+                          '</tr>';
+          $(htmlDiscount).insertBefore('.total-line-table__tbody .total-line--shipping');
+        }
+
+        {% if savings > 0 %}
+        if ($('.total-line-table__tbody .total-line--savings').length == 0) {
+          var htmlSavings = '<tr class="total-line total-line--savings">' +
+                              '<th class="total-line__name" scope="row">' +
+                                '<span>Savings</span>' +         
+                              '</th>' + 
+                              '<td class="total-line__price">' +
+                                '<span class="order-summary__emphasis skeleton-while-loading" aria-hidden="true">' + savings + '</span>' +
+                                '<span class="visually-hidden skeleton-while-loading-sr">' + savings + ' off total order price</span>' +
+                              '</td>' +
+                            '</tr>';
+          $(htmlSavings).insertAfter('.total-line-table__tbody .total-line--subtotal');
+        }
+        {% endif %}
+
+        if ($('.total-line-table__tbody .total-line--subtotal--new').length == 0) {
+          var htmlSubtotal = '';
+          htmlSubtotal = '<tr class="total-line total-line--subtotal--new">' +
+                            '<th class="total-line__name" scope="row">Subtotal</th>' +
+                            '<td class="total-line__price">' + subtotal + '</td>'
+                        '</tr>';
+          $('.total-line-table__tbody').prepend(htmlSubtotal);
+        }
+        if ($('.total-recap__original-price--new').length == 0) {
+          var htmlMobileTotal = ''
+          htmlMobileTotal = '<s class="total-recap__original-price-new">' + subtotal + '</s>';
+          $(htmlMobileTotal).insertAfter('.total-recap__original-price');
+        }
+      });
+    {% endif %}
+
+    $(document).on(`page:load`, function(event) {
+      if (Shopify.Checkout.step == 'contact_information') {
+        $('.step__footer__previous-link').attr('href', '/');
+        $('.step__footer__previous-link-content').text('Return to Shop');
+      }
+      if(Shopify.Checkout.step == 'contact_information' || Shopify.Checkout.step == 'shipping_method' || Shopify.Checkout.step == 'payment_method') {
+        var seconds, minutes;
+        if (getCookie('checkouttimer')) {
+          seconds = getCookie('checkouttimer');
+          if (seconds == 'NaN') {
+            seconds = 600;
+          }
+          $('.js-timer__minutes').attr('data-seconds', seconds);
+          minutes = addLeadingZeros(parseInt(seconds / 60), 2) + ':' + addLeadingZeros(parseInt(seconds % 60), 2);
+          $('.js-timer__minutes').text(minutes);
+        }
+        else {
+          seconds = 600;
+        }
+        $('.js-countdown-timer').show();
+        var timer = setInterval(function () {
+          seconds = $('.js-timer__minutes').attr('data-seconds');
+          seconds --;
+          if (seconds <= 0) {
+            clearInterval(timer);
+            $('.js-countdown-timer p').html('Hard to decide? Here’s <strong>10% OFF</strong> discount — <strong>LOVEUNHIDE</strong>');
+          }
+          $('.js-timer__minutes').attr('data-seconds', seconds);
+          minutes = addLeadingZeros(parseInt(seconds / 60), 2) + ':' + addLeadingZeros(parseInt(seconds % 60), 2);
+          $('.js-timer__minutes').text(minutes);
+          setCookie('checkouttimer', seconds, 1);
+        }, 1000);
+
+        var trustBadgeHtml = '<div class="trust-badge">' +
+          '<div class="trust-badge__item">' +
+            '<img src="//cdn.shopify.com/s/files/1/0050/4335/5720/t/87/assets/svg-secure-checkout.svg?v=43661680619199919231662994480">' +
+            '<span>100% Secure Checkout</span>' +
+          '</div>' +
+          '<div class="trust-badge__item">' +
+            '<img src="//cdn.shopify.com/s/files/1/0050/4335/5720/t/87/assets/svg-easy-returns.svg?v=14926981296404561831662994486">' +
+            '<span>Easy Returns &amp; Exchange</span>' +
+          '</div>'+
+          '<div class="trust-badge__item">' +
+            '<img src="//cdn.shopify.com/s/files/1/0050/4335/5720/t/87/assets/svg-sustainable.svg?v=88541857863102743331663003825">' +
+            '<span>Cruelty-Free &amp; Sustainable</span>' +
+          '</div>' +
+        '</div>';
+        $('.order-summary__sections').append(trustBadgeHtml);
+
+        var reviewHtml = '{%- render "product-review" -%}';
+        $('.order-summary__sections').append(reviewHtml);
+      }
+    });
+  })(Checkout.$);
+
+</script>

@@ -1,0 +1,245 @@
+<style type="text/css">
+  .content-title{    
+    color:{{section.settings.py_section_color}};
+  }
+  .content-description{    
+    color:{{section.settings.py_section_color}};
+  }
+</style>
+
+<div class="template-404 py-pd-y-xs py-{{section.settings.py_section_bg_color}}">  
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+        {%- when 'title'-%}
+          <div class="page-width">
+            <h1 class="content-title py-{{section.settings.text_align}} py-mg-y-m" itemprop="headline" style="font-size:{{block.settings.title_font_size}}px;font-weight:{{block.settings.title_font_weight}}">
+              {{ block.settings.title }}</h1>            
+          </div>
+
+        {%- when 'description'-%}
+          <div class="content-description page-width rte py-{{section.settings.text_align}} py-mg-y-m" style="font-size:{{block.settings.desc_font_size}}px;font-weight:{{block.settings.desc_font_weight}}">
+              {{ block.settings.description }}
+          </div>
+  
+        {%- when 'image'-%}
+        {%- if block.settings.image -%}
+          <div class="content-img py-mg-y-m {{' '}}{% if block.settings.img_full_width %}full-width{% else %} page-width{% endif %}">
+            <div class="media"
+              itemprop="image"
+              style="padding-bottom: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100 }}%;">
+              <img srcset="{% if block.settings.image.width >= 350 %}{{ block.settings.image | img_url: '350x' }} 350w,{% endif %}
+                  {% if block.settings.image.width >= 700 %}{{ block.settings.image | img_url: '700x' }} 700w,{% endif %}
+                  {% if block.settings.image.width >= 749 %}{{ block.settings.image | img_url: '749x' }} 749w,{% endif %}
+                  {% if block.settings.image.width >= 1498 %}{{ block.settings.image | img_url: '1498x' }} 1498w,{% endif %}
+                  {% if block.settings.image.width >= 1100 %}{{ block.settings.image | img_url: '1100x' }} 1100w,{% endif %}
+                  {% if block.settings.image.width >= 2200 %}{{ block.settings.image | img_url: '2200x' }} 2200w,{% endif %}"
+                sizes="(min-width: 1200px) 1100px, (min-width: 750px) calc(100vw - 10rem), 100vw"
+                src="{{ block.settings.image | img_url: '1100x' }}"
+                loading="lazy">
+            </div>
+          </div>
+        {%- endif -%}
+    {%- endcase -%}
+  {%- endfor -%}
+  
+<!--   <a href="{{ routes.all_products_collection_url }}" class="link body-large">
+    {{ 'general.continue_shopping' | t }}
+  </a> -->
+</div>
+
+{% schema %}
+{
+  "name": "404",
+  "class": "content-section-404",
+  "tag": "section",  
+  "settings": [
+    {
+      "type": "select",
+      "id": "content_align",
+      "label": "Content Alignment",
+      "options": [     
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "options": [     
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "py_section_bg_color",
+      "label": "Section Background ",
+      "options": [
+        {
+          "label": "Transparent",
+          "value": "bg-c-none"
+        },        
+        {
+          "label": "Dark",
+          "value": "bg-c-dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "bg-c-middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "bg-c-average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "bg-c-middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "bg-c-light"
+        }
+      ],
+     "default": "bg-c-light"
+    },
+    {
+      "type": "select",
+      "id": "py_section_color",
+      "label": "Content Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-dark)"
+    }
+  ],
+  "blocks": [    
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "404 Title"
+        },        
+        {
+          "type": "range",
+          "id": "title_font_size",
+          "min": 10,
+          "max": 34,
+          "step": 1,
+          "default": 24,
+          "label": "Title Font size"
+        },        
+        {
+          "type": "range",
+          "id": "title_font_weight",
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "default": 600,
+          "label": "Title Font weight"
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "404 page description"
+        },        
+        {
+          "type": "range",
+          "id": "desc_font_size",
+          "min": 10,
+          "max": 34,
+          "step": 1,
+          "default": 16,
+          "label": "Description Font size"
+        },        
+        {
+          "type": "range",
+          "id": "desc_font_weight",
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "default": 400,
+          "label": "Description Font weight"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "img_full_width",
+          "default": false,
+          "label": "Full Width"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

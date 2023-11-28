@@ -1,0 +1,816 @@
+<link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-cart-notification-' | append: settings.cart_style | append: '.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-header-style-2.css' | asset_url }}" >
+
+
+<noscript>{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-menu-drawer.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-cart-notification-' | append: settings.cart_style | append: '.css' | asset_url | stylesheet_tag }}</noscript>
+
+<style>
+  .bc-new-header-style.bc-account-and-cart-wrapper svg.icon__account,
+  .bc-new-header-style.bc-account-and-cart-wrapper svg.icon__bag,
+  .bc-new-header-style.bc-account-and-cart-wrapper svg.icon__search{
+    fill:{{section.settings.py_header_color}};
+  }
+  .bc-new-header-style.bc-menu-wrapper *,
+  .bc-h-around *,
+  .bc-header .search-terms::-webkit-input-placeholder,
+  .bc-header .search-terms:active::-webkit-input-placeholder,
+  .bc-header .search-terms:focus::-webkit-input-placeholder,
+  .header_search_form input::-webkit-input-placeholder{
+    color:{{section.settings.py_header_color}};
+  }
+  .bc-new-header-style.bc-menu-wrapper:hover,
+  .bc-new-header-style.bc-menu-wrapper.bcactive,
+  .bc-h-around li:hover,#header .top_bar,
+  .main_nav, .dropdown {
+    background: {{section.settings.py_header_bg_color_2}};
+  }
+</style>
+
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="icon-search" viewbox="0 0 18 19" fill="none">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 0C8.22391 0 9.87721 0.684819 11.0962 1.90381C12.3152 3.12279 13 4.77609 13 6.5C13 8.11 12.41 9.59 11.44 10.73L11.71 11H12.5L17.5 16L16 17.5L11 12.5V11.71L10.73 11.44C9.59 12.41 8.11 13 6.5 13C4.77609 13 3.12279 12.3152 1.90381 11.0962C0.684819 9.87721 0 8.22391 0 6.5C0 4.77609 0.684819 3.12279 1.90381 1.90381C3.12279 0.684819 4.77609 0 6.5 0ZM6.5 2C4 2 2 4 2 6.5C2 9 4 11 6.5 11C9 11 11 9 11 6.5C11 4 9 2 6.5 2Z" fill="currentColor"/>
+  </symbol>
+  <symbol id="icon-close" class="icon icon-close" fill="none" viewBox="0 0 18 17">
+    <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
+  </symbol>
+</svg>
+      
+<!-- LOGO PART -->
+  {%- capture logo -%}
+    <a class="header__logo-link" href="{{ routes.root_url }}">
+      {%- if section.settings.logo != blank -%}
+        {%- capture logo_size -%}{{ section.settings.logo_max_width | at_least: section.settings.mobile_logo_max_width | times: 2 | append: 'x' }}{%- endcapture -%}
+        <span class="visually-hidden">{{ shop.name }}</span>
+        <img class="header__logo-image" width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}" src="{{ section.settings.logo | img_url: logo_size }}" alt="{{ section.settings.logo.alt | escape }}">
+
+        {%- if request.page_type == 'index' and section.settings.enable_transparent_header and section.settings.transparent_logo != blank -%}
+          <img class="header__logo-image header__logo-image--transparent" width="{{ section.settings.transparent_logo.width }}" height="{{ section.settings.transparent_logo.height }}" src="{{ section.settings.transparent_logo | img_url: logo_size }}" alt="{{ section.settings.transparent_logo.alt | escape }}">
+        {%- endif -%}
+      {%- else -%}
+        <span class="header__logo-text heading h5">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+  {%- endcapture -%}
+
+<header id="header" class="mobile_nav-fixed--false promo_banner-show">
+    {% if template.name == "index" %}
+        <div class="promo_banner" style="background-color:#f4f4f4;"> 
+          <div class="marquee" style="color:#1b1f23;">
+            <div style="" class="js-marquee-wrapper">
+              <marquee class="js-marquee" style="margin-right: 0px; float: left;" direction="right">
+                {% for i in (1..10) %}
+                  {%- if section.settings.promo_text != blank -%}
+                     <span style="margin:0px 20px;" class="">{{ section.settings.promo_text | escape }}</span>
+                  {%- endif -%}
+                {% endfor %}        
+              </marquee>
+            </div>
+          </div>
+        </div>
+    {% endif %}
+    <div class="top_bar clearfix">
+        <ul class="menu-icons-wrapper bc-flex bc-nowrap bc-h-between bc-v-center">
+            <li>
+                <a class="mobile_nav dropdown_link" data-dropdown-rel="menu" data-no-instant="true">
+                    <div class=""> <span></span> <span></span> <span></span> <span></span></div>
+                </a>
+            </li>
+            <li class="bc-column-border">&nbsp;</li>
+            <li class="search_link"> <a href="/search" class="dropdown_link" title="Search" data-dropdown-rel="search" data-no-instant="true"> <svg
+                        class="icon icon--medium icon__search" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0)">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M10.598 10.131c1.655-1.9 1.553-4.811-.289-6.652-1.92-1.922-5.007-1.95-6.894-.064-1.886 1.887-1.858 4.973.064 6.895 1.757 1.757 4.49 1.93 6.387.503l3.34 3.34.706-.708-3.314-3.314zm-.921-.454c-1.509 1.509-3.978 1.486-5.515-.05-1.537-1.538-1.56-4.007-.05-5.516 1.508-1.509 3.977-1.486 5.514.05 1.537 1.538 1.56 4.007.051 5.516z">
+                            </path>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0">
+                                <path fill="#fff" d="M0 0h16v16H0z"></path>
+                            </clipPath>
+                        </defs>
+                    </svg></a></li>
+            <li class="bc-column-border full">&nbsp;</li>
+            <li> {{ logo }}</li>
+            <li class="bc-column-border full">&nbsp;</li>
+            {%- if shop.customer_accounts_enabled -%}
+            <li class="account_link"> <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" title="Login"> <svg class="icon icon--medium icon__account" viewBox="0 0 16 16" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M11 4.5a3 3 0 11-6 0 3 3 0 016 0zm1 0a4 4 0 11-8 0 4 4 0 018 0zm-10 7a1 1 0 011-1h10a1 1 0 011 1v3H2v-3zm-1 0a2 2 0 012-2h10a2 2 0 012 2v4H1v-4z">
+                        </path>
+                    </svg></a></li>
+            <li class="bc-column-border">&nbsp;</li>
+            {%- endif -%}
+            <li class="cart_link">
+                <div class="cart_container"> 
+                <a href="/cart" class="mini_cart" data-no-instant=""> <svg class="icon icon--medium icon__bag"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M17 18C17.5304 18 18.0391 18.2107 18.4142 18.5858C18.7893 18.9609 19 19.4696 19 20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22C15.89 22 15 21.1 15 20C15 18.89 15.89 18 17 18ZM1 2H4.27L5.21 4H20C20.2652 4 20.5196 4.10536 20.7071 4.29289C20.8946 4.48043 21 4.73478 21 5C21 5.17 20.95 5.34 20.88 5.5L17.3 11.97C16.96 12.58 16.3 13 15.55 13H8.1L7.2 14.63L7.17 14.75C7.17 14.8163 7.19634 14.8799 7.24322 14.9268C7.29011 14.9737 7.3537 15 7.42 15H19V17H7C5.89 17 5 16.1 5 15C5 14.65 5.09 14.32 5.24 14.04L6.6 11.59L3 4H1V2ZM7 18C7.53043 18 8.03914 18.2107 8.41421 18.5858C8.78929 18.9609 9 19.4696 9 20C9 20.5304 8.78929 21.0391 8.41421 21.4142C8.03914 21.7893 7.53043 22 7 22C5.89 22 5 21.1 5 20C5 18.89 5.89 18 7 18ZM16 11L18.78 6H6.14L8.5 11H16Z"
+                                fill="black"></path>
+                        </svg></a>
+                    
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="dropdown_container center" data-dropdown="search" style="display: none;">
+        <div class="dropdown">
+            <form action="/search" class="header_search_form"> <input type="hidden" name="type" value="product"> 
+            <span class="icon-search search-submit">
+              <svg class="icon icon--medium icon__search" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0)">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M10.598 10.131c1.655-1.9 1.553-4.811-.289-6.652-1.92-1.922-5.007-1.95-6.894-.064-1.886 1.887-1.858 4.973.064 6.895 1.757 1.757 4.49 1.93 6.387.503l3.34 3.34.706-.708-3.314-3.314zm-.921-.454c-1.509 1.509-3.978 1.486-5.515-.05-1.537-1.538-1.56-4.007-.05-5.516 1.508-1.509 3.977-1.486 5.514.05 1.537 1.538 1.56 4.007.051 5.516z">
+                            </path>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0">
+                                <path fill="#fff" d="M0 0h16v16H0z"></path>
+                            </clipPath>
+                        </defs>
+                    </svg>
+            </span>
+                <input type="text" name="q" placeholder="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="search-terms">
+                <div class="search__results-wrapper">
+                    <ul class="search__results"></ul>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="dropdown_container" data-dropdown="menu" style="display: none;">
+        <div class="dropdown">
+            <ul class="menu" id="mobile_menu">
+              {%- assign menu = section.settings.menu | default: section.settings.menu -%}
+              {%- for link in menu.links -%}
+                {%- if link.links.size > 0 -%}
+                  <li class="{%- if link.links.size > 0 -%}sublink{%- endif -%}"> {{- link.title -}} 
+                    <span class="right icon-down-arrow active">
+                      <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon--wide icon-chevron-down" viewBox="0 0 28 16"><path d="M1.57 1.59l12.76 12.77L27.1 1.59" stroke-width="2" stroke="#000" fill="none" fill-rule="evenodd"></path></svg>
+                    </span>
+                    <ul class="vertical-menu_submenu" style="">
+                    {%- for sub_link in link.links -%}
+                        <li><a href="{{ sub_link.url }}">{{- sub_link.title -}}</a></li>
+                    {%- endfor -%}
+                    </ul>
+                  </li>
+                {%- else  -%}
+                  <li><a href="{{ sub_link.url }}" class="top_link ">{{- link.title -}}</a></li>
+                {%- endif -%}
+              {%- endfor -%}                
+            </ul>
+        </div>
+    </div>
+</header>
+  
+<header class="bc-header promo_banner-show">
+    <div class="header  header-fixed--false header-background--solid">
+      {% if template.name == "index" %}
+        <div class="promo_banner" style="background-color:#f4f4f4;"> 
+          <div class="marquee" style="color:#1b1f23;">
+            <div style="" class="js-marquee-wrapper">
+              <marquee class="js-marquee" style="margin-right: 0px; float: left;" direction="right">
+                {% for i in (1..10) %}
+                  {%- if section.settings.promo_text != blank -%}
+                     <span style="margin:0px 20px;" class="">{{ section.settings.promo_text | escape }}</span>
+                  {%- endif -%}
+                {% endfor %}        
+              </marquee>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        <div class="bc-new-header-style bc-menu-wrapper">
+            <div class="bc-flex bc-v-center bc-h-between">
+                <div class="bc-logo-wrapper index">
+                  {{ logo }}
+                </div> 
+               <span class="bc-hamburger-wrapper"> 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="12" viewBox="0 0 18 12" fill="none">
+                      <path d="M0 0H18V2H0V0ZM0 5H18V7H0V5ZM0 10H18V12H0V10Z"></path>
+                  </svg>
+               </span>
+            </div>
+            <div class="vertical-menu" style="display: none;">
+              {%- assign menu = section.settings.menu | default: section.settings.menu -%}
+              {%- for link in menu.links -%}
+                {%- if link.links.size > 0 -%}
+                  <li class="{%- if link.links.size > 0 -%}sublink{%- endif -%}"> {{- link.title -}}
+                    <ul class="vertical-menu_submenu" style="">
+                    {%- for sub_link in link.links -%}
+                        <li><a href="{{ sub_link.url }}">{{- sub_link.title -}}</a></li>
+                    {%- endfor -%}
+                    </ul>
+                  </li>
+                {%- else  -%}
+                  <li><a href="{{ sub_link.url }}" class="top_link ">{{- link.title -}}</a></li>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+        </div>
+        <div class="bc-new-header-style bc-account-and-cart-wrapper">
+            <ul class="bc-flex bc-nowrap bc-v-center bc-h-around">
+                <li class="search_link">
+                    <form action="/search" class="header_search_form">
+                        <input type="hidden" name="type"
+                            value="product"> <input type="text"
+                            name="q" placeholder="Search"
+                            autocapitalize="off" autocomplete="off"
+                            autocorrect="off" class="search-terms">
+                        <div class="search__results-wrapper">
+                            <ul class="search__results"></ul>
+                        </div>
+                    </form> 
+                  <a href="javascript:void(0);"
+                        class="dropdown_link" title="Search"
+                        data-dropdown-rel="search"
+                        data-click-count="0"> <svg
+                            class="icon icon--medium icon__search"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18" height="18" viewBox="0 0 18 18"
+                            fill="none">
+                            <path
+                                d="M6.5 0C8.22391 0 9.87721 0.684819 11.0962 1.90381C12.3152 3.12279 13 4.77609 13 6.5C13 8.11 12.41 9.59 11.44 10.73L11.71 11H12.5L17.5 16L16 17.5L11 12.5V11.71L10.73 11.44C9.59 12.41 8.11 13 6.5 13C4.77609 13 3.12279 12.3152 1.90381 11.0962C0.684819 9.87721 0 8.22391 0 6.5C0 4.77609 0.684819 3.12279 1.90381 1.90381C3.12279 0.684819 4.77609 0 6.5 0ZM6.5 2C4 2 2 4 2 6.5C2 9 4 11 6.5 11C9 11 11 9 11 6.5C11 4 9 2 6.5 2Z"
+                                fill="black"></path>
+                        </svg></a>
+                </li>
+              {%- if shop.customer_accounts_enabled -%}
+                <li class="account_link"> <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                        title="Login"> <svg
+                            class="icon icon--medium icon__account"
+                            viewBox="0 0 16 16" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M11 4.5a3 3 0 11-6 0 3 3 0 016 0zm1 0a4 4 0 11-8 0 4 4 0 018 0zm-10 7a1 1 0 011-1h10a1 1 0 011 1v3H2v-3zm-1 0a2 2 0 012-2h10a2 2 0 012 2v4H1v-4z">
+                            </path>
+                        </svg></a></li> 
+                {%- endif -%}
+                <li class="bc-border-hr"></li>
+                <li class="cart_link">
+                    <div class="cart_container"> 
+                    <a href="/cart"
+                            class="mini_cart" data-no-instant=""> <svg
+                                class="icon icon--medium icon__bag"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24"
+                                viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M17 18C17.5304 18 18.0391 18.2107 18.4142 18.5858C18.7893 18.9609 19 19.4696 19 20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22C15.89 22 15 21.1 15 20C15 18.89 15.89 18 17 18ZM1 2H4.27L5.21 4H20C20.2652 4 20.5196 4.10536 20.7071 4.29289C20.8946 4.48043 21 4.73478 21 5C21 5.17 20.95 5.34 20.88 5.5L17.3 11.97C16.96 12.58 16.3 13 15.55 13H8.1L7.2 14.63L7.17 14.75C7.17 14.8163 7.19634 14.8799 7.24322 14.9268C7.29011 14.9737 7.3537 15 7.42 15H19V17H7C5.89 17 5 16.1 5 15C5 14.65 5.09 14.32 5.24 14.04L6.6 11.59L3 4H1V2ZM7 18C7.53043 18 8.03914 18.2107 8.41421 18.5858C8.78929 18.9609 9 19.4696 9 20C9 20.5304 8.78929 21.0391 8.41421 21.4142C8.03914 21.7893 7.53043 22 7 22C5.89 22 5 21.1 5 20C5 18.89 5.89 18 7 18ZM16 11L18.78 6H6.14L8.5 11H16Z"
+                                    fill="black"></path>
+                            </svg></a>
+                         <div style="display:none">   
+                           <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link link--text focus-inset" id="cart-icon-bubble">
+                              {% render 'icon-cart' %}
+                              <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+                                <div class="cart-count-bubble">
+                                  <span aria-hidden="true" id="cart-count">{{ cart.item_count }}</span>
+                                  <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+                                </div>
+                              
+                            </a>
+                         </div>
+                      {% if settings.cart_style == 'style-3' %}
+                         {%- render 'cart-notification-3' -%}
+                      {% endif %}       
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+</div>        
+<div id="shopify-section-cart-template" class="shopify-section">
+  {% if settings.cart_style == 'style-4' %}
+          {%- render 'cart-notification-4' -%}      
+        {% elsif settings.cart_style == 'style-3' %}
+          
+        {% elsif settings.cart_style == 'style-2' %}
+          {%- render 'cart-notification-2',
+              cart_layout: settings.cart_layout,
+              enable_dynamic_pay: settings.enable_dynamic_pay,
+          -%}
+        {% else %}
+          {%- render 'cart-notification',
+            checkoutbtn_position: settings.checkoutbtn_position,
+            enable_dynamic_pay: settings.enable_dynamic_pay,
+          -%}
+        {% endif%}
+          </div>  </div>      
+
+<script src="{{ 'dom-slider.js' | asset_url }}"></script>              
+<script> 
+  const {slideToggle, slideUp, slideDown} = window.domSlider
+  const mainMenuToggleButton = document.querySelector('.bc-hamburger-wrapper');
+  const box = document.querySelector('.vertical-menu')
+  mainMenuToggleButton.addEventListener('click', function() { 
+    document.querySelector(".bc-menu-wrapper").classList.toggle('bcactive');
+    slideToggle({element: box,easing: 'cubic-bezier(0.25, 0.1, 0.44, 1.4)'})
+  })
+   
+  document.querySelectorAll('.vertical-menu li.sublink').forEach((ele) => {
+    ele.addEventListener('click', function(evt){
+      let content = evt.target.querySelector('.vertical-menu_submenu');
+      if(content != null){
+        if(content.classList.contains('bcactive')){      
+          content.classList.remove('bcactive');
+          slideUp({element: content, easing: 'ease'})
+        } else {      
+          content.classList.add('bcactive');
+          slideDown({element: content, easing: 'ease'})
+        }
+      }
+      
+    })
+  })
+
+  document.querySelector('.bc-header a[data-dropdown-rel="search"]').addEventListener('click', function(){
+    let $form = document.querySelector('.bc-header a[data-dropdown-rel="search"]').closest('li').querySelector('form');
+    if($form.classList.contains('active')){
+      $form.submit();
+    } else {
+      $form.classList.add('active');
+      $form.querySelector('.bc-header input[name="q"]').focus();
+    }
+  });
+  document.querySelector('#header .mini_cart').addEventListener('click', function(evt){
+    evt.preventDefault();
+    document.querySelector('#cart-icon-bubble').click()
+  })
+  document.querySelector('.bc-header  .mini_cart').addEventListener('click', function(evt){
+    evt.preventDefault();
+    document.querySelector('#cart-icon-bubble').click()
+  })
+  document.querySelector('#header').addEventListener('click',function(evt){
+    if(evt.target.getAttribute('id') == "header"){
+      document.querySelector('body').classList.remove('is-active');
+      document.querySelector('.mobile_nav>.open')?.classList.remove('open');
+      document.querySelectorAll('.dropdown_container').forEach((ele)=>{
+        ele.style.display = 'none';
+      })
+    }
+  })
+  document.querySelector('#header .search_link a').addEventListener('click',function(evt){
+    if(document.querySelector('.dropdown_container[data-dropdown="search"]').style.display == 'block'){
+      
+    }else{
+      evt.preventDefault();
+      document.querySelector('body').classList.add('is-active');
+      document.querySelector('.mobile_nav>.open')?.classList.remove('open');
+      document.querySelector('.dropdown_container[data-dropdown="search"]').style.display = 'block';
+      document.querySelector('.dropdown_container[data-dropdown="menu"]').style.display = 'none';
+    }
+  })
+  document.querySelector('.mobile_nav>div').addEventListener('click',function(evt){
+    if(document.querySelector('.mobile_nav>div').classList.contains('open')){
+      document.querySelector('.mobile_nav>div').classList.remove('open');
+      document.querySelector('body').classList.remove('is-active');
+      document.querySelector('.dropdown_container[data-dropdown="menu"]').style.display = 'none';
+    }else{      
+      document.querySelector('body').classList.add('is-active');
+      document.querySelector('.mobile_nav>div')?.classList.add('open');
+      document.querySelector('.dropdown_container[data-dropdown="menu"]').style.display = 'block';
+      document.querySelector('.dropdown_container[data-dropdown="search"]').style.display = 'none';
+    }
+  })
+  document.querySelectorAll('#mobile_menu li.sublink').forEach((ele) => {
+    ele.addEventListener('click', function(evt){
+      let content = evt.target.querySelector('.vertical-menu_submenu');
+      if(content != null){
+        if(content.classList.contains('bcactive')){      
+          content.classList.remove('bcactive');
+          slideUp({element: content, easing: 'ease'});
+          evt.target.classList.remove('active');
+        } else {      
+          content.classList.add('bcactive');
+          slideDown({element: content, easing: 'ease'})
+          evt.target.classList.add('active')
+        }
+      }
+      
+    })
+  })
+</script>
+
+{% javascript %}
+  class StickyHeader extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      this.announcementBar = document.getElementById('shopify-section-announcement-bar');
+      this.header = document.getElementById('shopify-section-header');
+      this.headerBounds = {};
+      this.currentScrollTop = 0;
+      this.collFilters = document.querySelector('.coll-filters');
+      this.proInfo = document.querySelector('.product__info-container--sticky');
+      this.filterDrawer = document.querySelector('.coll-filter-drawer');
+      this.filterDrawerForm = document.querySelector('.coll-filter-drawer__form');
+      this.deleyTop = this.collFilters && this.announcementBar ? this.announcementBar.offsetHeight + this.header.offsetHeight : this.header.offsetHeight;
+      this.deleyTop = this.header.offsetHeight;  
+      this.collFilters && this.collFilters !== null ? this.collFilters.style.top = this.deleyTop + 'px' : null;
+      if(document.querySelector('.header-position-fixed') !== null){
+         this.proInfo && this.proInfo !== null ? this.proInfo.style.top = this.deleyTop + 'px' : null;
+      }else{
+         this.proInfo && this.proInfo !== null ? this.proInfo.style.top = -10  + 'px' : null;
+      }
+      this.filterDrawer && this.filterDrawer !== null && this.announcementBar && this.announcementBar !== null ? this.filterDrawer.style.top = this.announcementBar.offsetHeight + 'px' : null;
+      this.filterDrawerForm && this.filterDrawerForm !== null && this.announcementBar && this.announcementBar !== 'null' ? this.filterDrawerForm.style.height = 'calc(100vh - ' + (169 + this.announcementBar.offsetHeight) + 'px)' : null; 
+
+      this.onScrollHandler = this.onScroll.bind(this);
+
+      window.addEventListener('scroll', this.onScrollHandler, false);
+
+      this.createObserver();
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener('scroll', this.onScrollHandler);
+    }
+
+    createObserver() {
+      let observer = new IntersectionObserver((entries, observer) => {
+        this.headerBounds = entries[0].intersectionRect;
+        observer.disconnect();
+      });
+
+      observer.observe(this.header);
+    }
+
+    onScroll() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+        requestAnimationFrame(this.hide.bind(this));
+      } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+        requestAnimationFrame(this.reveal.bind(this));
+      } else if (scrollTop <= this.headerBounds.top) {
+        requestAnimationFrame(this.reset.bind(this));
+      }
+
+      this.currentScrollTop = scrollTop;
+    }
+
+    hide() {
+      this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
+      this.closeMenuDisclosure();
+      this.closeSearchModal();
+    }
+
+    reveal() {
+      this.header.classList.add('shopify-section-header-sticky', 'animate');
+      this.header.classList.remove('shopify-section-header-hidden');
+    }
+
+    reset() {
+      this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
+    }
+
+    closeMenuDisclosure() {
+      this.disclosures = this.disclosures || this.header.querySelectorAll('details-disclosure');
+      this.disclosures.forEach(disclosure => disclosure.close());
+    }
+
+    closeSearchModal() {
+      this.searchModal = this.searchModal || this.header.querySelector('details-modal');
+      this.searchModal.close(false);
+    }
+  }
+
+  customElements.define('sticky-header', StickyHeader);
+
+  /*document.querySelector('[data-currency-selector]').addEventListener('change', function(e){
+    this.closest('form').submit();
+  });*/
+
+{% endjavascript %}
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    {% if section.settings.logo %}
+      {% assign image_size = section.settings.logo.width | append: 'x' %}
+      "logo": {{ section.settings.logo | img_url: image_size | prepend: "https:" | json }},
+    {% endif %}
+    "sameAs": [
+      {{ settings.social_twitter_link | json }},
+      {{ settings.social_facebook_link | json }},
+      {{ settings.social_pinterest_link | json }},
+      {{ settings.social_instagram_link | json }},
+      {{ settings.social_tumblr_link | json }},
+      {{ settings.social_snapchat_link | json }},
+      {{ settings.social_youtube_link | json }},
+      {{ settings.social_vimeo_link | json }}
+    ],
+    "url": {{ shop.url | append: page.url | json }}
+  }
+</script>
+
+{%- if request.page_type == 'index' -%}
+  {% assign potential_action_target = shop.url | append: routes.search_url | append: "?q={search_term_string}" %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      },
+      "url": {{ shop.url | append: page.url | json }}
+    }
+  </script>
+{%- endif -%}
+<script>    
+    var parentMenu = document.querySelectorAll('nav> ul.list-menu details-disclosure>details>summary');
+    var i;
+
+    for (i = 0; i < parentMenu.length; i++) {
+      if(parentMenu[i].getAttribute('data-href')!=null)
+      parentMenu[i].addEventListener("click", function() {
+        window.location.href = this.getAttribute('data-href');
+      });
+    }
+    document.querySelector('.cart-notification-overaly').addEventListener('click', (evt) =>{
+      document.querySelector('#cart-notification .modal__close-button').click();
+    });
+    document.querySelector('.search-sidebar .search-modal').addEventListener('click', (evt) =>{
+      if(evt.target.hasAttribute('aria-modal')){
+        document.querySelector('.search-sidebar .search-modal .search-modal__close-button').click();
+      }      
+    });
+    document.addEventListener('click', (evt) =>{
+      if(evt.target.getAttribute('id') == "PopupModal-preorder"){
+        document.querySelector('#ModalClose-preorder').click();
+      }
+      else if(evt.target.getAttribute('class') == "coll-filter-overlay"){
+        document.querySelector('.coll-filter-drawer__close').click();
+      }
+    });
+</script> 
+
+
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:sections.header.settings.logo.label"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 250,
+      "step": 10,
+      "default": 100,
+      "unit": "t:sections.header.settings.logo_width.unit",
+      "label": "t:sections.header.settings.logo_width.label"
+    },
+    {
+      "type": "select",
+      "id": "header_position",
+      "options": [
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "static",
+          "label": "Static"
+        }
+      ],
+      "default": "fixed",
+      "label": "Header Position"
+    },
+    {
+      "type": "text",
+      "id": "promo_text",
+      "default": "Free shipping on North American orders over $250",
+      "label": "Promotion text"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "t:sections.header.settings.menu.label"
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "text",
+      "id": "search_hide_tags",
+      "label": "Tags for hide on Search",
+      "info": "Please contain tags that you want to hide from search result. Use '|' to seperate tags. example: hide1|hide2|hide3"
+    },
+    {
+      "type": "header",
+      "content": "Header Colors"
+    },
+    {
+      "type": "select",
+      "id": "py_header_bg_color_1",
+      "label": "Header Background Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+          }
+        ],
+        "default": "transparent"
+    },
+    {
+      "type": "select",
+      "id": "py_header_bg_color_2",
+      "label": "Header Hover Background Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+          }
+        ],
+        "default": "var(--py-bg-color-light)"
+    },
+    {
+      "type": "select",
+      "id": "py_header_color",
+      "label": "Header Text Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-dark)"
+    },
+    {
+      "type": "select",
+      "id": "page_width",
+      "label": "Container (Width)",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "width-un"
+        },
+        {
+          "label": "Large",
+          "value": "width-l"
+        },
+        {
+          "label": "Medium",
+          "value": "width-m"
+        },
+        {
+          "label": "Small",
+          "value": "width-s"
+        }
+      ],
+      "default": "width-un"
+    },
+    {
+      "type": "select",
+      "id": "page_x_pd",
+      "label": "Content Padding Horizontal",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "pd-x-un"
+        },
+        {
+          "label": "None",
+          "value": "pd-x-n"
+        },
+        {
+          "label": "XL",
+          "value": "pd-x-xl"
+        },
+        {
+          "label": "L",
+          "value": "pd-x-l"
+        },
+        {
+          "label": "M",
+          "value": "pd-x-m"
+        },
+        {
+          "label": "S",
+          "value": "pd-x-s"
+        },
+        {
+          "label": "XS",
+          "value": "pd-x-xs"
+        }
+      ],
+      "default": "pd-x-m"
+    },
+    {
+      "type": "select",
+      "id": "page_y_pd",
+      "label": "Content Padding Vertical",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "pd-y-un"
+        },
+        {
+          "label": "None",
+          "value": "pd-y-n"
+        },
+        {
+          "label": "XL",
+          "value": "pd-y-xl"
+        },
+        {
+          "label": "L",
+          "value": "pd-y-l"
+        },
+        {
+          "label": "M",
+          "value": "pd-y-m"
+        },
+        {
+          "label": "S",
+          "value": "pd-y-s"
+        },
+        {
+          "label": "XS",
+          "value": "pd-y-xs"
+        }
+      ],
+      "default": "pd-y-m"
+    }
+  ]
+}
+{% endschema %}

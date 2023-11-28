@@ -1,0 +1,16 @@
+<div class="media {{ classwrapper }}" {% if image != blank %}style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;"{% endif %}>
+    <img srcset="{%- if image.width >= 165 -%}{{ image | img_url: '165x' }} 165w,{%- endif -%}
+        {%- if image.width >= 360 -%}{{ image | img_url: '360x' }} 360w,{%- endif -%}
+        {%- if image.width >= 535 -%}{{ image | img_url: '535x' }} 535w,{%- endif -%}
+        {%- if image.width >= 720 -%}{{ image | img_url: '720x' }} 720w,{%- endif -%}
+        {%- if image.width >= 940 -%}{{ image | img_url: '940x' }} 940w,{%- endif -%}
+        {%- if image.width >= 1070 -%}{{ image | img_url: '1070x' }} 1070w{%- endif -%}"
+        src="{{ image | img_url: '535x' }}"
+        sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)"
+        alt="{{ image.alt | escape }}"
+        loading="lazy"
+        width="{{ image.width }}"
+        height="{{ image.height }}"
+        class="{{ classimg }}"
+    />
+</div>

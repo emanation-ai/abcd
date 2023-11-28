@@ -1,0 +1,47 @@
+{% assign product_title_h = product.title | handleize %}
+
+{% for images_group in product_images_group_loop %}
+	{% assign images_group_h = images_group | handleize %}
+	{% assign images_group_html = '' %}
+	{% assign index = forloop.index %}
+
+	{% if images_group_h == 'default-title' %}
+		{% continue %}
+	{% endif %}
+
+	{% for image in product.images %}
+		{% assign img_alt_h = image.alt | handleize %}
+		{% if img_alt_h contains images_group_h and image != nil %}
+			{% capture images_group_html %}
+				{{ images_group_html }}
+
+				<div 
+					class="image bg-subdued"
+					data-image-url="{{ image.src | img_url: '2048x2048' }}">
+                  
+                    {% if product.tags contains 'tiktok' %}
+                      <img class="product-card__tiktok" src="{{ 'tiktok-badge.png' | file_url }}">
+                    {% endif %}
+              
+					<span class="object-fit">
+						{% render 'img-srcset',
+							image: image,
+							max_width: 600,
+							alt: image.alt %}
+					</span>
+				</div>
+			{% endcapture %}
+		{% endif %}
+	{% endfor %}
+
+    {% assign variant_option_h = product.selected_or_first_available_variant.option1 | handleize %}
+
+	{% if images_group_html != blank %}
+		<div 
+			class="images-group 
+			{% if variant_option_h == images_group_h %}active{% endif %}"
+			data-variant="{{ images_group | split: '/' | handleize }}">
+			{{ images_group_html }}
+		</div>
+	{% endif %}
+{% endfor %}

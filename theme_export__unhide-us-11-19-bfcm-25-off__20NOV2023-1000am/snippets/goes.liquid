@@ -1,0 +1,30 @@
+<div class="goes-part">
+    {%- if title != blank -%}
+    <h2 class="goes-part__heading">{{ title }}</h2>
+    {%- endif -%}
+    <div class="goes-part__wrapper">
+        <div class="goes-part__image">
+            <a href="{{ prod.url }}">
+                <span class="visually-hidden">{{ prod.title }}</span>
+                {%- render 'resimg', image: prod.featured_image -%}
+            </a>
+        </div>
+        <div class="goes-part__info">
+            <h4 class="goes-part__name">{{ prod.title }}</h4>
+            {%- render 'price', product: prod, use_variant: true, show_badges: false, price_class: 'price--large' -%}
+            <product-form>
+                {%- form 'product', product, id: prod.id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                <input type="hidden" name="id" value="{{ prod.selected_or_first_available_variant.id }}">
+                <button type="submit" name="add" class="goes-part__submit">
+                    <span class="goes-part__submit-text">Add</span>
+                    <span class="goes-part__submit-icon" aria-label="+">
+                        <svg width="10px" height="10px" viewBox="0 0 10 10" class="product-upsell__icon-plus">
+                        <path d="M5,0.5 C5.27614237,0.5 5.5,0.723857625 5.5,1 L5.5,5 L9.5,5 C9.77614237,5 10,5.22385763 10,5.5 C10,5.77614237 9.77614237,6 9.5,6 L5.5,6 L5.5,10 C5.5,10.2761424 5.27614237,10.5 5,10.5 C4.72385763,10.5 4.5,10.2761424 4.5,10 L4.5,6 L0.5,6 C0.223857625,6 3.38176876e-17,5.77614237 0,5.5 C-3.38176876e-17,5.22385763 0.223857625,5 0.5,5 L4.5,5 L4.5,1 C4.5,0.723857625 4.72385763,0.5 5,0.5 Z" fill-rule="nonzero"></path>
+                        </svg>
+                    </span>
+                </button>
+                {%- endform -%}
+            </product-form>
+        </div>
+    </div>
+</div>

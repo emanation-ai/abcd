@@ -1,0 +1,89 @@
+{% layout none %}
+
+{% assign savings = 0 %}
+{% assign subtotal = 0 %}
+{% assign discount = 0 %}
+{% for item in cart.items %}
+{% if item.variant.compare_at_price > item.variant.price %}
+  {% assign item_savings = item.variant.compare_at_price | minus: item.variant.price | times: item.quantity %}
+  {% assign savings = savings | plus: item_savings %}
+  {% assign item_subtotal = item.variant.compare_at_price | times: item.quantity %}
+  {% assign subtotal = subtotal | plus: item_subtotal %}
+  {% if item.variant.price > item.price %}
+    {% assign item_discount = item.variant.price | minus: item.price | times: item.quantity %}
+    {% assign discount = discount | plus: item_discount %}
+  {%endif %}
+{% else %}
+  {% assign item_subtotal = item.variant.price | times: item.quantity %}
+  {% assign subtotal = subtotal | plus: item_subtotal %}
+  {% if item.variant.price > item.price %}
+      {% assign item_discount = item.variant.price | minus: item.price | times: item.quantity %}
+      {% assign discount = discount | plus: item_discount %}
+  {%endif %}
+{% endif %}
+{% endfor %}
+
+
+
+<input type="hidden" value="{{ cart.item_count }}" class="js-summary-count">
+<div class="bc-cart-prices-wraper">
+  {% if savings == 0 and discount == 0 %}
+    <div class="summary">
+      <div class="summary-left t-b-3">Subtotal</div>
+      <div class="summary-right"><span class="cart-total-price t-b-3">{{ cart.total_price | money }}</span></div>
+    </div>
+  {% else %}
+    <div class="summary">
+      <div class="summary-left t-b-3">Products Total</div>
+      <div class="summary-right"><span class="cart-total-products t-b-3">{{ subtotal | money }}</span></div>
+    </div>
+    {% if savings > 0 %}
+    <div class="summary">
+      <div class="summary-left t-b-3">Savings</div>
+      <div class="summary-right"><span class="cart-total-savings t-b-3">{{ savings | money }}</span></div>
+    </div>  
+    {% endif %}
+    {% if discount > 0 %}
+    <div class="summary">
+      <div class="summary-left t-b-3">Discount</div>
+      <div class="summary-right"><span class="cart-total-savings t-b-3">{{ discount | money }}</span></div>
+    </div>
+    <div class="summary saving-column">
+      <div class="summary-left t-b-3">Total Savings: </div>
+      <div class="summary-right"><span class="cart-total-savings t-b-3">{{ savings | plus : discount | money }}</span></div>
+    </div>
+    {% else %}
+    <div class="summary">
+      <div class="summary-left t-b-3">Discount</div>
+      <div class="summary-right"><span class="cart-total-savings t-b-3">    
+          Apply at checkout
+      </span></div>
+    </div>
+    <div class="summary saving-column"></div>
+    {% endif %}
+    <div class="summary">
+      <div class="summary-left t-b-3">Shipping</div>
+      <div class="summary-right"><span class="cart-total-shipping t-b-3">{% if cart.total_price >= 8000%}Free{% else %}Calculated on next step{% endif %}</span></div>
+    </div>
+    <div class="summary">
+      <div class="summary-left t-b-3">Subtotal</div>
+      <div class="summary-right"><span class="cart-total-price t-b-3"><s>{{ subtotal | money }}</s>
+        <span>{{ cart.total_price | money }}
+  <!--        {% if cart.original_total_price >= 29900 %}
+           {{ cart.total_price | times: 0.7 | money }}
+         {% elsif cart.original_total_price >= 19900 %}
+           {{ cart.total_price | times: 0.8 | money }}
+         {% elsif cart.original_total_price >= 9900 %}
+           {{ cart.total_price | times: 0.9 | money }}
+         {% else %}
+            
+         {% endif %} -->
+        </span></span>
+      </div>
+    </div>
+  {% endif %}
+  <div class="summary subtotal-column">
+    <div class="summary-left t-b-3">Subtotal: </div>
+    <div class="summary-right"><span class="cart-total-price t-b-3">{{ cart.total_price | money }}</span></div>
+  </div>
+</div>

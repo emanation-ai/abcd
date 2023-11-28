@@ -1,0 +1,35 @@
+.product-recommendations {
+    display: block;
+}
+
+.product-recommendations__heading {
+    margin: 0;
+    font-weight: 600;
+    font-size: 3rem;
+    line-height: 3.6rem;
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.product-recommendations .grid__item {
+    padding-bottom: 0;
+}
+
+@media screen and (max-width: 550px) {
+    
+    .product-recommendations__heading {
+        font-size: 2rem;
+        line-height: 2.4rem;
+        margin-bottom: 2.5rem;
+    }
+    .product-recommendations .jdgm-widget .jdgm-star,
+    .product-recommendations .jdgm-widget .jdgm-prev-badge__text {
+        font-size: 1rem;
+        line-height: 1.2rem;
+    }
+    .product-recommendations .grid__item {
+        margin-bottom: 2rem;
+    }
+
+}
+  

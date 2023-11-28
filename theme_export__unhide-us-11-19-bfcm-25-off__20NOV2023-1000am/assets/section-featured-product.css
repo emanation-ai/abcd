@@ -1,0 +1,22 @@
+.featured-product .product__media-item:not(:first-child) {
+    position:absolute;
+   left:0;
+  top:0;
+  width:100%;
+  height:100%;
+}
+.featured-product .product__media-list{
+  position:relative;
+}
+.featured-product .product__media-item.hidden {
+    display: block !important;
+    opacity: 0;
+}
+.product__view-details svg{
+  width: 18px;
+}
+a.product__view-details{
+  margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}

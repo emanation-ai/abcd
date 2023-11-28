@@ -1,0 +1,18 @@
+{%- if product.metafields.tiktok.size > 0 -%}
+{{ 'tiktokfeed.css' | asset_url | stylesheet_tag }}
+
+<script type="application/json" id="tiktokjson">
+    {
+    {%- for tiktok in product.metafields.tiktok -%}
+        "{{ tiktok[0] }}": "{{ tiktok[1] }}"{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+    }
+</script>
+
+<tiktok-feed>
+    <h2 class="bc-tiktok__heading">SEEN ON TIK TOK</h2>
+    <div id="bctiktokitems" class="bc-tiktok__items bc-scroll-hide"></div>
+</tiktok-feed>
+
+<script src="{{ 'tiktokfeed.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}

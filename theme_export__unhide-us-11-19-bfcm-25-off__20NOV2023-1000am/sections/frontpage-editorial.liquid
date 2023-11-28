@@ -1,0 +1,69 @@
+{% schema %}
+	{
+		"name": "Frontpage Editorial",
+		"presets": [
+			{
+				"category": "Content",
+				"name": "Frontpage Editorial"
+			}
+		],
+		"settings": [
+			{
+				"type": "image_picker",
+				"id": "bg_image",
+				"label": "Background Image"
+			},
+			{
+				"type": "image_picker",
+				"id": "bg_image_mobile",
+				"label": "Background Image Mobile"
+			},
+			{
+				"type": "textarea",
+				"id": "title",
+				"label": "Editorial Title"
+			},
+			{
+				"type": "textarea",
+				"id": "paragraph",
+				"label": "Editorial Paragraph"
+			},
+			{
+				"type": "text",
+				"id": "cta_label",
+				"label": "CTA Label"
+			},
+			{
+				"type": "url",
+				"id": "cta_url",
+				"label": "CTA URL"
+			}
+		],
+		"max_blocks": 2,
+		"blocks": [
+			{
+				"type": "product",
+				"name": "product",
+				"settings": [
+					{
+						"type": "product",
+						"id": "product",
+						"label": "Product"
+					}
+				]
+			}
+		]
+	}
+{% endschema %}
+
+{% render 'comp-editorial', 
+	is_product: true, 
+	bg_image: section.settings.bg_image, 
+	bg_image_mobile: section.settings.bg_image_mobile, 
+	title: section.settings.title, 
+	paragraph: section.settings.paragraph, 
+	newsletter: section.settings.newsletter, 
+	cta_label: section.settings.cta_label,
+	cta_url: section.settings.cta_url,
+	block_type: 'product', 
+	blocks: section.blocks %}

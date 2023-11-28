@@ -1,0 +1,33 @@
+.contact-form-container .field {
+  margin-bottom: 1.5rem;
+  display: block;
+}
+.contact-form-container .field__input {
+  padding: 12px 15px;
+}
+.contact-form-container .field__input::placeholder {
+  opacity: 0.6;
+}
+.contact-form-container .field label {
+  position: relative;
+  left: auto;
+  top: auto;
+  margin-bottom: 1rem;
+  pointer-events: inherit;
+  display: block;
+}
+.py-vertical .contact__fields {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 2%;
+}
+@media (min-width: 750px) {
+  .py-vertical .contact__fields > .field {
+    width: 49%;
+  }
+}
+@media (min-width: 960px) {
+  .py-vertical .contact__fields > .field {
+    width: 32%;
+  }
+}

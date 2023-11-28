@@ -1,0 +1,84 @@
+
+.product-carousel:not(.bc-br-bt) .media{
+  border-radius:5px;
+  background:white;
+}
+.product-carousel:not(.bc-br-bt) .grid__item.slider__slide{
+  padding:1rem;
+  border:1px solid transparent;
+  border-radius:13px;
+}
+.product-carousel.bc-br-bt .grid__item.slider__slide {
+  padding: 0;
+  border-right: 1px solid #000;
+  border-left: 1px solid #000;
+}
+.product-carousel:not(.bc-br-bt) .grid__item.slider__slide:hover{
+  border-color:rgba(0,0,0,.2);
+}
+.product-carousel .card-information__wrapper{
+  text-align:left;
+  text-transform: inherit;
+}
+.product-carousel.bc-br-bt .card-information__wrapper {
+  padding: 13px 10px;
+}
+.product-carousel .card-information__wrapper .price{
+  justify-content:flex-start;
+  justify-content: flex-start;
+  margin-left: 0px !important;    
+}
+.product-review-color{
+  display:flex;
+  flex-wrap:wrap;
+  opacity: 0.8;
+}
+.product-carousel:not(.bc-br-bt) slider-component{
+  padding-left:10px;
+}
+.quick-view-badge{
+  position: absolute;
+  background: white;
+  z-index: 1;
+  bottom: -20px;  
+  border-radius: 20px;
+  transition: all .4s;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity:0;    
+}
+.quick-view-badge a{
+  padding: 5px 15px;
+  display:block;
+}
+.grid__item.slider__slide:hover .quick-view-badge{
+  bottom:20px;
+  opacity:1;
+}
+.product-carousel .bc-card-color__list{
+  display: flex;
+  align-items: center;
+}
+.product-carousel .bc-card-color__list *{
+  line-height:1;
+}
+
+.product-carousel:not(.bc-br-bt) .card-information{
+  margin-top:10px;
+}
+.product-carousel .price{
+  font-size:20px;
+}
+.product-carousel .bc-card-color,
+.product-carousel .grid__item.slider__slide:hover .variant-color-product .product-review-color,
+.product-carousel .grid__item.slider__slide:hover .variant-color-product .card-information__text{
+  display:none;
+}
+.product-carousel .grid__item.slider__slide:hover .bc-card-color{
+  display:block;
+}
+.bc-br-bt.product-carousel .title {
+  margin: 0;
+  padding: 30px 15px;
+  border-bottom: 2px solid #000;
+}

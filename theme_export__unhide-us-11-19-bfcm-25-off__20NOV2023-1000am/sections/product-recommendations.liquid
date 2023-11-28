@@ -1,0 +1,739 @@
+<link rel="stylesheet" href="{{ 'component-badge.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-product-card-style-1.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-price-style-1.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'section-product-recommendations-style-1.css' | asset_url }}" >
+
+<noscript>{{ 'component-badge.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-product-card-style-1.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-price-style-1.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'section-product-recommendations-style-1.css' | asset_url | stylesheet_tag }}</noscript>
+
+<product-recommendations class="product-recommendations collection" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=8">
+  <div class="page-width py-pd-x-m py-pd-y-m">
+  {% if recommendations.performed and recommendations.products_count > 0 %}
+    <h2 class="normal-text__heading py-fs-xl">{{ section.settings.heading | escape }}</h2>
+    <ul class="grid grid--1-col grid--3-col-tablet  product-list-{{section.id}} slider slider--desktop {% if recommendations.products_count > 3 %} grid--4-col-desktop grid--quarter-max{% endif %} bc-scroll-hide"  style="margin-left:-{{section.settings.item_space}}px;" role="list">
+      <style>
+        product-recommendations{
+          background-color:{{section.settings.section_bg_color}};
+        }
+        @media(min-width:750px){
+          product-recommendations ul.slider::-webkit-scrollbar {
+            background: #f1f1f1;
+            width: 7px;
+            height: 7px;
+            border-radius: 5px;
+            display:initial;
+          }
+          product-recommendations ul.slider::-webkit-scrollbar-thumb {
+              background: #837d7d;
+          }
+        }
+        .product-recommendations__heading{
+          color:{{section.settings.section_color}};
+        }
+        .py-c-dark .card-wrapper *:not(.card-quick-add):not(.card-view-product){
+          color: var(--py-color-dark);
+        }
+        .py-c-average .card-wrapper *:not(.card-quick-add):not(.card-view-product){
+          color: var(--py-color-avarge);
+        }
+        .py-c-light .card-wrapper *:not(.card-quick-add):not(.card-view-product){
+          color: var(--py-color-light);
+        }
+        .card-wrapper{
+          padding-bottom:15px;
+          height:100%;
+        }         
+        .bc-vertical-tag-inner{
+        }
+        .product-list-{{section.id}} .py-center .price,
+        .product-list-{{section.id}} .py-center .card-color-wrapper,
+        .product-list-{{section.id}} .py-center ul.variant-options,
+        .product-list-{{section.id}} .py-center .card-button-wrapper{
+          justify-content: center;
+        }        
+        {% if section.settings.custom_font_style %}
+
+          .product-list-{{section.id}} .card-wrapper .card-information__text{
+            font-size: {{section.settings.title_fontsize}};
+            font-weight: {{section.settings.title_fontweight}};
+            font-stretch:{{section.settings.title_fontstretch}};
+            font-style:{{section.settings.title_fontstyle}};
+            line-height:{{section.settings.title_lineheight}};
+            letter-spacing:{{section.settings.title_letterspacing}}
+          }
+          @media(max-width:749px){
+            .product-list-{{section.id}} .card-wrapper .card-information__text{
+                font-size: {{section.settings.title_fontsize_m}}
+            }
+          }
+          .product-list-{{section.id}} .card-wrapper .price *{
+            font-size: {{section.settings.info_fontsize}};
+            font-weight: {{section.settings.info_fontweight}};
+            font-stretch:{{section.settings.info_fontstretch}};
+            font-style:{{section.settings.info_fontstyle}};
+            line-height:{{section.settings.info_lineheight}};
+            letter-spacing:{{section.settings.info_letterspacing}}
+          }
+          @media(max-width:749px){
+            .product-list-{{section.id}} .card-wrapper .price *{
+                font-size: {{section.settings.info_fontsize_m}}
+            }
+          }              
+        {% endif %}
+      </style>      
+      {%- if product.handle == "thesquish" or product.handle == "lil-marsh" or product.handle == "marsh-2-0" or product.handle == "shleepy" or product.handle == "lusso-cloud-x-unhide-pelli" -%}
+        {% for recommendation in collections['cart-upsell-1'].products %}        
+          {%- unless recommendation.tags contains 'rec_hide' or recommendation.handle == product.handle -%}            
+            <li class="grid__item py-{{section.settings.card_color}} py-card-{{section.settings.card_style}}" style="padding-bottom:{{section.settings.item_space}}px;padding-left:{{section.settings.item_space}}px">
+              {% render 'product-card',
+                product_card_product: recommendation,
+                media_size: section.settings.image_ratio,
+                media_gallery:section.settings.image_gallery,
+                tag_field:section.settings.tag_field,                                   
+                show_vendor: section.settings.show_vendor,
+                show_colors: section.settings.show_colors,
+                show_view_product: section.settings.show_view_product,
+                show_quick_add: section.settings.show_quick_add,
+                show_variants_on_hover: section.settings.show_variants_on_hover,
+                card_bg_color: section.settings.card_bg_color,
+                card_radius: section.settings.card_radius,
+                info_align: section.settings.info_align
+              %}
+            </li>
+          {%- endunless -%}        
+      {% endfor %}
+      {%- elsif product.handle == "floof" or product.handle == "lil-marsh-xs-pet" or product.handle == "floof-pillow-bed" -%}
+        {% for recommendation in collections['cart-upsell-2'].products %}        
+          {%- unless recommendation.tags contains 'rec_hide' or recommendation.handle == product.handle -%}            
+            <li class="grid__item py-{{section.settings.card_color}} py-card-{{section.settings.card_style}}" style="padding-bottom:{{section.settings.item_space}}px;padding-left:{{section.settings.item_space}}px">
+              {% render 'product-card',
+                product_card_product: recommendation,
+                media_size: section.settings.image_ratio,
+                media_gallery:section.settings.image_gallery,
+                tag_field:section.settings.tag_field,                                   
+                show_vendor: section.settings.show_vendor,
+                show_colors: section.settings.show_colors,
+                show_view_product: section.settings.show_view_product,
+                show_quick_add: section.settings.show_quick_add,
+                show_variants_on_hover: section.settings.show_variants_on_hover,
+                card_bg_color: section.settings.card_bg_color,
+                card_radius: section.settings.card_radius,
+                info_align: section.settings.info_align
+              %}
+            </li>
+          {%- endunless -%}        
+        {% endfor %}
+      {%- elsif product.handle == "netflix-lil-marsh" -%}
+        {% for recommendation in collections['cart-upsell-3'].products %}        
+          {%- unless recommendation.tags contains 'rec_hide' or recommendation.handle == product.handle -%}            
+            <li class="grid__item py-{{section.settings.card_color}} py-card-{{section.settings.card_style}}" style="padding-bottom:{{section.settings.item_space}}px;padding-left:{{section.settings.item_space}}px">
+              {% render 'product-card',
+                product_card_product: recommendation,
+                media_size: section.settings.image_ratio,
+                media_gallery:section.settings.image_gallery,
+                tag_field:section.settings.tag_field,                                   
+                show_vendor: section.settings.show_vendor,
+                show_colors: section.settings.show_colors,
+                show_view_product: section.settings.show_view_product,
+                show_quick_add: section.settings.show_quick_add,
+                show_variants_on_hover: section.settings.show_variants_on_hover,
+                card_bg_color: section.settings.card_bg_color,
+                card_radius: section.settings.card_radius,
+                info_align: section.settings.info_align
+              %}
+            </li>
+          {%- endunless -%}        
+        {% endfor %}
+      {%- elsif product.type == "Bundles" -%}
+        {% for recommendation in collections['bundles'].products %}        
+          {%- unless recommendation.tags contains 'rec_hide' or recommendation.handle == product.handle -%}            
+            <li class="grid__item py-{{section.settings.card_color}} py-card-{{section.settings.card_style}}" style="padding-bottom:{{section.settings.item_space}}px;padding-left:{{section.settings.item_space}}px">
+              {% render 'product-card',
+                product_card_product: recommendation,
+                media_size: section.settings.image_ratio,
+                media_gallery:section.settings.image_gallery,
+                tag_field:section.settings.tag_field,                                   
+                show_vendor: section.settings.show_vendor,
+                show_colors: section.settings.show_colors,
+                show_view_product: section.settings.show_view_product,
+                show_quick_add: section.settings.show_quick_add,
+                show_variants_on_hover: section.settings.show_variants_on_hover,
+                card_bg_color: section.settings.card_bg_color,
+                card_radius: section.settings.card_radius,
+                info_align: section.settings.info_align
+              %}
+            </li>
+          {%- endunless -%}        
+      {% endfor %}
+      {% else %}
+      {% for recommendation in recommendations.products %}        
+          {%- unless recommendation.tags contains 'rec_hide' -%}            
+            <li class="grid__item py-{{section.settings.card_color}} py-card-{{section.settings.card_style}}" style="padding-bottom:{{section.settings.item_space}}px;padding-left:{{section.settings.item_space}}px">
+              {% render 'product-card',
+                product_card_product: recommendation,
+                media_size: section.settings.image_ratio,
+                media_gallery:section.settings.image_gallery,
+                tag_field:section.settings.tag_field,                                   
+                show_vendor: section.settings.show_vendor,
+                show_colors: section.settings.show_colors,
+                show_view_product: section.settings.show_view_product,
+                show_quick_add: section.settings.show_quick_add,
+                show_variants_on_hover: section.settings.show_variants_on_hover,
+                card_bg_color: section.settings.card_bg_color,
+                card_radius: section.settings.card_radius,
+                info_align: section.settings.info_align
+              %}
+            </li>
+          {%- endunless -%}        
+      {% endfor %}
+      {% endif %}
+    </ul>
+  {% endif %}
+  </div>
+</product-recommendations>
+
+
+{% javascript %}
+  class ProductRecommendations extends HTMLElement {
+    constructor() {
+      super();
+
+      const handleIntersection = (entries, observer) => {
+        if (!entries[0].isIntersecting) return;
+        observer.unobserve(this);
+
+        fetch(this.dataset.url)
+          .then(response => response.text())
+          .then(text => {
+            const html = document.createElement('div');
+            html.innerHTML = text;
+            const recommendations = html.querySelector('product-recommendations');
+            if (recommendations && recommendations.innerHTML.trim().length) {
+              this.innerHTML = recommendations.innerHTML;
+            }
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      }
+
+      new IntersectionObserver(handleIntersection.bind(this), {rootMargin: '0px 0px 200px 0px'}).observe(this);
+    }
+  }
+
+  customElements.define('product-recommendations', ProductRecommendations);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.product-recommendations.name",
+  "tag": "section",
+  "class": "js-product-password-recommendation",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.product-recommendations.settings.paragraph__1.content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "You may also like",
+      "label": "t:sections.product-recommendations.settings.heading.label"
+    },
+    {
+        "type": "select",
+        "id": "section_bg_color",
+        "label": "Section Background Color",
+        "options": [          
+            {
+            "label": "Transparent",
+            "value": "transparent"
+            },        
+            {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+            },
+            {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+            },
+            {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+            },
+            {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+            },
+            {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+            }
+        ],
+        "default": "var(--py-bg-color-dark)"
+    },
+    {
+        "type": "select",
+        "id": "section_color",
+        "label": "Title Color",
+        "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-light)"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.product-recommendations.settings.header__2.content"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "options": [
+        {
+          "value": "vertical",
+          "label": "Vertical"
+        },
+        {
+          "value": "horizontal",
+          "label": "horizontal"
+        }
+      ],
+      "default": "vertical",
+      "label": "Card Style",
+      "info": "Horizontal style will work on desktop only"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "square",
+      "label": "t:sections.main-collection-product-grid.settings.image_ratio.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_gallery",
+      "default": false,
+      "label": "Enable Image Slider"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "bg-c-none"
+          },        
+          {
+            "label": "Dark",
+            "value": "bg-c-dark"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "bg-c-middle-dark"
+          },
+          {
+            "label": "Average",
+            "value": "bg-c-average"
+          },
+          {
+            "label": "Middle Light",
+            "value": "bg-c-middle-light"
+          },
+          {
+            "label": "Light",
+            "value": "bg-c-light"
+          }
+        ],
+        "default": "bg-c-average"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 7,
+      "label": "Card Border Radius"
+    },
+    {
+      "type": "range",
+      "id": "item_space",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 10,
+      "label": "Card Padding"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.main-collection-product-grid.settings.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_colors",
+      "default": true,
+      "label": "Show Colors"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variants_on_hover",
+      "default": true,
+      "label": "Show Variants On Hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_product",
+      "default": true,
+      "label": "Show View Product Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "default": false,
+      "label": "Show Quick Add Button"
+    },
+    {
+      "type": "select",
+      "id": "info_align",
+      "label": "Card Info Alignment",
+      "options": [     
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "card_color",
+      "label": "Card Info Color",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Dark",
+          "value": "c-dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "c-middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "c-average"
+        },
+        {
+          "label": "Light",
+          "value": "c-middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "c-light"
+        }
+      ],
+      "default": "c-dark"
+    },
+    {
+      "type": "header",
+      "content": "Card Button Style"
+    },
+    {
+      "type": "select",
+      "id": "view_btn_size",
+      "label": "View Button Size",
+      "options": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "card_color_view_btn",
+      "label": "View Button Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color_view_btn",
+      "label": "View Button Background Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "card_color_view_btn_hover",
+      "label": "View Button Hover Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color_view_btn_hover",
+      "label": "View Button Hover Background Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "header",
+      "content": "Card Product Title Font Style"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_font_style",
+      "default": false,
+      "label": "Use Custom Style"
+    },
+    {
+      "type": "text",
+      "id": "title_fontsize",
+      "label": "Font size Desktop",
+      "info": "Ex: 20px "
+    },
+    {
+      "type": "text",
+      "id": "title_fontsize_m",
+      "label": "Font size Mobile"
+    },
+    {
+      "type": "text",
+      "id": "title_fontweight",
+      "label": "Font-weight"      
+    },
+    {
+      "type": "text",
+      "id": "title_fontstretch",
+      "label": "Font-stretch",
+      "info": "Ex: 40%"
+    },
+    {
+      "type": "select",
+      "id": "title_fontstyle",
+      "options": [
+        {
+          "value": "normal",
+          "label": "normal"
+        },
+        {
+          "value": "italic",
+          "label": "italic"
+        }
+      ],
+      "default": "normal",
+      "label": "Font-style"
+    },
+    {
+      "type": "text",
+      "id": "title_lineheight",
+      "label": "Lineheight"      
+    },
+    {
+      "type": "text",
+      "id": "title_letterspacing",
+      "label": "Letter-spacing",
+      "info":"Ex: 0.5px"
+    },
+    {
+      "type": "header",
+      "content": "Card Product info Font Style"
+    },
+    {
+      "type": "text",
+      "id": "info_fontsize",
+      "label": "Font size Desktop",
+      "info": "Ex: 20px "
+    },
+    {
+      "type": "text",
+      "id": "info_fontsize_m",
+      "label": "Font size Mobile"
+    },
+    {
+      "type": "text",
+      "id": "info_fontweight",
+      "label": "Font-weight"      
+    },
+    {
+      "type": "text",
+      "id": "info_fontstretch",
+      "label": "Font-stretch",
+      "info": "Ex: 40%"
+    },
+    {
+      "type": "select",
+      "id": "info_fontstyle",
+      "options": [
+        {
+          "value": "normal",
+          "label": "normal"
+        },
+        {
+          "value": "italic",
+          "label": "italic"
+        }
+      ],
+      "default": "normal",
+      "label": "Font-style"
+    },
+    {
+      "type": "text",
+      "id": "info_lineheight",
+      "label": "Lineheight"      
+    },
+    {
+      "type": "text",
+      "id": "info_letterspacing",
+      "label": "Letter-spacing",
+      "info":"Ex: 0.5px"     
+    }
+  ],
+  "blocks": [
+	  {
+      "type": "@app"
+    }
+  ]
+}
+{% endschema %}

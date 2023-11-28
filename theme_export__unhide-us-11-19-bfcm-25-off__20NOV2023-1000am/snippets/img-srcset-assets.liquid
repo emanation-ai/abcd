@@ -1,0 +1,18 @@
+<img 
+	width="{{ image.width | round }}" 
+	height="{{ image.height | round }}" 
+	data-srcset="
+		{{ image | img_url: '80x80' }} 80w,
+		{{ image | img_url: '240x240' }} 240w,
+		{{ image | img_url: '480x480' }} 480w,
+		{{ image | img_url: '800x800' }} 800w,
+		{{ image | img_url: '1200x1200' }} 1200w,
+		{{ image | img_url: '1800x1800' }} 1800w,
+		{{ image | img_url: '2400x2400' }} 2400w
+	" 
+	data-sizes="auto" 
+	alt="{{ alt | strip_html | escape }}" 
+	class="lazyload {% if classes %}{{ classes }}{% endif %}" 
+	{% if attributes %}
+		{{ attributes }}
+	{% endif %}>

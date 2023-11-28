@@ -1,0 +1,332 @@
+<style>
+    .in-the-wild-full-width{
+        padding: 100px 0;
+    }
+    .they-love-us-swiper-wrapper .swiper {
+            width: 100%;
+            height: 100%;
+            margin: 50px 0;
+          }
+    
+          .they-love-us-swiper-wrapper .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+    
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            border-left: 1px solid #6c725c;
+            border-right: 1px solid #6c725c;
+            
+            height: auto;
+         
+          }
+         
+          /* .swiper-slide:nth-child(n+2) .they-love-us-slide-wrapper{
+            border-right: 1px solid #6c725c;
+
+          } */
+
+    
+           .they-love-us-swiper-wrapper .swiper-slide img {
+            display: block;
+            /* width: 100%;
+            height: 100%;
+            object-fit: cover; */
+          } 
+          .they-love-us-button{
+            display: flex !important;
+              justify-content: center;
+              align-items: center;
+              color: #fff;
+              border-radius: 50%;
+            font-weight: bolder;
+            height: 40px;
+            width: 40px;
+            }
+            .swiper-button-next.they-love-us-button{
+              right: 0 !important;
+            }
+            .swiper-button-prev.they-love-us-button{
+              left: 0 !important;
+            }
+            .they-love-us-button svg{
+              width: 100%;
+            }
+          .they-love-us-button:after{
+              content: unset;
+          }
+          .they-love-us-swiper{
+              padding: 0 50px;
+          }
+    .star img{
+        width: 15px !important;
+    }
+    .they-love-us-slide-heading h3{
+        color:#6c725c;
+        font-size: 22px;
+        font-weight: bolder;
+        text-align: left;
+        margin-bottom: 10px;
+        font-family: "Avenir-v2", Helvetica, sans-serif;
+
+    }
+    .they-love-us-slide-stars{
+        display: flex;
+        gap:5px;
+        margin: 20px 0;
+    }
+    .they-love-us-heading{
+      margin-bottom: 65px;
+    }
+    .they-love-us-slide-review{
+      height: 160px;
+    }
+    .they-love-us-slide-review p{
+        text-align: left;
+        color:#6c725c;
+        line-height: 20px;
+        font-size: 16px;
+    }
+    .they-love-us-slide-review-review-author{
+      margin-top: 30px;
+    }
+    .they-love-us-slide-review-review-author p{
+        color:#6c725c;
+        text-align: left;
+        /* margin-top: 10px; */
+        margin-top: 0;
+        margin-bottom: 0;
+    
+    
+    }
+    .author-name{
+        font-weight: bolder;
+        margin-bottom: 0;
+    }
+    .they-love-us-slide-wrapper{
+        padding: 0 85px;
+    }
+    .they-love-us-heading h2{
+        text-align: center;
+        font-size:50px;
+        text-transform: capitalize;
+    }
+    @media screen and (max-width:1280px) 
+    {
+      .they-love-us-button{
+        height: 35px;
+        width: 35px;
+      }
+      .they-love-us-slide-review{
+        height: 180px;
+      }
+      .they-love-us-slide-wrapper{
+        padding: 0 60px;
+      }
+      
+    } 
+    @media screen and (max-width:1150px) {
+      .they-love-us-slide-wrapper{
+        padding: 0 50px;
+      }
+      .they-love-us-slide-review{
+        height: 190px;
+      }
+  }
+  @media screen and (max-width:500px) {
+    .in-the-wild-full-width{
+      padding-bottom: 20px !important;
+    }
+    .they-love-us-heading{
+      padding-top:50px;
+    }
+    
+  }
+    @media screen and (max-width:400px) {
+    
+    .they-love-us-slide-wrapper{
+        padding: 0 20px;
+    }
+    .they-love-us-slide-review{
+      height: 180px;
+    }
+    
+    .swiper-slide .they-love-us-slide-wrapper{
+            border-left: 2px solid #6c725c;
+            border-right: 2px solid #6c725c;
+
+          }
+          .they-love-us-swiper-wrapper .swiper-slide{
+            border-left: 0;
+            border-right: 0;
+          }
+    }
+    
+    </style>
+    
+    <div class="landing-page-full-width-wrapper in-the-wild-full-width">
+        <div class="landing-page-wrapper">
+            <div class="they-love-us-heading">
+                <h2>{{section.settings.heading}}</h2>
+            </div>
+            <div class="they-love-us-swiper-wrapper">
+                <div class="swiper they-love-us-swiper">
+                    <div class="swiper-wrapper">
+    
+                        {%assign reviewBlocks= section.blocks | where:"type","review"%}
+                        {%for block in reviewBlocks%}
+                        <div class="swiper-slide">
+                            <div class="they-love-us-slide-wrapper">
+                                <div class="they-love-us-slide-heading">
+                                    <h3>{{block.settings.review-heading}}</h3>
+                                </div>
+                                <div class="they-love-us-slide-stars">
+                                    {%assign numOfStars=block.settings.review-stars | plus: 0%}
+                                    {% for i in (1..numOfStars) %}
+                                    <div class="star">
+                                        <img src="{{'review_star.svg' | asset_url}}"/>
+                                    </div>
+                                    {% endfor %}
+                                    
+                                   
+                                </div>
+                                <div class="they-love-us-slide-review">
+                                   <p>{{block.settings.review-description}}</p> 
+                                </div>
+                                <div class="they-love-us-slide-review-review-author">
+                                    <p class="author-name">
+                                        {{block.settings.review-author}}
+                                    </p>
+                                    <p>
+                                    {{block.settings.review-author-status}}
+                                    </p>
+                                </div>
+        
+                            </div>
+        
+                          </div>
+                        {%endfor%}
+                     
+                     
+                    </div>
+                    <div class="swiper-button-next they-love-us-button">
+                      {%render 'right-arrow-review-icon'%}
+                    </div>
+                    <div class="swiper-button-prev they-love-us-button">
+                      {%render 'left-arrow-review-icon'%}
+    
+                    </div>
+                  </div>
+            </div>
+        </div>
+    
+    </div>
+    <script src="{{'swiper-bundle.min.js' | asset_url}}"></script>
+    
+    <!-- Initialize Swiper -->
+    <script>
+      var swiper = new Swiper(".they-love-us-swiper", {
+        spaceBetween:0,
+          slidesPerView:3,
+          loop:true,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+                0: {
+                    slidesPerView: 1,
+                    spaceBetween:80,
+                },
+               
+                992: {
+                    slidesPerView: 2,
+                  
+                },
+                1024: {
+                    slidesPerView: 3,
+                 
+                },
+                1280: {
+                    slidesPerView: 3,
+                },
+            },
+    
+      });
+    </script>
+    {% schema %}
+    {
+        "name": "They love us",
+       "settings": [
+        {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading",
+            "default": "They Love Us"
+        }
+       ],
+       "blocks": [
+        {
+          "name": "Review",
+          "type": "review",
+          "settings": [
+          {
+            "type": "text",
+            "id": "review-heading",
+            "label": "Heading",
+            "default":"Perfect size"
+          },
+          {
+            "type": "range",
+            "id": "review-stars",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "label": "Review rating",
+            "default": 5
+          },
+          {
+            "type": "text",
+            "id": "review-description",
+            "label": "Description",
+            "default":"This is my 4th UnHide blanket!I am obsessed with them. I love the charocoal color because I have black lab and it hides his hair. Then I have the rose for my bed, it’s feminine but not too pink! The lil marsh make the best gifts!"
+    
+          },
+          {
+            "type": "text",
+            "id": "review-author",
+            "label": "Author name",
+            "default":"Hillary H."
+    
+          },
+          {
+            "type": "text",
+            "id": "review-author-status",
+            "label": "Author status",
+            "default":"Verified Buyer"
+    
+          }
+    
+            
+          ]
+        }
+      ],
+        "presets": [
+            {
+             "name": "They love us"
+            }
+         ]
+      }
+    {% endschema %}

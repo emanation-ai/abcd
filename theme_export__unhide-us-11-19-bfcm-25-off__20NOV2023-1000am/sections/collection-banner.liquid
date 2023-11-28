@@ -1,0 +1,411 @@
+{%- assign defaultBanner = true -%}
+{%- if section.blocks.size > 0 -%}
+{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+{%- for block in section.blocks -%}
+{%- if block.type == 'collection' and block.settings.coll == collection.handle -%}
+{%- assign defaultBanner = false -%}
+<div class="collection-hero {% if collection.image or block.settings.image != blank %}collection-hero--with-image{% endif %} py-{{block.settings.page_y_pd}} py-{{block.settings.page_x_pd}} py-{{block.settings.page_y_mg}} py-{{block.settings.page_width}}">
+<div class="collection-hero__inner collection-hero__inner-{{ block.id }}">
+  {%- render 'style', sufix: '.collection-hero__inner', id: block.id, style: block.settings -%}
+  <div class="collection-hero__text-wrapper">
+
+    {%- if block.settings.show_collection_title -%}
+    <h1 class="collection-hero__title">
+      <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+      {{- collection.title | escape -}}
+    </h1>
+    {%- endif -%}
+
+    {%- if block.settings.show_collection_description -%}
+      <div class="collection-hero__description rte">{{ collection.description }}</div>
+    {%- endif -%}
+    {%- if block.settings.countdown != blank -%}
+      {% render 'component-countdown', countdown: block.settings.countdown %}
+    {%- endif -%}
+  </div>
+
+  {%- if collection.image or block.settings.image != blank -%}
+    <div class="collection-hero__image-container">
+      {%- if block.settings.image != blank -%}
+        <div class="media {% if block.settings.m_image != blank %}small-hide{% endif %}" style="padding-bottom: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100 }}%;">
+          <img srcset="{%- if block.settings.image.width >= 375 -%}{{ block.settings.image | img_url: '375x' }} 375w,{%- endif -%}
+            {%- if block.settings.image.width >= 750 -%}{{ block.settings.image | img_url: '750x' }} 750w,{%- endif -%}
+            {%- if block.settings.image.width >= 1100 -%}{{ block.settings.image | img_url: '1100x' }} 1100w,{%- endif -%}
+            {%- if block.settings.image.width >= 1500 -%}{{ block.settings.image | img_url: '1500x' }} 1500w,{%- endif -%}
+            {%- if block.settings.image.width >= 1780 -%}{{ block.settings.image | img_url: '1780x' }} 1780w,{%- endif -%}
+            {%- if block.settings.image.width >= 2000 -%}{{ block.settings.image | img_url: '2000x' }} 2000w,{%- endif -%}
+            {%- if block.settings.image.width >= 2800 -%}{{ block.settings.image | img_url: '2800x' }} 2800w{%- endif -%}"
+            sizes="100vw"
+            src="{{ block.settings.image | img_url: '750x' }}"
+            alt="{{ block.settings.image.alt | escape }}"
+            width="{{ block.settings.image.width }}"
+            height="{{ block.settings.image.width | divided_by: block.settings.image.aspect_ratio }}"
+          >
+        </div>
+      {%- endif -%}
+      {%- if block.settings.m_image != blank -%}
+        <div class="media large-up-hide medium-hide" style="padding-bottom: {{ 1 | divided_by: block.settings.m_image.aspect_ratio | times: 100 }}%;">
+          <img srcset="{%- if block.settings.m_image.width >= 165 -%}{{ block.settings.m_image | img_url: '165x' }} 165w,{%- endif -%}
+            {%- if block.settings.m_image.width >= 360 -%}{{ block.settings.m_image | img_url: '360x' }} 360w,{%- endif -%}
+            {%- if block.settings.m_image.width >= 535 -%}{{ block.settings.m_image | img_url: '535x' }} 535w,{%- endif -%}
+            {%- if block.settings.m_image.width >= 720 -%}{{ block.settings.m_image | img_url: '720x' }} 720w,{%- endif -%}
+            {%- if block.settings.m_image.width >= 940 -%}{{ block.settings.m_image | img_url: '940x' }} 940w,{%- endif -%}
+            {%- if block.settings.m_image.width >= 1070 -%}{{ block.settings.m_image | img_url: '1070x' }} 1070w{%- endif -%}"
+            src="{{ block.settings.m_image | img_url: '533x' }}"
+            sizes="(min-width: 1100px) 535px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
+            alt="{{ collection.title | escape }}"
+            loading="lazy"
+            width="{{ block.settings.m_image.width }}"
+            height="{{ block.settings.m_image.height }}"
+          >
+        </div>
+      {%- endif -%}
+      {%- if collection.image and block.settings.image == blank -%}
+        <div class="media" style="padding-bottom: {{ 1 | divided_by: collection.image.aspect_ratio | times: 100 }}%;">
+          <img srcset="{%- if collection.image.width >= 165 -%}{{ collection.image | img_url: '165x' }} 165w,{%- endif -%}
+            {%- if collection.image.width >= 360 -%}{{ collection.image | img_url: '360x' }} 360w,{%- endif -%}
+            {%- if collection.image.width >= 535 -%}{{ collection.image | img_url: '535x' }} 535w,{%- endif -%}
+            {%- if collection.image.width >= 720 -%}{{ collection.image | img_url: '720x' }} 720w,{%- endif -%}
+            {%- if collection.image.width >= 940 -%}{{ collection.image | img_url: '940x' }} 940w,{%- endif -%}
+            {%- if collection.image.width >= 1070 -%}{{ collection.image | img_url: '1070x' }} 1070w{%- endif -%}"
+            src="{{ collection.image | img_url: '533x' }}"
+            sizes="(min-width: 1100px) 535px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
+            alt="{{ collection.title | escape }}"
+            loading="lazy"
+            width="{{ collection.image.width }}"
+            height="{{ collection.image.height }}"
+          >
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>
+</div>
+{%- endif -%}
+{%- endfor -%}
+{%- endif -%}
+
+{%- if defaultBanner -%}
+<div class="collection-hero {% if collection.image %}collection-hero--with-image{% endif %} py-{{block.settings.page_y_pd}} py-{{block.settings.page_x_pd}} py-{{block.settings.page_y_mg}} py-{{block.settings.page_width}}">
+  <div class="collection-hero__inner bc-collection-page-main">
+    <div class="collection-hero__text-wrapper">
+      <h1 class="collection-hero__title">
+        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}:</span>
+        {{- collection.title | escape -}}
+      </h1>
+      {%- if collection.description != blank -%}
+        <div class="collection-hero__description rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if collection.image -%}
+    <div class="collection-hero__image-container">
+        <div class="media" style="padding-bottom: {{ 1 | divided_by: collection.image.aspect_ratio | times: 100 }}%;">
+          <img srcset="{%- if collection.image.width >= 165 -%}{{ collection.image | img_url: '165x' }} 165w,{%- endif -%}
+            {%- if collection.image.width >= 360 -%}{{ collection.image | img_url: '360x' }} 360w,{%- endif -%}
+            {%- if collection.image.width >= 535 -%}{{ collection.image | img_url: '535x' }} 535w,{%- endif -%}
+            {%- if collection.image.width >= 720 -%}{{ collection.image | img_url: '720x' }} 720w,{%- endif -%}
+            {%- if collection.image.width >= 940 -%}{{ collection.image | img_url: '940x' }} 940w,{%- endif -%}
+            {%- if collection.image.width >= 1070 -%}{{ collection.image | img_url: '1070x' }} 1070w{%- endif -%}"
+            src="{{ collection.image | img_url: '533x' }}"
+            sizes="(min-width: 1100px) 535px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
+            alt="{{ collection.title | escape }}"
+            loading="lazy"
+            width="{{ collection.image.width }}"
+            height="{{ collection.image.height }}"
+          >
+        </div>
+    </div>
+    {%- endif -%}
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-collection-banner.name",
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "coll",
+          "label": "Select Collection",
+          "info": "Please select Collection where you want to show Banner Settings!"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_collection_title",
+          "default": true,
+          "label": "Show Collection Title"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_collection_description",
+          "default": false,
+          "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "m_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "text",
+          "id": "countdown",
+          "label": "Count Down Date",
+          "default": "2021-12-31T00:00:00",
+          "info": "Format 2021-12-31T00:00:00"
+        },
+        {
+          "type": "header",
+          "content": "Override"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_override",
+          "label": "Show Override",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "content_bg_color",
+          "label": "Background",
+          "options": [          
+              {
+                "label": "Transparent",
+                "value": "transparent"
+              },        
+              {
+                "label": "Dark",
+                "value": "var(--py-bg-color-dark)"
+              },
+              {
+                "label": "Middle Dark",
+                "value": "var(--py-bg-color-middle-dark)"
+              },
+              {
+                "label": "Average",
+                "value": "var(--py-bg-color-avarge)"
+              },
+              {
+                "label": "Middle Light",
+                "value": "var(--py-bg-color-middle-light)"
+              },
+              {
+                "label": "Light",
+                "value": "var(--py-bg-color-light)"
+              }
+            ],
+          "default": "transparent"
+        },
+        {
+          "type": "select",
+          "id": "content_color",
+          "label": "Texts Color",
+          "options": [ 
+              {
+                "label": "Dark",
+                "value": "var(--py-color-dark)"
+              },
+              {
+                "label": "Middle Dark",
+                "value": "var(--py-color-middle-dark)"
+              },
+              {
+                "label": "Average",
+                "value": "var(--py-color-avarge)"
+              },
+              {
+                "label": "Middle Light",
+                "value": "var(--py-color-middle-light)"
+              },
+              {
+                "label": "Light",
+                "value": "var(--py-color-light)"
+              }
+            ],
+            "default": "var(--py-color-light)"
+        },
+        {
+          "type": "image_picker",
+          "id": "ov_bg_image",
+          "label": "Background"
+        },
+        {
+          "type": "text",
+          "id": "ov_opacity",
+          "label": "Opacity"
+        },
+        {
+          "type": "header",
+          "content": "Custom Styles"
+        },
+        {
+          "type": "select",
+          "id": "page_width",
+          "label": "Container (Width)",
+          "options": [
+            {
+              "label": "Unset",
+              "value": "width-un"
+            },
+            {
+              "label": "Large",
+              "value": "width-l"
+            },
+            {
+              "label": "Medium",
+              "value": "width-m"
+            },
+            {
+              "label": "Small",
+              "value": "width-s"
+            }
+          ],
+          "default": "width-un"
+        },
+        {
+          "type": "select",
+          "id": "page_y_mg",
+          "label": "Container Margin Vertical",
+          "options": [
+              {
+              "label": "Unset",
+              "value": "mg-y-un"
+              },
+              {
+              "label": "None",
+              "value": "mg-y-n"
+              },
+              {
+              "label": "XL",
+              "value": "mg-y-xl"
+              },
+              {
+              "label": "L",
+              "value": "mg-y-l"
+              },
+              {
+              "label": "M",
+              "value": "mg-y-m"
+              },
+              {
+              "label": "S",
+              "value": "mg-y-s"
+              },
+              {
+              "label": "XS",
+              "value": "mg-y-xs"
+              }
+          ],
+          "default": "mg-y-un"
+        },
+        {
+          "type": "select",
+          "id": "page_x_pd",
+          "label": "Container Padding Horizontal",
+          "options": [
+            {
+              "label": "Unset",
+              "value": "pd-x-un"
+            },
+            {
+              "label": "None",
+              "value": "pd-x-n"
+            },
+            {
+              "label": "XL",
+              "value": "pd-x-xl"
+            },
+            {
+              "label": "L",
+              "value": "pd-x-l"
+            },
+            {
+              "label": "M",
+              "value": "pd-x-m"
+            },
+            {
+              "label": "S",
+              "value": "pd-x-s"
+            },
+            {
+              "label": "XS",
+              "value": "pd-x-xs"
+            }
+          ],
+          "default": "pd-x-un"
+        },
+        {
+          "type": "select",
+          "id": "page_y_pd",
+          "label": "Container Padding Vertical",
+          "options": [
+            {
+              "label": "Unset",
+              "value": "pd-y-un"
+            },
+            {
+              "label": "None",
+              "value": "pd-y-n"
+            },
+            {
+              "label": "XL",
+              "value": "pd-y-xl"
+            },
+            {
+              "label": "L",
+              "value": "pd-y-l"
+            },
+            {
+              "label": "M",
+              "value": "pd-y-m"
+            },
+            {
+              "label": "S",
+              "value": "pd-y-s"
+            },
+            {
+              "label": "XS",
+              "value": "pd-y-xs"
+            }
+          ],
+          "default": "pd-y-un"
+        },
+        {
+          "type": "select",
+          "id": "br",
+          "label": "Border",
+          "options": [
+            {
+              "label": "None",
+              "value": "br-none"
+            },
+            {
+              "label": "Horizontal and Vertical",
+              "value": "br"
+            },
+            {
+              "label": "Horizontal",
+              "value": "br-x"
+            },
+            {
+              "label": "Vertical",
+              "value": "br-y"
+            }
+          ],
+          "default": "br-y"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

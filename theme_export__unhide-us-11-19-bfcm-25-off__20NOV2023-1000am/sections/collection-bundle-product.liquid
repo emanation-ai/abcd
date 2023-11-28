@@ -1,0 +1,190 @@
+{{ 'template-collection-bundle-style.css' | asset_url | stylesheet_tag }}
+{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
+
+<link rel="preload" href="{{ 'component-price-style-1.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="{{ 'component-rte.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="{{ 'component-variants.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+<noscript>{{ 'component-price-style-1.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-variants.css' | asset_url | stylesheet_tag }}</noscript>
+
+<div class="bc-collection-page-bundle page-width">
+  <div class="product grid grid--1-col {% if collection.image %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
+    <div class="grid__item product__media-wrapper"> 
+      <div class="media" style="padding-bottom: {{ 1 | divided_by: collection.image.aspect_ratio | times: 100 }}%;">
+        <img srcset="{%- if collection.image.width >= 165 -%}{{ collection.image | img_url: '165x' }} 165w,{%- endif -%}
+                     {%- if collection.image.width >= 360 -%}{{ collection.image | img_url: '360x' }} 360w,{%- endif -%}
+                     {%- if collection.image.width >= 535 -%}{{ collection.image | img_url: '535x' }} 535w,{%- endif -%}
+                     {%- if collection.image.width >= 720 -%}{{ collection.image | img_url: '720x' }} 720w,{%- endif -%}
+                     {%- if collection.image.width >= 940 -%}{{ collection.image | img_url: '940x' }} 940w,{%- endif -%}
+                     {%- if collection.image.width >= 1070 -%}{{ collection.image | img_url: '1070x' }} 1070w{%- endif -%}"
+             src="{{ collection.image | img_url: '533x' }}"
+             sizes="(min-width: 1100px) 535px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
+             alt="{{ collection.title | escape }}"
+             loading="lazy"
+             width="{{ collection.image.width }}"
+             height="{{ collection.image.height }}"
+             >
+      </div>
+    </div>
+    <div class="product__info-wrapper grid__item">
+      <div id="ProductInfo-{{ section.id }}" class="product__info-container">
+        <h1 class="product__title">
+          {{ collection.title | escape }}
+        </h1>
+        <div class="no-js-hidden bc-product-price-wrapper" id="price-{{ section.id }}">
+          {%- for block in section.blocks -%}
+          {%- if block.type == 'collection' and block.settings.coll == collection.handle -%}
+          <div>{{block.settings.bd_price}}</div>
+          {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="product__description rte">
+          {{ collection.description }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+
+{% schema %}
+{
+  "name": "Product Bundle Section",
+  "class": "collection-bundle-section",
+  "settings": [    
+    {
+      "type": "checkbox",
+      "id": "custom_font_style",
+      "default": false,
+      "label": "Use Custom Style"
+    },
+    {
+      "type": "text",
+      "id": "title_fontsize",
+      "label": "Font size Desktop",
+      "info": "Ex: 20px "
+    },
+    {
+      "type": "text",
+      "id": "title_fontsize_m",
+      "label": "Font size Mobile"
+    },
+    {
+      "type": "text",
+      "id": "title_fontweight",
+      "label": "Font-weight"      
+    },
+    {
+      "type": "text",
+      "id": "title_fontstretch",
+      "label": "Font-stretch",
+      "info": "Ex: 40%"
+    },
+    {
+      "type": "select",
+      "id": "title_fontstyle",
+      "options": [
+        {
+          "value": "normal",
+          "label": "normal"
+        },
+        {
+          "value": "italic",
+          "label": "italic"
+        }
+      ],
+      "default": "normal",
+      "label": "Font-style"
+    },
+    {
+      "type": "text",
+      "id": "title_lineheight",
+      "label": "Lineheight"      
+    },
+    {
+      "type": "text",
+      "id": "title_letterspacing",
+      "label": "Letter-spacing",
+      "info":"Ex: 0.5px"
+    },
+    {
+      "type": "header",
+      "content": "Card Product info Font Style"
+    },
+    {
+      "type": "text",
+      "id": "info_fontsize",
+      "label": "Font size Desktop",
+      "info": "Ex: 20px "
+    },
+    {
+      "type": "text",
+      "id": "info_fontsize_m",
+      "label": "Font size Mobile"
+    },
+    {
+      "type": "text",
+      "id": "info_fontweight",
+      "label": "Font-weight"      
+    },
+    {
+      "type": "text",
+      "id": "info_fontstretch",
+      "label": "Font-stretch",
+      "info": "Ex: 40%"
+    },
+    {
+      "type": "select",
+      "id": "info_fontstyle",
+      "options": [
+        {
+          "value": "normal",
+          "label": "normal"
+        },
+        {
+          "value": "italic",
+          "label": "italic"
+        }
+      ],
+      "default": "normal",
+      "label": "Font-style"
+    },
+    {
+      "type": "text",
+      "id": "info_lineheight",
+      "label": "Lineheight"      
+    },
+    {
+      "type": "text",
+      "id": "info_letterspacing",
+      "label": "Letter-spacing",
+      "info":"Ex: 0.5px"     
+    }
+
+  ],
+  "blocks":[ 
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "coll",
+          "label": "Select Collection",
+          "info": "Please select Bundle Collection where you want to add price!"
+        },
+        {
+          "type": "text",
+          "id": "bd_price",
+          "label": "Bundle Total Price"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

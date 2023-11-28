@@ -1,0 +1,346 @@
+<style>
+    .our-mission-full-width{
+        background-color: {{section.settings.bg_color}};
+        /*  background: url('{{"puppy2.jpg" | asset_url}}') no-repeat;
+        background-position: bottom;
+        background-size:100vw 100vh; */
+        /* background: url('{{section.settings.background-img| img_url: "master"}}') no-repeat; */
+    }
+    .our-mission-wrapper{
+        width: 100%;
+        display: flex;
+        padding-top: 130px;
+       
+   
+    }
+    .om-wrapper{
+        z-index: 2;
+    overflow: visible;
+    position: relative;
+}
+    
+    .about-our-mission{
+        width: 50%;
+    }
+    .our-mission-goods{
+        width: 50%;
+        display: flex;
+        align-items: center;
+
+    }
+    .about-our-mission-headline{
+       width: 100%;
+    }
+    .about-our-mission-headline h2{
+        font-size: 70px;
+        margin-bottom:10px;
+    }
+    .about-our-mission-subheadline{
+        max-width: 600px;
+    }
+    .about-our-mission-subheadline p{
+        max-width:80%;
+    }
+    .about-our-mission-icon{
+        width: 200px;
+        margin-top: 30px;
+        
+    }
+    .about-our-mission-icon img{
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    .our-mission-goods-block{
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid #cfb489;
+    padding: 15px 0;
+    }
+    .our-mission-goods-block:last-child{
+        border-bottom: 1px solid #cfb489;
+    
+    }
+    .our-mission-goods-block-icon-wrapper{
+        width: 35%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .our-mission-goods-block-icon-wrapper img{
+        width: 50px;
+    }
+    .our-mission-goods-block-text-wrapper{
+        width: 55%;
+    }
+ 
+    .our-mission-goods-block-headline h4{
+        font-size: 22px;
+        color: #cfb489;
+        margin-bottom: 10px;
+        margin-top: 10px;
+
+    }
+    .our-mission-goods-block-subheadline{
+        max-width: 100%;
+    }
+    .our-mission-goods-block-subheadline p{
+        margin-top: 10px;
+    }
+    .our-mission-goods-blocks{
+        width: 85%;
+    }
+    .our-mission-image-wrapper{
+        width: 100%;
+    }
+    .our-mission-image-wrapper img{
+        width: 100%;
+        position: relative;
+        z-index: 1;
+        /* bottom: 90px; */
+}
+    
+   @media screen and (max-width:1280px) {
+       
+    .our-mission-goods-block-text-wrapper{
+        width: 70%;
+    }
+    .our-mission-goods-block-icon-wrapper{
+        width: 30%;
+    
+    }
+    .our-mission-goods-block-subheadline{
+        max-width: 100%;
+    }
+    .our-mission-goods-block-icon-wrapper img{
+            max-width: 90%;
+    }
+    .about-our-mission,.our-mission-goods{
+    width: 50%;
+   }
+   .about-our-mission-headline h2{
+       font-size: 50px;
+   }
+   .about-our-mission-subheadline{
+       width: 90%;
+   }
+   .our-mission-wrapper{
+       padding-top: 60px;
+   }
+   .our-mission-goods-blocks{
+       width: 90%;
+   }
+   .about-our-mission-icon{
+       width: 150px;
+   }
+   .our-mission-goods-block{
+       padding: 10px 0;
+   }
+}
+@media screen and (max-width:992px) {
+    .our-mission-full-width{
+        height: auto;
+    }
+    .about-our-mission-headline h2{
+        font-size: 40px;
+    }
+    .our-mission-goods-block-headline h4{
+        font-size: 20px;
+    }
+}
+@media screen and (max-width:768px) {
+    .our-mission-wrapper{
+        flex-direction: column;
+        gap: 40px;
+    }
+    .about-our-mission,.our-mission-goods{
+    width: 100%;
+   }
+   .about-our-mission-subheadline{
+       width: 100%;
+       max-width: unset;
+   }
+   .our-mission-goods-blocks{
+       width: 100%;
+   }
+   
+
+}
+@media screen and (max-width:500px) {
+    .our-mission-goods-block{
+       /* flex-direction: column; */
+       gap:10px;
+
+   }
+   .our-mission-goods-block-text-wrapper{
+       width: 100%;
+   }
+   .our-mission-goods-block-headline h4{
+       text-align: center;
+   }
+   .our-mission-goods-block-icon-wrapper{
+       width: 100%;
+       /* margin-top: 20px; */
+   }
+   .our-mission-goods-block-icon-wrapper img{
+       width: 60px;
+      
+   }
+   .about-our-mission-icon{
+       width: 150px;
+   }
+   .our-mission-goods-block-subheadline p{
+       text-align: left;
+   }
+   .our-mission-image-wrapper img{
+       bottom: 0;
+   }
+   .about-our-mission-headline{
+        margin-bottom: 30px;
+   }
+   .our-mission-wrapper{
+       padding-top: 40px;
+   }
+   .our-mission-goods-block-headline h4{
+    text-align: left;
+   }
+   .our-mission-goods-block-subheadline{
+       text-align: left;
+   }
+   .our-mission-goods-block-icon-wrapper{
+       width: 30%;
+   }
+   .our-mission-goods-block-text-wrapper{
+       width: 70%;
+   }
+   .our-mission-goods-block-icon-wrapper img{
+    width: 50px;
+
+   }
+}
+</style>
+<div class="landing-page-full-width-wrapper our-mission-full-width">
+    <div class="landing-page-wrapper om-wrapper">
+        <div class="our-mission-wrapper">
+            <div class="about-our-mission">
+                <div class="about-our-mission-headline">
+                    <h2>{{section.settings.our-mission-headline-first-row}} <br/>{{section.settings.our-mission-headline-second-row}}</h2>
+                </div>
+                <div class="about-our-mission-subheadline">
+                    <p>{{section.settings.our-mission-subheadline}}</p>
+                </div>
+
+                <div class="about-our-mission-icon">
+                    <img src="{{section.settings.learn-more-img | img_url: 'master'}}" alt=""/>
+                </div>
+
+            </div>
+            {%assign learnMoreBlocks=section.blocks | where:"type","learn-more"%}
+            <div class="our-mission-goods">
+                <div class="our-mission-goods-blocks">
+                    {%for block in learnMoreBlocks%}
+                    <div class="our-mission-goods-block">
+                        <div class="our-mission-goods-block-icon-wrapper">
+                            <img src="{{block.settings.learn-more-block-image |img_url: 'small'}}" alt=""/>
+
+                        </div>
+                        <div class="our-mission-goods-block-text-wrapper">
+                            <div class="our-mission-goods-block-headline">
+                                <h4>{{block.settings.learn-more-block-heading}}</h4>
+                            </div>
+                            <div class="our-mission-goods-block-subheadline">
+                                <p>{{block.settings.learn-more-block-subheading}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+                
+                  
+                   
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    <div class="our-mission-image-wrapper">
+        <img src="{{section.settings.background-img| img_url: "master"}}" alt="">
+    </div>
+   
+</div>
+
+
+{%schema%}
+{
+    "name": "Our mission",
+   "max_blocks": 3,
+    "settings": [
+    {
+        "type": "text",
+        "id": "our-mission-headline-first-row",
+        "label": "Headline first row",
+        "default": "Learn More"
+      },
+      {
+        "type": "text",
+        "id": "our-mission-headline-second-row",
+        "label": "Headline second row",
+        "default": "About Our Mission"
+      },
+      {
+        "type": "text",
+        "id": "our-mission-subheadline",
+        "label": "Subheadline",
+        "default": "UnHide is dedicated to helping animals at every level. From ending the sales of fur from wild animals to helping homeless pets here, we are on a mission to create a more sensible and ethical future in the fashion industry."
+      },
+      {
+        "type": "image_picker",
+        "id": "learn-more-img",
+        "label": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "background-img",
+        "label": "Image"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Section Background Color",
+        "default": "#FBF9EC"
+      }
+    
+
+    ],
+    "blocks": [
+     {
+       "name": "Learn more",
+       "type": "learn-more",
+       "settings": [
+         {
+           "type": "image_picker",
+           "id": "learn-more-block-image",
+           "label": "Image"
+         },
+         {
+            "type": "text",
+            "id": "learn-more-block-heading",
+            "label": "Heading",
+            "default": "Good for animals"
+         },
+         {
+            "type": "text",
+            "id": "learn-more-block-subheading",
+            "label": "Subheading",
+            "default": "Proceeds from our sales go directly to fighting for a fur free world."
+         }
+         
+       ]
+     }
+   ],
+    "presets": [
+        {
+         "name": "Our mission"
+        }
+     ]
+  }
+{%endschema%}

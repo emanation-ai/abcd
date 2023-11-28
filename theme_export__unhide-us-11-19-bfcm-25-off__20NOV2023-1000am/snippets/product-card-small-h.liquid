@@ -1,0 +1,42 @@
+{% if is_variant %}
+	{% assign item_product = item.product %}
+{% else %}
+	{% assign item_product = item %}
+{% endif %}
+
+<div class="product-card-small-h bg-subtle f-h-center">
+	{% render 'svg-icons', icon: 'review-stars' %}
+	<div class="product-image bg-subdued">
+		<span class="object-fit">
+			{% if item.image != nil %}
+				{% render 'img-srcset',
+					image: item.image,
+					max_width: 600,
+					alt: item.image.alt %}
+
+			{% elsif item_product.featured_image != nil %}
+				{% render 'img-srcset',
+					image: item_product.featured_image,
+					max_width: 600,
+					alt: item_product.featured_image.alt %}
+			{% endif %}
+		</span>
+	</div>
+
+	<div class="product-info f-v cr-black">
+		<h3 class="t-b-2">{{ item_product.title }}</h3>
+
+		<div class="product-info-price t-b-2">
+			{% if is_variant == true %}
+				{% render 'item-price-variant', variant: item %}
+			{% else %}
+				{% render 'item-price', product: item_product %}
+			{% endif %}
+		</div>
+	</div>
+
+	<a 
+		class="p-fill"
+		href="{{ item.url }}"
+		title="{{ item.title | escape }}"></a>
+</div>

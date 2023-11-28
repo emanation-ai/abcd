@@ -1,0 +1,52 @@
+<div class="bc-colors bc-colors-{{ settings.c_s_style }}">
+    {%- assign productType = product.type | handleize | prepend: 'color-' -%}
+    {%- assign productColorTitle = product.title | split: ' / ' | last -%}
+    {%- assign productColorImage = productColorTitle | strip | replace: ' ', '_' | downcase | prepend: 'c_' -%}
+    {%- assign productColor = productColorTitle | strip | replace: ' ', '_' | downcase | prepend: 'c_bg_' -%}
+    {%- if show_heading -%}
+        <h2 class="bc-colors__heading"> 
+        {%- if settings.c_s_style == 'style-2' -%}
+        COLOR <b>{{ productColorTitle }}</b>
+        {%- else -%}
+        CHOOSE A COLOR
+        {%- endif -%}
+        </h2>
+    {%- endif -%}
+    {%- if collections[productType].products.size > 0 -%}
+    {%- for prod in collections[productType].products -%}
+        {%- assign colorTitle = prod.title | split: ' / ' | last -%}        
+        {%- assign color = colorTitle | strip | replace: ' ', '-' | downcase  -%}
+        {%- if colorTitle == productColorTitle -%}
+        <div class="bc-colors__item bc-colors__item-selected">
+            <div class="bc-colors__icon" 
+            data-color="{{color}}"
+            {% if settings.c_s_style == 'style-2' %}title="{{colorTitle}}"{% endif %}></div>
+            {%- if settings.c_s_style == 'style-1' -%}
+                <span class="bc-colors__name">{{ colorTitle }}</span>
+            {%- endif -%}
+        </div>
+        {%- else -%}
+        <div class="bc-colors__item">
+            <a href="{{ prod.url }}">
+            <div class="bc-colors__icon" 
+            data-color="{{color}}"
+            {% if settings.c_s_style == 'style-2' %}title="{{colorTitle}}"{% endif %}>
+            </div>
+            {%- if settings.c_s_style == 'style-1' -%}
+                <span class="bc-colors__name">{{ colorTitle }}</span>
+            {%- endif -%}
+            </a>
+        </div>
+        {%- endif -%}
+    {%- endfor -%}
+    {%- else -%}
+    <div class="bc-colors__item bc-colors__item-selected">
+        <div class="bc-colors__icon" 
+        {% if settings[productColorImage] != blank %}style="background-image: url({{ settings[productColorImage] | img_url: '50x' }});"{% elsif settings[productColor] != blank %}style="background-color:{{ settings[productColor] }};"{% endif %}
+        {% if settings.c_s_style == 'style-2' %}title="{{productColorTitle}}"{% endif %}></div>
+        {%- if settings.c_s_style == 'style-1' -%}
+            <span class="bc-colors__name">{{ productColorTitle }}</span>
+        {%- endif -%}
+    </div>
+    {%- endif -%}
+</div>

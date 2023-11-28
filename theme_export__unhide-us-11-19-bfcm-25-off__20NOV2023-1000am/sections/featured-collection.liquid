@@ -1,0 +1,680 @@
+<link rel="stylesheet" href="{{ 'component-slider.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-price-style-1.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-badge.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-product-card-style-1.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'template-collection-style-1.css' | asset_url }}" >
+
+<noscript>{{ 'component-slider.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-price-style-1.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-badge.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-product-card-style-1.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'template-collection-style-1.css' | asset_url | stylesheet_tag }}</noscript>
+
+<style type="text/css">
+  .collection .page-width-br {
+    max-width: 100%;
+    padding: 0;
+  }
+  .bc-br-bt .collection__header {
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 2px solid #000;     
+  }
+  .bc-br-bt .collection__header .title {
+    margin: 0;
+  }
+  .featured-collection-{{section.id}} .title,
+  .featured-collection-{{section.id}} .slider-button{
+    color:{{section.settings.section_color_title}};
+  }
+  .featured-collection-{{section.id}}{
+    background-color:{{section.settings.section_bg_color}};    
+  }
+  .featured-collection-{{section.id}} .py-c-dark .card-wrapper *:not(.card-quick-add):not(.card-view-product){
+    color: var(--py-color-dark);
+      }
+  .featured-collection-{{section.id}} .py-c-average .card-wrapper *:not(.card-quick-add):not(.card-view-product){
+    color: var(--py-color-avarge);
+      }
+  .featured-collection-{{section.id}} .py-c-light .card-wrapper *:not(.card-quick-add):not(.card-view-product){
+    color: var(--py-color-light);
+      }
+  .card-wrapper{
+    padding-bottom:15px;
+    height:100%;
+  } 
+  .product-list-{{section.id}} .py-center .price,
+  .product-list-{{section.id}} .py-center .card-color-wrapper,
+  .product-list-{{section.id}} .py-center ul.variant-options,
+  .product-list-{{section.id}} .py-center .card-button-wrapper{
+    justify-content: center;
+  }  
+  {% if section.settings.custom_font_style %}
+
+  .product-list-{{section.id}} .card-wrapper .card-information__text{
+    font-size: {{section.settings.title_fontsize}};
+    font-weight: {{section.settings.title_fontweight}};
+    font-stretch:{{section.settings.title_fontstretch}};
+    font-style:{{section.settings.title_fontstyle}};
+    line-height:{{section.settings.title_lineheight}};
+    letter-spacing:{{section.settings.title_letterspacing}}
+  }
+  @media(max-width:749px){
+    .product-list-{{section.id}} .card-wrapper .card-information__text{
+      font-size: {{section.settings.title_fontsize_m}}
+    }
+  }
+  .product-list-{{section.id}} .card-wrapper .price *{
+    font-size: {{section.settings.info_fontsize}};
+    font-weight: {{section.settings.info_fontweight}};
+    font-stretch:{{section.settings.info_fontstretch}};
+    font-style:{{section.settings.info_fontstyle}};
+    line-height:{{section.settings.info_lineheight}};
+    letter-spacing:{{section.settings.info_letterspacing}}
+  }
+  @media(max-width:749px){
+    .product-list-{{section.id}} .card-wrapper .price *{
+      font-size: {{section.settings.info_fontsize_m}}
+    }
+  }              
+  {% endif %}
+</style>
+
+<div class="collection featured-collection-{{section.id}} bc-{{settings.section_style}}-bt py-pd-y-m">
+  <div class="page-width page-width-{{settings.section_style}}">
+    <div class="collection__header {% if section.settings.show_view_all and section.settings.swipe_on_mobile %}title-wrapper-with-link{% endif %}{% if section.settings.title == blank %} title-wrapper-with-link--no-heading{% endif %}{% if section.settings.collection.all_products_count > 2 and section.settings.swipe_on_mobile and section.settings.products_to_show > 2 %} title-wrapper--self-padded-tablet-down{% endif %}">
+      <h2 class="title{% if section.settings.title == blank %} title--no-heading{% endif %}">{{ section.settings.title | escape }}</h2>
+
+      {%- if section.settings.show_view_all and section.settings.swipe_on_mobile -%}
+        <a href="{{ section.settings.collection.url }}" class="link underlined-link large-up-hide">{{ 'sections.featured_collection.view_all' | t }}</a>
+      {%- endif -%}
+    </div>
+
+    {%- liquid
+      assign products_to_display = section.settings.collection.all_products_count
+
+      if section.settings.collection.all_products_count > section.settings.products_to_show
+        assign products_to_display = section.settings.products_to_show
+      endif
+    %}
+
+    <slider-component class="slider-mobile-gutter">
+      <ul class="grid grid--1-col product-list-{{section.id}} {% if products_to_display == 4 or section.settings.collection == blank %} grid--2-col-tablet grid--4-col-desktop{% else %} grid--3-col-tablet{% endif %}{% if products_to_display > 5 %} grid--one-third-max grid--4-col-desktop grid--quarter-max{% endif %}{% if section.settings.collection.all_products_count > 2 and section.settings.swipe_on_mobile and section.settings.products_to_show > 2 %} slider slider--tablet grid--peek{% endif %}{% if section.settings.show_view_all == false or section.settings.collection.products.size < section.settings.products_to_show %} negative-margin{% endif %}{% if section.settings.show_view_all and section.settings.collection.products.size > section.settings.products_to_show %} negative-margin--small{% endif %}" role="list">
+        {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+          <li class="grid__item py-card-{{section.settings.card_style}} py-{{section.settings.card_color}} {% if section.settings.collection.all_products_count > 2 and section.settings.swipe_on_mobile and section.settings.products_to_show > 2 %} slider__slide{% endif %}"  style="padding-bottom:{{section.settings.item_space}}px;padding-left:{{section.settings.item_space}}px">
+            {% render 'product-card',
+                product_card_product: product,
+                media_size: section.settings.image_ratio,
+                media_gallery:section.settings.image_gallery,
+                tag_field:section.settings.tag_field,                                   
+                show_vendor: section.settings.show_vendor,
+                show_colors: section.settings.show_colors,
+                show_view_product: section.settings.show_view_product,
+                show_quick_add: section.settings.show_quick_add,
+                show_variants_on_hover: section.settings.show_variants_on_hover,
+                card_bg_color: section.settings.card_bg_color,
+                card_radius: section.settings.card_radius,
+                info_align: section.settings.info_align
+            %}
+          </li>
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            <li class="grid__item">
+              {% render 'product-card-placeholder',index: forloop.index %}
+            </li>
+          {%- endfor -%}
+        {%- endfor -%}
+      </ul>
+      {%- if section.settings.collection.all_products_count > 2 and section.settings.swipe_on_mobile and section.settings.products_to_show > 2 -%}
+        <div class="slider-buttons no-js-hidden{% if section.settings.collection.all_products_count < 4 %} medium-hide{% endif %}{% if section.settings.collection.all_products_count < 3 %} small-hide{% endif %}">
+          <div class="slider-counter caption">
+            <span class="slider-counter--current">1</span>
+            <span aria-hidden="true"> / </span>
+            <span class="visually-hidden">{{ 'accessibility.of' | t }}</span>
+            <span class="slider-counter--total">{{ products_to_display }}</span>
+          </div>
+          <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'accessibility.previous_slide' | t }}">{% render 'icon-caret' %}</button>
+          <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'accessibility.next_slide' | t }}">{% render 'icon-caret' %}</button>
+        </div>
+      {%- endif -%}
+    </slider-component>
+
+    {%- if section.settings.show_view_all and section.settings.collection.all_products_count > section.settings.products_to_show -%}
+      <div class="center{% if section.settings.swipe_on_mobile %} small-hide medium-hide{% endif %}">
+        <a href="{{ section.settings.collection.url }}"
+          class="button"
+          aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: section.settings.collection.title }}"
+        >
+          {{ 'sections.featured_collection.view_all' | t }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.featured-collection.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Featured collection",
+      "label": "t:sections.featured-collection.settings.title.label"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:sections.featured-collection.settings.collection.label"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 2,
+      "default": 4,
+      "label": "t:sections.featured-collection.settings.products_to_show.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "default": true,
+      "label": "t:sections.featured-collection.settings.show_view_all.label"
+    },
+    {
+        "type": "select",
+        "id": "section_bg_color",
+        "label": "Section Background Color",
+        "options": [          
+            {
+            "label": "Transparent",
+            "value": "transparent"
+            },        
+            {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+            },
+            {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+            },
+            {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+            },
+            {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+            },
+            {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+            }
+        ],
+        "default": "var(--py-bg-color-dark)"
+    },
+    {
+        "type": "select",
+        "id": "section_color_title",
+        "label": "Title Color",
+        "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-light)"
+    },
+    {
+      "type": "header",
+      "content": "Product Card"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "options": [
+        {
+          "value": "vertical",
+          "label": "Vertical"
+        },
+        {
+          "value": "horizontal",
+          "label": "horizontal"
+        }
+      ],
+      "default": "vertical",
+      "label": "Card Style",
+      "info": "Horizontal style will work on desktop only"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "square",
+      "label": "t:sections.main-collection-product-grid.settings.image_ratio.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_gallery",
+      "default": false,
+      "label": "Enable Image Slider"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "bg-c-none"
+          },        
+          {
+            "label": "Dark",
+            "value": "bg-c-dark"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "bg-c-middle-dark"
+          },
+          {
+            "label": "Average",
+            "value": "bg-c-average"
+          },
+          {
+            "label": "Middle Light",
+            "value": "bg-c-middle-light"
+          },
+          {
+            "label": "Light",
+            "value": "bg-c-light"
+          }
+        ],
+        "default": "bg-c-average"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 7,
+      "label": "Card Border Radius"
+    },
+    {
+      "type": "range",
+      "id": "item_space",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 10,
+      "label": "Card Padding"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.main-collection-product-grid.settings.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_colors",
+      "default": true,
+      "label": "Show Colors"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variants_on_hover",
+      "default": true,
+      "label": "Show Variants On Hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_product",
+      "default": true,
+      "label": "Show View Product Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "default": true,
+      "label": "Show Quick Add Button"
+    },
+    {
+      "type": "select",
+      "id": "info_align",
+      "label": "Card Info Alignment",
+      "options": [     
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "card_color",
+      "label": "Card Info Color",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Dark",
+          "value": "c-dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "c-middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "c-average"
+        },
+        {
+          "label": "Light",
+          "value": "c-middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "c-light"
+        }
+      ],
+      "default": "c-dark"
+    },
+    {
+      "type": "header",
+      "content": "Card Button Style"
+    },
+    {
+      "type": "select",
+      "id": "view_btn_size",
+      "label": "View Button Size",
+      "options": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "card_color_view_btn",
+      "label": "View Button Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color_view_btn",
+      "label": "View Button Background Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "card_color_view_btn_hover",
+      "label": "View Button Hover Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color_view_btn_hover",
+      "label": "View Button Hover Background Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "header",
+      "content": "Card Product Title Font Style"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_font_style",
+      "default": false,
+      "label": "Use Custom Style"
+    },
+    {
+      "type": "text",
+      "id": "title_fontsize",
+      "label": "Font size Desktop",
+      "info": "Ex: 20px "
+    },
+    {
+      "type": "text",
+      "id": "title_fontsize_m",
+      "label": "Font size Mobile"
+    },
+    {
+      "type": "text",
+      "id": "title_fontweight",
+      "label": "Font-weight"      
+    },
+    {
+      "type": "text",
+      "id": "title_fontstretch",
+      "label": "Font-stretch",
+      "info": "Ex: 40%"
+    },
+    {
+      "type": "select",
+      "id": "title_fontstyle",
+      "options": [
+        {
+          "value": "normal",
+          "label": "normal"
+        },
+        {
+          "value": "italic",
+          "label": "italic"
+        }
+      ],
+      "default": "normal",
+      "label": "Font-style"
+    },
+    {
+      "type": "text",
+      "id": "title_lineheight",
+      "label": "Lineheight"      
+    },
+    {
+      "type": "text",
+      "id": "title_letterspacing",
+      "label": "Letter-spacing",
+      "info":"Ex: 0.5px"
+    },
+    {
+      "type": "header",
+      "content": "Card Product info Font Style"
+    },
+    {
+      "type": "text",
+      "id": "info_fontsize",
+      "label": "Font size Desktop",
+      "info": "Ex: 20px "
+    },
+    {
+      "type": "text",
+      "id": "info_fontsize_m",
+      "label": "Font size Mobile"
+    },
+    {
+      "type": "text",
+      "id": "info_fontweight",
+      "label": "Font-weight"      
+    },
+    {
+      "type": "text",
+      "id": "info_fontstretch",
+      "label": "Font-stretch",
+      "info": "Ex: 40%"
+    },
+    {
+      "type": "select",
+      "id": "info_fontstyle",
+      "options": [
+        {
+          "value": "normal",
+          "label": "normal"
+        },
+        {
+          "value": "italic",
+          "label": "italic"
+        }
+      ],
+      "default": "normal",
+      "label": "Font-style"
+    },
+    {
+      "type": "text",
+      "id": "info_lineheight",
+      "label": "Lineheight"      
+    },
+    {
+      "type": "text",
+      "id": "info_letterspacing",
+      "label": "Letter-spacing",
+      "info":"Ex: 0.5px"     
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.featured-collection.presets.name"
+    }
+  ]
+}
+{% endschema %}

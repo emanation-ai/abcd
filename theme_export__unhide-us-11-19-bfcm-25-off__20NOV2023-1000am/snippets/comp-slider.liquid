@@ -1,0 +1,21 @@
+{% comment %} ensure there are multiple slides to cycle through {% endcomment %}
+{% assign size = 1 %}
+<div class="r {% if size > 1 %}slider-wrapper{% endif %}">
+  <div class="slider">
+  {% for block in settings.block %}
+    {% assign variable = value %}
+    {% if media.media_type == "image" %}
+      <div class="slide">
+        {% render 'img-srcset', 
+          image: block.settings.image.src,
+          max_width: 800,
+          alt: block.settings.alt %}
+      </div>
+    {% endif %}
+  {% endfor %}
+  </div>
+  {% if size > 1 %}
+    <button aria-label="Slide to Previous Image" class="btn-prev">→</button>
+    <button aria-label="Slide to Next Image" class="btn-next">←</button>
+  {% endif %}
+</div>

@@ -1,0 +1,14 @@
+{%- if product.metafields.instagramfeed.size > 0 -%}
+{{ 'instagramfeed.css' | asset_url | stylesheet_tag }}
+
+<script type="application/json" id="instagramjson">
+    {{ product.metafields.instagramfeed | json }}
+</script>
+
+<instagram-feed>
+    <h2 class="bc-insta__heading">#437IRL</h2>
+    <div id="bcinstaitems" class="bc-insta__items bc-scroll-hide"></div>
+</instagram-feed>
+
+<script src="{{ 'instagramfeed.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}

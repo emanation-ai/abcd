@@ -1,0 +1,158 @@
+{{ 'component-filter-style-3.css' | asset_url | stylesheet_tag }}
+<style>
+.filter-group-display__list-item-color label::after {
+  border: 2px solid;
+}
+.py-c-light .filter-group-display__list-item:not(.filter-group-display__list-item-color) label:hover,
+.py-c-light .filter-group-display__list-item:not(.filter-group-display__list-item-color) input:checked + label {
+  background-color: var(--py-color-light);
+  color: var(--py-bg-color-dark);
+}
+.py-c-light .filter-group-display__list-item-color label:hover,
+.py-c-light .filter-group-display__list-item-color input:checked + label{  
+  color: var(--py-color-dark);
+}
+.py-c-light .filter-group-display__list-item-color label:hover,
+.py-c-light .filter-group-display__list-item-color input:checked + label{  
+  box-shadow: 0px 0px 4px 3px var(--py-color-light);
+}
+
+.py-c-dark .filter-group-display__list-item:not(.filter-group-display__list-item-color) label:hover,
+.py-c-dark .filter-group-display__list-item:not(.filter-group-display__list-item-color) input:checked + label{
+  background-color: var(--py-color-dark);
+  color: var(--py-bg-color-light);
+}
+.py-c-dark .filter-group-display__list-item-color label:hover,
+.py-c-dark .filter-group-display__list-item-color input:checked + label{  
+  color: var(--py-color-light);
+}
+.py-c-dark .filter-group-display__list-item-color label:hover,
+.py-c-dark .filter-group-display__list-item-color input:checked + label{  
+  box-shadow: 0px 0px 4px 3px var(--py-color-dark);
+}
+.py-c-light.coll-filters svg{
+  fill:var(--py-color-light);
+}
+.py-c-dark.coll-filters svg{
+  fill:var(--py-color-dark);
+}
+</style>
+<custom-filters class="coll-filters py-{{section.settings.filter_bar_bg_color}}  py-{{section.settings.filter_bar_color}}">
+    <div class="coll-filters__wrapper">
+      <form class="coll-filter-drawer__form">
+
+        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+        <select name="sort_by" class="select__select coll-filters__select-sort-hidden">
+          {%- for option in collection.sort_options -%}
+          <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected="selected"{% endif %}>{{ option.name | escape }}</option>
+          {%- endfor -%}
+        </select>
+        <div id="sort-by" class="filter-option-wrapper">
+          <div class="coll-filter-drawer__item-header">
+            <span class="coll-filter-drawer__item-heading">Sort By </span> <span class="selected-values"></span>
+            <svg viewBox="0 0 9 4" class="css-1nown46 e27xunx0"><path d="M8.19629 0L4.19629 4L0.196289 0H8.19629Z"></path></svg>
+          </div>
+          <div class="filter-group-display py-{{section.settings.filter_bar_bg_color}}">
+            <div class='option-heading'>Sort By: <div class="close-draw"><svg viewBox="0 0 10 10" width="11" stroke="#000000" stroke-width="1px"><path d="M1,1 L10,10"></path><path d="M10,1 L1,10"></path></svg></div></div>
+            <ul class="option-list">
+              {%- for option in collection.sort_options -%}
+              <li value="{{ option.value | escape }}" class="option_item {% if option.value == sort_by %}selected{% endif %}">
+                <span>{{ option.name | escape }}</span>
+                <svg width="12" height="9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.2491 6.4325L1.8166 4l-.8283.8225L4.249 8.0834l7-7-.8225-.8225-6.1775 6.1716z"></path></svg>
+              </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+        {%- for filter in collection.filters -%}
+        <div id="{{ filter.label | downcase | replace: ' ', '-' }}" class="filter-option-wrapper filter-options non-selected">  
+          <div class="coll-filter-drawer__item-header">
+            <span class="coll-filter-drawer__item-heading">All {{ filter.label }}</span>
+            <span class="reset_filter"><svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.111 9.889c2.1478 2.148 5.6302 2.148 7.778 0 2.148-2.1478 2.148-5.6302 0-7.778-2.1478-2.148-5.6302-2.148-7.778 0-2.148 2.1478-2.148 5.6302 0 7.778zm5.3034-6.0103L6.0002 5.2929 4.586 3.8787l-.707.707L5.293 6 3.879 7.4142l.7071.7071 1.4142-1.4142 1.4142 1.4142.7071-.7071L6.7073 6l1.4142-1.4142-.707-.7071z"></path></svg></span>
+            <span class="selected-values"></span>
+            <svg viewBox="0 0 9 4" class="css-1nown46 e27xunx0"><path d="M8.19629 0L4.19629 4L0.196289 0H8.19629Z"></path></svg>
+            {%- assign type = filter.label | downcase | strip -%}
+          </div>
+
+          <div class="filter-group-display py-{{section.settings.filter_bar_bg_color}}" filter-type="{{filter.type}}">
+            <div class='option-heading'><span class="go-back-option"><span class='mobile-only'>← Filter by </span> {{ filter.label }}:</span> <span class='reset_filter'>Reset</span></div>
+            {%- case filter.type -%}
+            {%- when 'list' -%}
+            <ul class="filter-group-display__list">
+              {%- for filter_value in filter.values -%}
+              <li class="filter-group-display__list-item filter-group-display__list-item-{{ type }}">
+                <input type="checkbox"
+                       name="{{ filter_value.param_name }}"
+                       value="{{ filter_value.value }}"
+                       id="Filter-{{ filter.param_name }}-{{ forloop.index }}"
+                       {% if filter_value.active -%}checked{%- endif %}
+                                  {% if filter_value.count == 0 and filter_value.active == false -%}disabled{%- endif %}
+                              >
+                <label for="Filter-{{ filter.param_name }}-{{ forloop.index }}" {% if type == 'color' or type == 'colors' %}style="background-color:{{ filter_value.label }};"{% endif %}>
+                  {%- if type == 'color' or type == 'colors' -%}
+                  &nbsp;
+                  {%- else -%}
+                  {{ filter_value.label }}
+                  {%- endif -%}
+                </label>
+              </li>
+              {%- endfor -%}
+            </ul>
+            {%- when 'price_range' -%}
+            <div class="filter-group-display__price-range py-{{section.settings.filter_bar_bg_color}}">
+              <div class="filter-group-display__price-range-item filter-group-display__price-range-from">
+                <span>{{ cart.currency.symbol }}</span>
+
+                <input name="{{ filter.min_value.param_name }}"
+                       id="Filter-{{ filter.min_value.param_name }}"
+                       {% if filter.min_value.value -%}
+                       value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                       {%- endif %}
+                              type="number"
+                       placeholder="0"
+                       min="0"
+                       max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                       >
+              </div>
+              <span class="filter-price__space">-</span>
+              <div class="filter-group-display__price-range-item filter-group-display__price-range-to">
+                <span>{{ cart.currency.symbol }}</span>
+
+                <input name="{{ filter.max_value.param_name }}"
+                       id="Filter-{{ filter.max_value.param_name }}"
+                       {% if filter.max_value.value -%}
+                       value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                       {%- endif %}
+                              type="number"
+                       placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                       min="0"
+                       max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                       >
+              </div>
+            </div>
+            {%- endcase -%}
+          </div>
+        </div>
+        {%- endfor -%}
+      </form>
+      <div class="coll-filter-mobile" >
+        <div class="filter-triger">Filter +</div>
+        <div class="sort-triger">Sort +</div>
+        <div class="filter-options-mobile">
+          <div class='filter-option-heading'>Filter By: <div class="close-draw"><svg viewBox="0 0 10 10" width="11" stroke="#000000" stroke-width="1px"><path d="M1,1 L10,10"></path><path d="M10,1 L1,10"></path></svg></div></div>
+            <ul class="filter-option-list">
+              {%- for filter in collection.filters -%}
+              <li value="{{ filter.label | downcase | replace: ' ', '-' }}" class="filter-option_item">
+                <span>{{ filter.label }}</span>
+                <span> + </span>
+              </li>
+              {%- endfor -%}
+            </ul>
+        </div>
+      </div>
+  </div>
+    
+
+</custom-filters>
+
+<script src="{{ 'collection-filters-style-3.js' | asset_url }}" defer="defer"></script>

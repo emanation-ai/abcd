@@ -1,0 +1,177 @@
+<style>
+    .footer-onpage-wrapper{
+        padding: 50px 20px;
+    } 
+    .footer-full-width{
+        background-color: #6c725c;
+    }
+    .footer-links ul,.footer-icons ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+        padding-left:0;
+        margin-bottom: 5px;
+    }
+    .footer-links ul li a,.footer-icons ul li a{
+        text-decoration: none;
+        color: #fff;
+    }
+    .footer-wrapper{
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 2px solid #fff;
+    }
+    .footer-logo h1{
+      color: #fff;
+      text-align: left;
+    }
+    .footer-links ul li a{
+        border-right: 1px solid #fff;
+        padding-right: 20px;
+        font-size: 15px;
+    }
+  
+    .footer-links ul li:last-child a {
+        border-right: 0;
+
+    }
+    .logo.footer-logo{
+        margin-bottom: 20px !important;
+    }
+    @media screen and (max-width:992px) {
+        .footer-onpage-wrapper{
+            padding: 50px 0px;
+        }
+        
+    }
+    @media screen and (max-width:786px) {
+        .footer-wrapper{
+            border: 0;
+        }
+        .footer-links ul li a{
+        border-right:0;
+        padding-right: 0;
+    }
+    .footer-links ul, .footer-icons ul{
+        flex-direction: column;
+    }
+    .footer-wrapper{
+        flex-direction: column;
+    }
+    .footer-icons ul {
+        flex-direction: row;
+    }
+    .footer-logo h1{
+        text-align: center;
+    }
+    .footer-links ul, .footer-icons ul{
+        justify-content: center;
+    }
+        .footer-links ul li{
+            text-align: center;
+        }
+        .footer-icons{
+            margin-top: 20px;
+        }
+    }
+</style>
+<div class="landing-page-full-width-wrapper footer-full-width">
+    <div class="landing-page-wrapper footer-onpage-wrapper">
+        <div class="footer-logo-wrapper">
+            <div class="logo footer-logo">
+                <a href="/"><h1>Un<em>Hide</em></h1></a>
+            </div>
+        </div>
+        <div class="footer-wrapper">
+            {%assign footerLinks=section.blocks | where:"type","footer-link"%}
+            {%assign footerSocialIcons=section.blocks | where:"type","footer-social"%}
+
+            <div class="footer-links">
+               <ul>
+                   {%for block in footerLinks%}
+                   <li><a href="{{block.settings.footer-link-url}}">{{block.settings.footer-link-text}}</a></li>
+                   {%endfor%}
+                   <!-- <li><a href="#">Privacy Policies</a></li>
+                   <li><a href="#">Terms & Services</a></li>
+                   <li><a href="#">Disclaimer</a></li>
+                   <li><a href="#">&copy; 2021, UnHide</a></li> -->
+               </ul>
+            </div>
+            <div class="footer-icons">
+                <ul>
+                    {%for block in footerSocialIcons%}
+                    <li><a href="{{block.settings.footer-link-socials-url}}">
+                       
+                        <img class="social-img" src="{{block.settings.footer-social-icon-img | img_url: 'master'}}" alt=""/>
+                    </a></li>
+
+                    {%endfor%}
+                    <!-- <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-instagram"></i></a></li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%schema%}
+{
+    "name": "Footer unhide",
+   "settings": [
+   {
+    "type": "text",
+    "id": "logo-first-word",
+    "label": "Logo first word",
+    "default": "Un"
+    },
+    {
+        "type": "text",
+        "id": "logo-second-word",
+        "label": "Logo second word",
+        "default": "Hide"
+    }
+   ],
+   "blocks": [
+   {
+     "name": "footer link",
+     "type": "footer-link",
+     "settings": [
+     {
+       "type": "text",
+       "id": "footer-link-text",
+       "label": "Text"
+    
+     },
+     {
+        "type": "url",
+        "id": "footer-link-url",
+        "label": "Link"
+      }
+       
+     ]
+   },{
+    "name": "footer social",
+    "type": "footer-social",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "footer-social-icon-img",
+        "label": "Icon"
+      },
+      {
+        "type": "url",
+        "id": "footer-link-socials-url",
+        "label": "Link"
+      }
+      
+    ]
+
+   }
+ ],
+    "presets": [
+        {
+         "name": "Footer unhide"
+        }
+     ]
+  }
+{%endschema%}

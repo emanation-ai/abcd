@@ -1,0 +1,51 @@
+<style id="stylesheet-product-colors">
+  {% for block in section.blocks %}
+  {% assign color =  block.settings.color %}
+  {% assign name =  block.settings.name | downcase | replace: ' ','-' %}
+  .pd-colors__icon[data-color="{{ name }}"] {
+    background-color: {{ color }};
+  {% if block.settings.use_image and block.settings.swatch_image != blank %}
+    background-color: transparent;
+    background-image: url('{{ block.settings.swatch_image | img_url: '50x' }}');
+    background-size: cover;
+  {% endif %}
+  }
+{% endfor %}
+</style>
+
+{% schema %}
+{
+  "name": "Product Color Uploads",
+  "tag" : "section",
+  "settings": [],
+  "blocks": [
+  	{
+      "type": "swatch",
+      "name": "Color Swatch",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_image",
+          "label": "Use image instead of color",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "swatch_image",
+          "label": "Swatch image"
+        }
+  	  ]
+  	}
+  ]
+}
+{% endschema %}

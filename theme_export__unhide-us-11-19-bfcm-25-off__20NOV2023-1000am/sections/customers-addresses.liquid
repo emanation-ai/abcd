@@ -1,0 +1,1011 @@
+<link rel="stylesheet" href="{{ 'section-main-page.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-rte.css' | asset_url }}" >
+
+<noscript>{{ 'section-main-page.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+<style>  
+  .page-container{
+    background-color:{{section.settings.page_bg_color}};
+    padding:5px;
+    text-align:{{section.settings.page_align}};
+  }
+  .page-container .customer *:not(.add_address_btn,.delete_address_btn,.edit_address_btn){
+    color:{{section.settings.page_color}};
+  }
+  .page-container .customer .edit_panel{
+    position: fixed;
+    width: 100%;
+    max-width: 420px;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    background-color:{{section.settings.panel_bg_color}};
+    padding: var(--py-pd-x-m);
+    height: 100vh;
+    overflow: auto;
+  }
+  .page-container .customer .edit_panel_overlay{    
+    position: fixed;
+    width: 100%; 
+    height: 100vh;
+    top: 0;
+    right: 0;
+    z-index: 99;
+    background: #00000082;
+  }
+  .page-container .customer .edit_panel *:not(.submit_address){
+    color:{{section.settings.panel_color}};
+  }
+  .page-container .customer .edit_panel h2{
+    text-align:left;
+  }
+  .customer .edit_panel .cancel_submit{
+    position: absolute;
+    top: 19px;
+    padding: 3px;
+    width: initial;
+    min-width: initial;
+    right: 20px;
+  }
+  .customer .edit_panel .cancel_submit svg{
+    width: 17px;
+    height: 17px;
+  }
+  .page-container .customer .field input,
+  .page-container .customer.addresses select{
+    border:{{section.settings.field_border_width}}px solid {{section.settings.field_color_br}};
+    border-radius:{{section.settings.field_border_radius}}px;
+    background-color:{{section.settings.field_bg_color}};
+    color:{{section.settings.field_color}};
+    padding: 12px 15px;
+    width:100%;
+  }
+  .page-container .customer .submit_address{    
+    width:100%;
+  }
+  
+</style>
+<div class="page-container">
+{%- paginate customer.addresses by 5 -%}
+  <div class="customer addresses" data-customer-addresses>
+    <svg style="display: none">
+      <symbol id="icon-caret" viewBox="0 0 10 6">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+      </symbol>
+    </svg>
+    <h1>{{ 'customer.addresses.title' | t }}</h1>
+    <a href="{{ routes.account_url }}">
+      {{ 'customer.account.return' | t }}
+    </a>
+  
+    <div data-address>
+      <button
+        class="add_address_btn button py-c-{{section.settings.page_color_add_btn}} py-hv-c-{{section.settings.page_color_add_btn_hover}} py-bg-c-{{section.settings.page_bg_color_add_btn}} py-hv-bg-c-{{section.settings.page_bg_color_add_btn_hover}} py-btn-{{section.settings.add_btn_size}}"      
+        type="button"
+        aria-expanded="false"
+        aria-controls="AddAddress"
+      >
+        {{ 'customer.addresses.add_new' | t }}
+      </button>
+      <div id="AddAddress" class="edit_panel">
+        <h2 id="AddressNewHeading">{{ 'customer.addresses.add_new' | t }}</h2>
+        {%- form 'customer_address', customer.new_address, aria-labelledBy: 'AddressNewHeading' -%}
+          <div class="field"> 
+            <label for="AddressFirstNameNew">{{ 'customer.addresses.first_name' | t }}</label>
+            <input type="text" id="AddressFirstNameNew" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name" placeholder="{{ 'customer.addresses.first_name' | t }}">            
+          </div>
+          <div class="field">          
+            <label for="AddressLastNameNew">{{ 'customer.addresses.last_name' | t }}</label>
+            <input type="text" id="AddressLastNameNew" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name" placeholder="{{ 'customer.addresses.last_name' | t }}">
+        </div>
+          <div class="field">          
+            <label for="AddressCompanyNew">{{ 'customer.addresses.company' | t }}</label>
+            <input type="text" id="AddressCompanyNew" name="address[company]" value="{{ form.company }}" autocomplete="organization" placeholder="{{ 'customer.addresses.company' | t }}">            
+          </div>
+          <div class="field">          
+            <label for="AddressAddress1New">{{ 'customer.addresses.address1' | t }}</label>
+            <input type="text" id="AddressAddress1New" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1" placeholder="{{ 'customer.addresses.address1' | t }}">            
+          </div>
+          <div class="field">          
+            <label for="AddressAddress2New">{{ 'customer.addresses.address2' | t }}</label>
+            <input type="text" id="AddressAddress2New" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2" placeholder="{{ 'customer.addresses.address2' | t }}">            
+          </div>
+          <div class="field">          
+            <label for="AddressCityNew">{{ 'customer.addresses.city' | t }}</label>
+            <input type="text" id="AddressCityNew" name="address[city]" value="{{ form.city }}" autocomplete="address-level2" placeholder="{{ 'customer.addresses.city' | t }}">            
+          </div>
+          <div>
+            <label for="AddressCountryNew">{{ 'customer.addresses.country' | t }}</label>
+            <div class="select">
+              <select
+                id="AddressCountryNew"
+                name="address[country]"
+                data-default="{{ form.country }}"
+                autocomplete="country"
+              >
+                {{ all_country_option_tags }}
+              </select>
+            </div>
+          </div>
+          <div id="AddressProvinceContainerNew" style="display: none">
+            <label for="AddressProvinceNew">{{ 'customer.addresses.province' | t }}</label>
+            <div class="select">
+              <select
+                id="AddressProvinceNew"
+                name="address[province]"
+                data-default="{{ form.province }}"
+                autocomplete="address-level1"
+              >
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="AddressZipNew">{{ 'customer.addresses.zip' | t }}</label>
+            <input type="text" id="AddressZipNew" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" autocomplete="postal-code" placeholder="{{ 'customer.addresses.zip' | t }}">            
+          </div>
+          <div class="field">
+            <label for="AddressPhoneNew">{{ 'customer.addresses.phone' | t }}</label>
+            <input type="tel" id="AddressPhoneNew" name="address[phone]" value="{{ form.phone }}" autocomplete="tel" placeholder="{{ 'customer.addresses.phone' | t }}">            
+          </div>
+          <div>
+            {{ form.set_as_default_checkbox }}
+            <label for="address_default_address_new">{{ 'customer.addresses.set_default' | t }}</label>
+          </div>
+          <div>
+            <button class="submit_address button py-c-{{section.settings.panel_color_submit_btn}} py-hv-c-{{section.settings.panel_color_submit_btn_hover}} py-bg-c-{{section.settings.panel_bg_color_submit_btn}} py-hv-bg-c-{{section.settings.panel_bg_color_submit_btn_hover}} py-btn-{{section.settings.submit_btn_size}}">{{ 'customer.addresses.add' | t }}</button>
+            <button class="cancel_submit" type="reset">
+              <svg class="icon icon-close" aria-hidden="true" focusable="false" role="presentation">
+                <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor"></path>
+              </svg>
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+      <div id="" class="edit_panel_overlay"></div>
+    </div>
+
+    <ul role="list">
+      {%- for address in customer.addresses -%}
+        <li data-address>
+          {%- if address == customer.default_address -%}
+            <h2>{{ 'customer.addresses.default' | t }}</h2>
+          {%- endif -%}
+          {{ address | format_address }}
+          <button
+            class="edit_address_btn button py-c-{{section.settings.page_color_edit_btn}} py-hv-c-{{section.settings.page_color_edit_btn_hover}} py-bg-c-{{section.settings.page_bg_color_edit_btn}} py-hv-bg-c-{{section.settings.page_bg_color_edit_btn_hover}} py-btn-{{section.settings.edit_btn_size}}"
+            type="button"
+            id="EditFormButton_{{ address.id }}"
+            aria-label="{{ 'customer.addresses.edit_address' | t }} {{ forloop.index }}"
+            aria-controls="EditAddress_{{ address.id }}"
+            aria-expanded="false"
+            data-address-id="{{ address.id }}"
+          >
+            {{ 'customer.addresses.edit' | t }}
+          </button>
+          <button
+            class="delete_address_btn button py-c-{{section.settings.page_color_edit_btn}} py-hv-c-{{section.settings.page_color_edit_btn_hover}} py-bg-c-{{section.settings.page_bg_color_edit_btn}} py-hv-bg-c-{{section.settings.page_bg_color_edit_btn_hover}} py-btn-{{section.settings.edit_btn_size}}"
+            type="button"
+            aria-label="{{ 'customer.addresses.delete' | t }} {{ forloop.index }}"
+            data-target="{{ address.url }}"
+            data-confirm-message="{{ 'customer.addresses.delete_confirm' | t }}"
+          >
+            {{ 'customer.addresses.delete' | t }}
+          </button>
+          <div id="EditAddress_{{ address.id }}" class="edit_panel">
+            <h2>{{ 'customer.addresses.edit_address' | t }}</h2>            
+            {%- form 'customer_address', address -%}
+              <div class="field">               
+                <label for="AddressFirstName_{{ form.id }}">{{ 'customer.addresses.first_name' | t }}</label>
+                <input type="text" id="AddressFirstName_{{ form.id }}" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name" placeholder="{{ 'customer.addresses.first_name' | t }}">                
+              </div>
+              <div class="field">                
+                <label for="AddressLastName_{{ form.id }}">{{ 'customer.addresses.last_name' | t }}</label>
+                <input type="text" id="AddressLastName_{{ form.id }}" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name" placeholder="{{ 'customer.addresses.last_name' | t }}">                
+              </div>
+              <div class="field">
+                <label for="AddressCompany_{{ form.id }}">{{ 'customer.addresses.company' | t }}</label> 
+                <input type="text" id="AddressCompany_{{ form.id }}" name="address[company]" value="{{ form.company }}" autocomplete="organization" placeholder="{{ 'customer.addresses.company' | t }}">                               
+              </div>
+              <div class="field">
+                <label for="AddressAddress1_{{ form.id }}">{{ 'customer.addresses.address1' | t }}</label>   
+                <input type="text" id="AddressAddress1_{{ form.id }}" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1" placeholder="{{ 'customer.addresses.address1' | t }}">                            
+              </div>
+              <div class="field">
+                <label for="AddressAddress2_{{ form.id }}">{{ 'customer.addresses.address2' | t }}</label>   
+                <input type="text" id="AddressAddress2_{{ form.id }}" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2" placeholder="{{ 'customer.addresses.address2' | t }}">                             
+              </div>
+              <div class="field">
+                <label for="AddressCity_{{ form.id }}">{{ 'customer.addresses.city' | t }}</label> 
+                <input type="text" id="AddressCity_{{ form.id }}" name="address[city]" value="{{ form.city }}" autocomplete="address-level2" placeholder="{{ 'customer.addresses.city' | t }}">                               
+              </div>
+              <div>
+                <label for="AddressCountry_{{ form.id }}">
+                  {{ 'customer.addresses.country' | t }}
+                </label>
+                <div class="select">
+                  <select
+                    id="AddressCountry_{{ form.id }}"
+                    name="address[country]"
+                    data-address-country-select
+                    data-default="{{ form.country }}"
+                    data-form-id="{{ form.id }}"
+                    autocomplete="country"
+                  >
+                    {{ all_country_option_tags }}
+                  </select>
+                </div>
+              </div>
+              <div id="AddressProvinceContainer_{{ form.id }}" style="display:none;">
+                <label for="AddressProvince_{{ form.id }}">
+                  {{ 'customer.addresses.province' | t }}
+                </label>
+                <div class="select">
+                  <select
+                    id="AddressProvince_{{ form.id }}"
+                    name="address[province]"
+                    data-default="{{ form.province }}"
+                    autocomplete="address-level1"
+                  >
+                  </select>                  
+                </div>
+              </div>
+              <div class="field">                
+                <label for="AddressZip_{{ form.id }}">{{ 'customer.addresses.zip' | t }}</label>
+                <input type="text" id="AddressZip_{{ form.id }}" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" autocomplete="postal-code" placeholder="{{ 'customer.addresses.zip' | t }}">                
+              </div>
+              <div class="field">                
+                <label for="AddressPhone_{{ form.id }}">{{ 'customer.addresses.phone' | t }}</label>
+                <input type="tel" id="AddressPhone_{{ form.id }}"  name="address[phone]" value="{{ form.phone }}" autocomplete="tel" placeholder="{{ 'customer.addresses.phone' | t }}">                
+              </div>
+              <div>
+                {{ form.set_as_default_checkbox }}
+                <label for="address_default_address_{{ form.id }}">
+                  {{ 'customer.addresses.set_default' | t }}
+                </label>
+              </div>
+              <div>
+                <button class="submit_address button py-c-{{section.settings.panel_color_submit_btn}} py-hv-c-{{section.settings.panel_color_submit_btn_hover}} py-bg-c-{{section.settings.panel_bg_color_submit_btn}} py-hv-bg-c-{{section.settings.panel_bg_color_submit_btn_hover}} py-btn-{{section.settings.submit_btn_size}}">{{ 'customer.addresses.update' | t }}</button>
+                <button class="cancel_submit" type="reset">
+                  <svg class="icon icon-close" aria-hidden="true" focusable="false" role="presentation">
+                    <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor"></path>
+                  </svg>
+                </button>
+              </div>
+            {%- endform -%}
+          </div>
+          <div id="" class="edit_panel_overlay"></div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  
+    {%- if paginate.pages > 1 -%}
+      {%- if paginate.parts.size > 0 -%}
+          <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+            <ul role="list">
+            {%- if paginate.previous -%}
+              <li>
+                <a href="{{ paginate.previous.url }}" aria-label="{{ 'general.pagination.previous' | t }}">
+                  <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+                  </svg>
+                </a>
+              </li>
+            {%- endif -%}
+
+            {%- for part in paginate.parts -%}
+              <li>
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">{{ part.title }}</a>
+                {%- else -%}
+                  {%- if part.title == paginate.current_page -%}
+                    <span aria-current="page" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">{{ part.title }}</span>
+                  {%- else -%}
+                    <span>{{ part.title }}</span>
+                  {%- endif -%}
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+
+            {%- if paginate.next -%}
+              <li>
+                <a href="{{ paginate.next.url }}" aria-label="{{ 'general.pagination.next' | t }}" >
+                  <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+                  </svg>
+                </a>
+              </li>
+            {%- endif -%}
+            </ul>
+          </nav>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+{%- endpaginate -%}
+</div>
+  <script>
+    document.querySelectorAll('.edit_panel_overlay').forEach(element => {
+      element.addEventListener('click', function(event){
+        this.previousElementSibling.querySelector('.cancel_submit').click();
+      });
+    });
+  </script>  
+  
+{% schema %}
+{
+  "name": "Customer-Addresses Page",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "page_bg_color",
+      "label": "Page Background Color",
+      "options": [          
+         {
+            "label": "Transparent",
+            "value": "transparent"
+         },        
+         {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+         },
+         {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+         },
+         {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+         },
+         {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+         },
+         {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+         }
+       ],
+     "default": "var(--py-bg-color-light)"
+    },
+    {
+        "type": "select",
+        "id": "page_color",
+        "label": "Page Text Color",
+        "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-dark)"
+    },
+    {
+        "type": "select",
+        "id": "page_align",
+        "label": "Page Alignment",
+        "options": [ 
+            {
+            "label": "Left",
+            "value": "left"
+            },
+            {
+            "label": "Center",
+            "value": "center"
+            }
+        ],
+        "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Add Address Button Style"
+    },
+    {
+      "type": "select",
+      "id": "add_btn_size",
+      "label": "Add Address Button Size",
+      "options": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "page_color_add_btn",
+      "label": "Add Address Button Color",
+      "options": [
+        {
+           "label": "Dark",
+           "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "page_bg_color_add_btn",
+      "label": "Add Address Button Background Color",
+      "options": [
+        {
+           "label": "Dark",
+           "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "page_color_add_btn_hover",
+      "label": "Add Address Button Hover Color",
+      "options": [
+        {
+           "label": "Dark",
+           "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "page_bg_color_add_btn_hover",
+      "label": "Add Address Button Hover Background Color",
+      "options": [
+        {
+           "label": "Dark",
+           "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "header",
+      "content": "Edit & Delet Button Style"
+    },
+    {
+      "type": "select",
+      "id": "edit_btn_size",
+      "label": "Edit Button Size",
+      "options": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "page_color_edit_btn",
+      "label": "Edit Button Color",
+      "options": [
+        {
+           "label": "Dark",
+           "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "page_bg_color_edit_btn",
+      "label": "Edit Button Background Color",
+      "options": [
+        {
+           "label": "Dark",
+           "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "page_color_edit_btn_hover",
+      "label": "Edit Button Hover Color",
+      "options": [
+        {
+           "label": "Dark",
+           "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "page_bg_color_edit_btn_hover",
+      "label": "Edit Button Hover Background Color",
+      "options": [
+        {
+           "label": "Dark",
+           "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "header",
+      "content": "Add Adress Pannel & Field Style"
+    },
+    {
+      "type": "select",
+      "id": "panel_bg_color",
+      "label": "Edit Panel Background Color",
+      "options": [          
+         {
+            "label": "Transparent",
+            "value": "transparent"
+         },        
+         {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+         },
+         {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+         },
+         {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+         },
+         {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+         },
+         {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+         }
+       ],
+     "default": "var(--py-bg-color-light)"
+    },
+    {
+        "type": "select",
+        "id": "panel_color",
+        "label": "Edit Panel Text Color",
+        "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-dark)"
+    },
+    {
+      "type": "select",
+      "id": "field_bg_color",
+      "label": "Field Background Color",
+      "options": [          
+         {
+            "label": "Transparent",
+            "value": "transparent"
+         },        
+         {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+         },
+         {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+         },
+         {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+         },
+         {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+         },
+         {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+         }
+       ],
+     "default": "var(--py-bg-color-light)"
+    },
+    {
+        "type": "select",
+        "id": "field_color",
+        "label": "Field Text Color",
+        "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-dark)"
+    },
+    {
+        "type": "range",
+        "id": "field_border_width",
+        "min": 0,
+        "max": 5,
+        "step": 1,
+        "default": 1,
+        "label": "Field Border Width"
+    },
+    {
+        "type": "range",
+        "id": "field_border_radius",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "label": "Field Border Radius"
+    },
+    {
+        "type": "select",
+        "id": "field_color_br",
+        "label": "Field Border Color",
+        "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-dark)"
+    },
+    {
+      "type": "header",
+      "content": "Submit Address Button Style"
+    },
+    {
+      "type": "select",
+      "id": "submit_btn_size",
+      "label": "Submit Button Size",
+      "options": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "panel_color_submit_btn",
+      "label": "Submit Button Color",
+      "options": [
+        {
+           "label": "Dark",
+           "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "panel_bg_color_submit_btn",
+      "label": "Submit Button Background Color",
+      "options": [
+        {
+           "label": "Dark",
+           "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "panel_color_submit_btn_hover",
+      "label": "Submit Button Hover Color",
+      "options": [
+        {
+           "label": "Dark",
+           "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "panel_bg_color_submit_btn_hover",
+      "label": "Submit Button Hover Background Color",
+      "options": [
+        {
+           "label": "Dark",
+           "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,79 @@
+
+<div class="cx-wrapper">
+	<section class="cx-header">
+		{% if form_paragraph != blank %}
+			<div class="t-b-2">{{form_paragraph}}</div>
+		{% endif %}
+	</section>
+  {% if corporate %}
+	<div class="cx-content py-bg-c-light unhide-form ">
+      {% else %}
+    <div class="cx-content py-bg-c-light unhide-form " style="display:none !important;">
+    	{% endif %}
+		{% if form_text != blank %}
+			<div class="cx-text t-b-2">{{form_text}}</div>
+		{% endif %}
+        {% if corporate %}
+         
+          <div style="margin:0 auto;" class="pxFormGenerator" id="LrRQp9fPgokFw9rOzCTa0Q"></div>
+        {% else %}
+    		{% form 'contact' %}
+    			{% if form.errors %}
+    				<p class="form-errors">{{ section.settings.form_error_message | default: 'There was an error please try again.' }}</p>
+    			{% endif %}
+    
+    			{% if form.posted_successfully? %}
+    				<p class="form-success">{{ section.settings.form_success_message | default: 'Thanks for reaching out to us. Our team will get back to you shortly.' }}</p>
+    			{% endif %}
+    
+    			<div class="field">
+    				<input type="text" id="contact-name" name="contact[name]" value="{{ form.name }}" placeholder="First and Last Name" required>
+    				<label class="screen-reader-only" for="contact-name">Name</label>
+    			</div>
+    
+    			<div class="field">
+    				<input type="email" id="contact-email" name="contact[email]" value="{{ form.email }}" placeholder="Email" required>
+    				<label class="screen-reader-only" for="contact-name">Email</label>
+    			</div>
+    
+    			{% if corporate != false %}
+    				<div class="field">
+    					<label for="contact-store" class="screen-reader-only">Your store name</label>
+    					<input
+    					type="text"
+    					id="contact-store" 
+    					name="contact[Store Name]" 
+    					placeholder="Your store name" />
+    				</div>
+    
+    				<div class="field">
+    					<label for="contact-sell" class="screen-reader-only">What does your store sell?</label>
+    					<input 
+    						type="text" 
+    						id="contact-sell" 
+    						name="contact[Product]" 
+    						placeholder="What does your store sell?"/>
+    				</div>	
+    			{% endif %}
+    
+    			<div class="field">
+    				<label for="contact-message" class="screen-reader-only">Message:</label>
+    				<textarea 
+    				id="contact-message" 
+    				name="contact[message]"  placeholder="Message"></textarea>
+    			</div>
+    
+    			<input 
+    				type="hidden" 
+    				name="contact[form]" 
+    				value="{{ form_title }} Contact Form" 
+    				autocomplete="off">
+    
+    			<button 
+    				type="submit" 
+    				class="btn">
+    			Submit</button>
+    		{% endform %}
+        {% endif %}
+	</div>
+</div>

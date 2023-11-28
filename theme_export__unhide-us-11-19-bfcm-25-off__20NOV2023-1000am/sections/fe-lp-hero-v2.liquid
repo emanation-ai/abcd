@@ -1,0 +1,670 @@
+<style>
+  #shopify-section-header,#shopify-section-announcement-bar,#shopify-section-footer{
+      display: none !important;
+  }
+  h1,h2,h3,h4{
+    margin: auto;
+  }
+    .landing-page-full-width-wrapper{
+        width: 100%;
+        background-color: #F4F1EA;
+    }
+  small {
+    font-size: 50%;
+    vertical-align: super;
+}
+.landing-page-wrapper{
+    width: 1280px;
+    margin: 0 auto;
+}
+
+
+@media screen and (max-width:1280px){
+    .landing-page-wrapper{
+        width: 90%;
+    }
+}
+
+.navigation-hero{
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+.logo{
+    width: auto;
+
+}
+.logo h1{
+    font-weight: bolder;
+    margin-top: 0;
+    font-size: 30px;
+}
+.hero-wrapper{
+    display: flex;
+    /* padding-bottom: 50px; */
+}
+.hero-text-wrapper{
+    margin-top: 4em;
+}
+.hero-text-wrapper,.hero-image-wrapper{
+    width: 50%;
+}
+.text-wrapper{
+    /* max-width: 350px; */
+    max-width: 500px;
+    /* margin: 0 auto; */
+}
+.product-text-holder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 30px);
+}
+.navigation-hero-holder{
+    display: flex;
+    justify-content: center;
+}
+/* .hero-wrapper .logo h1{
+    text-align: center;
+} */
+.hero-image-wrapper{ 
+    height: 100vh;
+}
+.hero-image-wrapper img{
+    object-fit: cover;
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    /* max-height: 750px; */
+    height: 100vh;
+    object-position:bottom center; 
+}
+.hero-headline{
+    max-width: 500px;
+    font-weight: bolder;
+}
+.hero-headline h1{
+    font-size: 70px;
+    line-height: 70px;
+}
+.hero-subheadline{
+    max-width: 350px;
+}
+  .hero-subheadline h2{
+    font-size: 40px;
+}
+.hero-product-name-wrapper h4{
+    font-size: 35px;
+    font-weight: bolder;
+    margin: 35px 0 22px;
+    font-family: "Avenir-v2", Helvetica, sans-serif;
+    letter-spacing: 1px;
+}
+/* .hero-product-description-wrapper{
+    max-width: 325px;
+} */
+.hero-product-description-wrapper p {
+    color: #000;
+}
+.hero-product-price-wrapper{
+    margin:20px 0;
+}
+.hero-product-price-wrapper p{
+    font-size: 1.2em;
+    font-weight:bolder;
+    color:#000;
+}
+.new-price{    
+    color: #c7a877;
+    margin: 0 5px;
+}
+.old-price{
+    margin: 0 5px;
+}
+.hero-product-cta{
+    margin: 40px 0 0 0;
+}
+.hero-product-cta a{
+    background-color: #c7a877;
+    padding: 1em 3.5em;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 7px;
+    font-size: 18px;
+    text-transform: capitalize;
+    border-radius: 50px;
+    transition: all 0.3s;
+}
+.hero-product-cta a:hover{
+    box-shadow: 0px 10px 10px rgb(60 60 60 / 50%);
+
+}
+
+
+@media screen and (max-width: 1600px){
+    .text-wrapper,.navigation-hero{
+    max-width: 450px;
+    }
+    .hero-headline h1, .hero-subheadline h2,.hero-product-description-wrapper p, .hero-product-price-wrapper p{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .hero-product-cta a{
+    padding: 0.5em 2.5em;
+
+    }
+    .hero-product-price-wrapper{
+        margin: unset;
+    }
+        .new-price{
+/*             font-size: 40px; */
+        }
+       
+        .hero-product-cta{
+            margin: 25px 0 0 0;
+        }
+        .hero-headline h1{
+        font-size: 63px;
+    line-height: 66px;  
+    }
+}
+
+@media screen and (max-width: 1280px){
+
+
+    .hero-product-description-wrapper{
+        max-width: 90%;
+    }
+    .new-price{
+/*             font-size: 25px; */
+        }
+        .hero-subheadline{
+            max-width: 100%;
+        }
+        .hero-product-description-wrapper p{
+            line-height: 22px;
+        }
+        .navigation-hero{
+            max-width: 450px;
+        }
+        .hero-headline h1 {
+            font-size: 60px;
+            line-height: 57px;
+        }
+        .hero-product-name-wrapper h4{
+            font-size: 30px;
+        }
+        .hero-product-cta{
+            margin: 22px 0 0 0;
+        }
+       
+}
+@media screen and (max-width: 992px){
+    .hero-headline h1{
+            font-size: 60px;
+            line-height: 56px;
+        }
+
+    .hero-headline{
+        max-width:100%;
+    }
+
+
+    .hero-product-description-wrapper p{
+        line-height:20px ;
+    }
+    .new-price{
+/*         font-size: 20px; */
+    }
+    .hero-product-cta a{
+        padding: 0.5em 2em;
+    }
+    .hero-product-name-wrapper h4{
+        font-size: 22px;
+    }
+   
+    .hero-headline h1, .hero-subheadline h2,.hero-product-description-wrapper p{
+        margin-top: 5px;
+        margin-bottom:0;
+    }
+    .hero-text-wrapper {
+        width: 55%;
+    }
+    .hero-image-wrapper{
+        width: 50%;
+        height: 100%;
+    }
+    .hero-image-wrapper img{
+        height: 70vh;
+    }
+    .hero-product-description-wrapper{
+        margin-bottom: 10px;
+    }
+    .hero-product-price-wrapper p{
+        margin-top: 0px;
+    margin-bottom: 0;
+    }
+    /* .hero-product-cta a {
+        padding: 0.3em 2em;
+    } */
+    .hero-product-name-wrapper{
+        margin-bottom: 10px;
+    }
+    .hero-text-wrapper{
+        margin-top: 2em;
+    }
+    .new-price{
+/*         font-size: 23px; */
+    }
+
+    .hero-wrapper{
+        padding-bottom: 20px;
+    }
+    
+   
+}
+@media screen and (max-width:768px) {
+    .hero-wrapper{
+        display: block;
+    }
+    .hero-text-wrapper{
+        width: 100%;
+        padding: 20px;
+    }
+    .hero-image-wrapper{
+        width: 100%;
+    }
+    .hero-product-description-wrapper{
+        max-width: 100%;
+    }
+    .hero-headline h1, .hero-subheadline h2,.hero-product-name-wrapper h4,.hero-product-description-wrapper p,.hero-product-price-wrapper p{
+        margin-top: 10px;
+        margin-bottom:10px;
+    }
+    .hero-text-wrapper{
+        margin-top: unset;
+    }
+    
+}
+@media screen and (max-width:500px) {
+    
+  .hero-subheadline h2{
+    font-size: 30px;
+    max-width: 250px;
+}
+    .hero-headline{
+        margin: 15px 0;
+    }
+    .hero-product-name-wrapper h4{
+        margin: 15px 0;
+    }
+    .hero-product-cta{
+        margin: 20px 0;
+    }
+    .hero-product-cta a {
+        padding: 10px 35px;
+    }
+    .product-text-holder{
+        margin-top: 15px;
+    }
+    .logo h1{
+        font-size: 25px;
+    }
+    .hero-headline h1{
+        font-size: 43px;
+    line-height: 45px;
+    }
+    .second-sentence{
+        left: 20px !important;
+    }
+    .hero-image-wrapper img {
+        height: 50vh;
+    }
+    .hero-image-wrapper{
+        height: 30vh;
+    }
+    .hero-wrapper{
+        overflow: hidden;
+        height: 100vh;
+    }
+}
+.headline-sentence{
+ display: block;
+ position: relative;   
+}
+.second-sentence{
+    left: 40px;
+}
+.hero-product-image-wrapper{
+    width: 100%;
+    height: 200px;
+    margin-bottom: 15px;
+}
+.hero-product-image-wrapper img{
+    height: 100%;
+    object-fit: cover;
+
+
+}
+@media screen and (max-width:992px) {
+
+    .hero-product-image-wrapper{
+        height: 130px;
+    }
+    
+}
+
+@media screen and (max-width:500px) {
+
+    .hero-product-image-wrapper{
+        height: 100px;
+    }
+
+}
+.product-detail{
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+</style>
+
+{%assign selectedProduct = section.settings.hero-product%}
+{%assign productTitle = selectedProduct.title%}
+{%if section.settings.product_name_radio == "productCustomName"%}
+    {%assign productTitle =section.settings.hero-product-custom-name%}
+{%endif%}
+
+
+{%assign productDescription = selectedProduct.description%}
+
+{%if section.settings.product_description_radio == "productCustomDescription"%}
+    {%assign productDescription =section.settings.hero-product-custom-description%}
+{%endif%}
+
+{%assign newPrice = selectedProduct.price | money%}
+{%assign oldPrice = selectedProduct.compare_at_price | money%}
+{%assign productHandle = selectedProduct.handle%}
+
+{%assign productLink="/products/" | append: productHandle%}
+
+    {%if section.settings.product_link_radio == "productCustomLink"%}
+        {%assign productLink=section.settings.hero-product-link%}
+    {%endif%}
+
+{%assign productImage= selectedProduct.featured_image%}
+
+{%if section.settings.product_image_radio == "productCustomImage"%}
+{%assign productImage=section.settings.hero-product-custom-image%}
+
+{%endif%}
+
+<div class="landing-page-full-width-wrapper">
+
+       
+        <div class="hero-wrapper">
+            <div class="hero-text-wrapper">
+                <div class="navigation-hero-holder">
+                <div class="navigation-hero">
+                    <div class="logo-wrapper">
+                        <div class="logo">
+                           <a href="/"> <h1>{{section.settings.hero-logo-word-1}}<em>{{section.settings.hero-logo-word-2}}</em></h1></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="product-text-holder">
+                    <div class="text-wrapper">
+                        <div class="hero-headline">
+                            <h1><span class="headline-sentence">{{section.settings.hero-first-heading}}</span><span class="headline-sentence second-sentence">{{section.settings.hero-second-heading}}</span></h1>
+                        </div>
+                      <div class="hero-subheadline">
+                            <h2>{{section.settings.hero-heading-2}}</h2>
+                        </div>
+               
+            
+              <div class="product-text-wrapper">
+    
+                    <div class="hero-product-name-wrapper">
+                        <h4>{{productTitle}}</h4>
+                        <h4 class="product-detail"><small>{{ section.settings.hero-product-custom-sub-name }}</small></h4>
+
+                            
+                    </div>
+                  {%comment%}  <div class="hero-product-image-wrapper">
+                    <img src="{{productImage | img_url: 'master'}}" alt="{{productTitle}}"/>
+                    </div>{%endcomment%}
+
+                    <div class="hero-product-description-wrapper">
+                        <p>{{productDescription}}</p>
+                    </div>
+                    <div class="hero-product-price-wrapper">
+                        <p>Price:                             
+                            <span class="old-price">{%if section.settings.product_old_price_radio == "productOldPrice" %} {{oldPrice}} {%else%}${{section.settings.product-old-price}} {%endif%}</span>
+                            <span class="new-price">
+                                {%if section.settings.product_new_price_radio == "productNewPrice" %} {{newPrice}} {%else%}${{section.settings.product-new-price}} {%endif%}</span>
+                        </p>
+                    </div>
+                    <div class="hero-product-cta"> 
+                        <a href="{{productLink}}">{{section.settings.hero-product-cta}}</a>
+                    </div>
+              </div>
+            </div>
+        </div>
+            </div>
+    
+            <div class="hero-image-wrapper">
+                <img src="{{section.settings.product-img | img_url: 'master' }}" alt="product - {{productTitle}}"/>
+            </div>
+    
+    
+        </div>
+
+</div>
+
+<style>
+  span.old-price {
+    text-decoration: line-through !important;
+}
+</style>
+
+
+{% schema %}
+{
+    "name": "Hero section v2",
+    "settings":[
+    {
+        "type":"header",
+        "content":"Logo"
+    },
+    {
+        "type": "text",
+        "id": "hero-logo-word-1",
+        "label": "Logo first word ",
+        "default": "Un"
+    },
+    {
+        "type": "text",
+        "id": "hero-logo-word-2",
+        "label": "Logo second word",
+        "default": "Hide"
+    },
+    {
+        "type":"header",
+        "content":"Headings and subheadings"
+    },
+    {
+        "type": "text",
+        "id": "hero-first-heading",
+        "label": "Hero first word heading",
+        "default": "Fluffy. Furry."
+    },
+    {
+        "type": "text",
+        "id": "hero-second-heading",
+        "label": "Hero second word heading",
+        "default": "Unabashedly Faux."
+    },
+    {
+        "type": "text",
+        "id": "hero-heading-2",
+        "label": "Hero second heading",
+        "default": "Designed For Maximum Lounging."
+    },
+    {
+        "type":"header",
+        "content":"Product"
+    },
+    {
+        "type": "product",
+        "id": "hero-product",
+        "label": "Pick a Product"
+    },
+    {
+        "type": "radio",
+        "id": "product_name_radio",
+        "label": "Product name options",
+        "options": [{
+                "value": "productName",
+                "label": "Product name"
+            },
+            {
+                "value": "productCustomName",
+                "label": "Product custom name"
+            }
+        ],
+        "default": "productName"
+    },   
+    {
+        "type": "text",
+        "id": "hero-product-custom-name",
+        "label": "Product custom name",
+        "default": "Meet Shleepy"
+    },   
+    {
+        "type": "text",
+        "id": "hero-product-custom-sub-name",
+        "label": "Product custom sub name",
+        "default": "Blanket"
+    },
+    {
+        "type": "radio",
+        "id": "product_image_radio",
+        "label": "Product image options",
+        "options": [{
+                "value": "productDefaultImage",
+                "label": "Product featured image"
+            },
+            {
+                "value": "productCustomImage",
+                "label": "Product custom image"
+            }
+        ],
+        "default": "productDefaultImage"
+    },
+    {
+        "type": "image_picker",
+        "id": "hero-product-custom-image",
+        "label": "Product custom image"
+    },
+    {
+        "type": "radio",
+        "id": "product_description_radio",
+        "label": "Product description options",
+        "options": [{
+                "value": "productDescription",
+                "label": "Product description"
+            },
+            {
+                "value": "productCustomDescription",
+                "label": "Product custom description"
+            }
+        ],
+        "default": "productDescription"
+    },
+
+    {
+        "type": "text",
+        "id": "hero-product-custom-description",
+        "label": "Product custom description"
+    },
+    
+    {
+        "type": "radio",
+        "id": "product_new_price_radio",
+        "label": "Product new price options",
+        "options": [{
+                "value": "productNewPrice",
+                "label": "Product new price"
+            },
+            {
+                "value": "customNewPrice",
+                "label": "Custom new price"
+            }
+        ],
+        "default": "productNewPrice"
+    },
+    {
+        "type": "radio",
+        "id": "product_old_price_radio",
+        "label": "Product old price options",
+        "options": [{
+                "value": "productOldPrice",
+                "label": "Product old price"
+            },
+            {
+                "value": "customOldPrice",
+                "label": "Custom old price"
+            }
+        ],
+        "default": "customOldPrice"
+    },
+    {
+        "type": "text",
+        "id": "product-new-price",
+        "label": "Custom product new price",
+        "default": "95"
+    },
+    {
+        "type": "text",
+        "id": "product-old-price",
+        "label": "Custom product old price",
+        "default": "000"
+    },
+    {
+        "type": "image_picker",
+        "id": "product-img",
+        "label": "Product image"
+    },
+    {
+        "type": "text",
+        "id": "hero-product-cta",
+        "label": "Button text",
+        "default": "Shop now"
+    },
+    {
+        "type": "radio",
+        "id": "product_link_radio",
+        "label": "Product link options",
+        "options": [{
+                "value": "productLink",
+                "label": "Product link"
+            },
+            {
+                "value": "productCustomLink",
+                "label": "Product custom link"
+            }
+        ],
+        "default": "productLink"
+    },
+    {
+        "type": "url",
+        "id": "hero-product-link",
+        "label": "Custom product link"
+    }
+    ],
+    "presets": [
+        {
+         "name": "Hero v2 section"
+        }
+     ]
+  }
+{% endschema %}

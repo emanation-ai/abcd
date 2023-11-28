@@ -1,0 +1,26 @@
+<div class="size-popup">
+  <div class="size-popup__wrapper">
+    <div class="size-popup__overlay js-size-popup__overlay"></div>
+    <div class="size-popup__inner">
+      <span class="size-popup__close js-size-popup__close">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="33px" height="33px" viewBox="0 0 33 33" version="1.1">
+          <title>close-icon</title>
+          <g id="close-icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="noun_cancel_2527865" fill="#0E1D2C" fill-rule="nonzero">
+              <path d="M19.0270895,16.9401059 L32.2949529,3.67323754 C32.9189841,3.04925314 32.9189841,2.0348785 32.2949529,1.4108941 C31.6709217,0.786909702 30.656471,0.786909702 30.0324398,1.4108941 L16.7645764,14.6777624 L3.496713,1.40769418 C2.8726818,0.783709782 1.85823107,0.783709782 1.23419987,1.40769418 C0.61016867,2.03167858 0.61016867,3.04605322 1.23419987,3.67003762 L14.5020633,16.9401059 L1.23419987,30.2069742 C0.61016867,30.8309586 0.61016867,31.8453332 1.23419987,32.4693176 C1.54461539,32.7829098 1.95423587,32.9397059 2.36385635,32.9397059 C2.77347684,32.9397059 3.18309732,32.7829098 3.496713,32.4725176 L16.7645764,19.2024493 L30.0324398,32.4693176 C30.3460555,32.7829098 30.7556759,32.9397059 31.1652964,32.9397059 C31.5749169,32.9397059 31.9845374,32.7829098 32.2981531,32.4725176 C32.9221843,31.8485332 32.9221843,30.8341585 32.2981531,30.2101741 L19.0270895,16.9401059 Z" id="Path"></path>
+            </g>
+          </g>
+        </svg>
+      </span>
+      <div class="size-guide">
+        {% if product.handle == 'shleepy' %}
+        <img class="size-guide__desktop" src="https://cdn.shopify.com/s/files/1/0050/4335/5720/files/Shleepy_Desktop_Size_Guide.png?v=1674640300">
+        <img class="size-guide__mobile" src="https://cdn.shopify.com/s/files/1/0050/4335/5720/files/Shleepy_Mobile_Size_Guide.png?v=1674640300">
+        {% elsif product.handle == 'lil-marsh' %}
+        <img class="size-guide__desktop" src="https://cdn.shopify.com/s/files/1/0050/4335/5720/files/Desktop_Size_Guide_1.png?v=1674572684">
+        <img class="size-guide__mobile" src="https://cdn.shopify.com/s/files/1/0050/4335/5720/files/Mobile_Size_Guide_1.png?v=1674572682">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

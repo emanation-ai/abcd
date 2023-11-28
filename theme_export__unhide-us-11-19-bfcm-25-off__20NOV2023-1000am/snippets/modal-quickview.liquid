@@ -1,0 +1,97 @@
+<modal-opener class="product-popup-modal__opener no-js-hidden hidden" data-modal="#ModalquickView">
+  <button id="ModalquickView-trigger" class="product-popup-modal__button link bc-size-chart-button" type="button" aria-haspopup="dialog">VIEW</button>
+</modal-opener>
+<modal-dialog class="modal fade product-popup-modal" id="ModalquickView">
+  <div class="modal-dialog modal-lg"  tabindex="-1" role="dialog" aria-label="myModalLabel" aria-hidden="true">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <button id="ModalClose-quickView" type="button" class="product-popup-modal__toggle" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation" class="icon icon-close" fill="none" viewBox="0 0 18 17">
+            <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
+          </path></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="product-modal-quickview ">
+          <div class="product grid grid--1-col grid--2-col-tablet">
+            <div class="grid__item product__media-wrapper">
+              <slider-component class="slider-mobile-gutter">        
+                <ul class="product__media-list grid grid--peek list-unstyled slider slider--desktop" role="list">
+                  <li class="product__media-item grid__item slider__slide">
+                    <div class="product__media media" style="padding-top: 90%;">
+                    </div>
+                  </li>
+                </ul>
+                <div class="slider-buttons slider-buttons-desktop no-js-hidden">
+                  <div class="slider-counter caption hidden">
+                    <span class="slider-counter--current">1</span>
+                    <span aria-hidden="true"> / </span>
+                    <span class="visually-hidden">of</span>
+                    <span class="slider-counter--total">1</span>
+                  </div>
+                  <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="Slide left" disabled="true"><svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-caret" viewBox="0 0 10 6">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+                    </path></svg>
+                  </button>         
+                  <button type="button" class="slider-button slider-button--next" name="next" aria-label="Slide right"><svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-caret" viewBox="0 0 10 6">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+                    </path></svg>
+                  </button>
+                </div>
+              </slider-component>
+            </div>
+            <div class="product__info-wrapper grid__item">
+              <div class="product__info-container">
+                <h2 class="product__title">t</h2>
+                <div class="review-widget">Review Widget</div>
+                <hr>
+                <div class="btn-wrapper">
+                  <a href="#" class="viewfullinfo">View Full Details</a>
+                </div>
+                <div class="no-js-hidden bc-product-price-wrapper" id="price-modal_quick_view">     
+                  <div id="productPrice" class=" price price--large price--on-sale ">
+                   </div>
+                </div>
+                
+                <div class="no-js-hidden variant_wrapper" data-url=""> 
+                  
+                </div>
+                <product-form class="product-form">
+                  <div id="preorderbunner"></div>
+                  <form action="/cart/add" id="modal_quick_view" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="form_type" value="product">
+                    <input type="hidden" name="utf8" value="✓">
+                    <input type="hidden" class="input_variant" name="id" value="">
+                    <div id="bc-order-id"></div>
+                    <div class=" grid">
+                      <div class=" grid-item input-counter">
+                        <quantity-input class="quantity">
+                          <button class="quantity__button no-js-hidden" name="minus" type="button">
+                            <span class="visually-hidden">Decrease quantity</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation" class="icon icon-minus" fill="none" viewBox="0 0 10 2">
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M.5 1C.5.7.7.5 1 .5h8a.5.5 0 110 1H1A.5.5 0 01.5 1z" fill="currentColor">
+                              </path></svg>
+                          </button>
+                          <input class="quantity__input focus-none" type="number" name="quantity"  min="1" value="1" >
+                          <button class="quantity__button no-js-hidden" name="plus" type="button">
+                            <span class="visually-hidden">Increase quantity</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation" class="icon icon-plus" fill="none" viewBox="0 0 10 10">
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M1 4.51a.5.5 0 000 1h3.5l.01 3.5a.5.5 0 001-.01V5.5l3.5-.01a.5.5 0 00-.01-1H5.5L5.49.99a.5.5 0 00-1 .01v3.5l-3.5.01H1z" fill="currentColor">
+                              </path></svg>
+                          </button>
+                        </quantity-input>
+                      </div>
+                      <div class="grid-item btn-area">
+                        <div class="product-form__buttons">
+                          <button type="submit" name="add" class="product-form__submit button button--full-width button--primary"><span class="product-form__submit-label">Add to cart</span></button></div>
+                      </div>
+                    </div>
+                  </form>
+                </product-form> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal-dialog>

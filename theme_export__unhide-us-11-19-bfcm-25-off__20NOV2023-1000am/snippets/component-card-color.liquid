@@ -1,0 +1,26 @@
+{%- for option in options -%}
+  {%- assign optionName = option.name | downcase -%}
+  {% assign option_index = forloop.index %} 
+  {%- if optionName contains 'olor' or optionName contains 'olour' -%}
+      <div class="bc-card-color">
+          <div class="bc-card-color__list" option_index="{{option_index}}">
+              {% if limit != null and limit !='' %}
+                {%- for value in option.values limit : limit -%}
+                <div class="bc-card-color__item {% if forloop.first %}selected{% endif %}" data-index="{{ forloop.index }}" data-option="{{ value }}">
+                    <span class="pd-colors__icon" data-color="{{ value | downcase | replace: ' ','-' }}"></span>
+                </div>
+                {%- endfor -%}
+                {% if option.values.size>limit %}
+                 <div class="extra-colors"> + {{option.values.size | minus: 4}}</div>
+                {% endif %}
+              {% else %}
+                {%- for value in option.values -%}
+                <div class="bc-card-color__item {% if forloop.first %}selected{% endif %}" data-index="{{ forloop.index }}" data-option="{{ value }}">
+                    <span class="pd-colors__icon" data-color="{{ value | downcase | replace: ' ','-' }}"></span>
+                </div>
+                {%- endfor -%}
+              {% endif %}
+          </div>
+      </div>
+  {%- endif -%}
+{%- endfor -%}

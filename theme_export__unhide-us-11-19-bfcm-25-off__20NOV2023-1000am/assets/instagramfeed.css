@@ -1,0 +1,51 @@
+instagram-feed {
+    display: block;
+    padding-top: 32px;
+}
+.bc-insta__heading {
+    font-size: 1.5rem;
+    line-height: normal;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 32px;
+    text-align: center;
+}
+.bc-insta__items {
+    display: flex;
+    position: relative;
+}
+.bc-insta__itmes-item {
+    flex: 1 0 0;
+}
+.bc-insta__itmes-item a {
+    display: block;
+    padding: 0 5px;
+}
+.bc-insta__image,
+.bc-insta__image:empty {
+    display: block;
+    padding-top: 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.bc-insta__after {
+    font-weight: 300;
+    line-height: normal;
+    font-size: 13px;
+    color: #373737;
+    margin-top: 8px;
+}
+
+@media screen and (max-width: 750px) {
+    .bc-insta__items {
+        overflow: auto;
+        width: calc(100% + 2.5rem);
+        margin-left: -1.25rem;
+    }
+    .bc-insta__itmes-item {
+        flex-basis: 60%;
+        margin-bottom: 1.5rem;
+    }
+}

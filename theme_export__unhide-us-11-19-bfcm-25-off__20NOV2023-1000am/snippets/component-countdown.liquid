@@ -1,0 +1,14 @@
+{{ 'component-countdown.css' | asset_url | stylesheet_tag }}
+
+<count-down data-date="{{ countdown }}">
+    <div id="countdown-container" class="countdown-container">
+        <article id="js-countdown" class="countdown">
+            <div id="js-days" class="number"></div>
+            <div id="js-hours" class="number"></div>
+            <div id="js-minutes" class="number"></div>
+            <div id="js-seconds" class="number"></div>
+        </article>
+    </div>
+</count-down>
+
+<script src="{{ 'component-countdown.js' | asset_url }}" defer="defer"></script>

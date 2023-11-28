@@ -1,0 +1,277 @@
+<style>
+  {% if section.settings.button_radius %}
+  .cart__ctas button{
+    border-radius: {{section.settings.button_radius}}px;  
+  }
+  {% endif %}
+  {% if section.settings.enable_dynamic_pay %}
+  #loopcheckoutdynamic{
+    margin-top: 15px;
+    background: #5b32f6;
+  }
+  #loopcheckoutdynamic:hover{
+    box-shadow: 0 0 10px black;
+  }
+  #loopcheckoutdynamic img{
+    width: 74px;
+  }
+  {% endif %}
+</style>
+<div class="page-width{% if cart == empty %} is-empty{% endif %}" id="main-cart-footer" data-id="{{ section.id }}">
+  <div><div class="title-wrapper-with-link" style="opacity:0"><h3 style="margin:0">Form</h3></div>
+    <div class="cart__footer">
+      <div class="cart__footer-container">
+        {% for block in section.blocks %}
+          {%- case block.type -%}
+            {%- when "buttons" -%}
+              <div class="cart__ctas">
+                <noscript>
+                  <button type="submit" class="cart__update-button button button--secondary" form="cart">
+                    {{ 'sections.cart.update' | t }}
+                  </button>
+                </noscript>
+
+                <button type="submit" class="cart__checkout-button button py-c-{{block.settings.btn_color}} py-hv-c-{{block.settings.btn_color_hover}} py-bg-c-{{block.settings.btn_bg_color}} py-hv-bg-c-{{block.settings.btn_bg_color_hover}} py-btn-{{block.settings.btn_size}}" name="checkout"{% if cart == empty %} disabled{% endif %} form="cart">
+                  {{ 'sections.cart.checkout' | t }}
+                </button>
+                {% if section.settings.enable_dynamic_pay %}
+                <button id="loopcheckoutdynamic" class="button button--primary button--full-width py-btn-{{block.settings.btn_size}}" ><img src="https://cdn.shopify.com/s/files/1/0584/1993/7441/files/image_11.png?v=1641840659"></button>
+                {% endif %}
+               </div>
+
+              
+            {%- when 'subtotal' -%}
+              <div class="js-contents">
+                <div class="totals">
+                  <h3 class="totals__subtotal">{{ 'sections.cart.subtotal' | t }}</h3>
+                  <p class="totals__subtotal-value">{{ cart.total_price | money_with_currency }}</p>
+                </div>
+
+                <div>
+                  {%- if cart.cart_level_discount_applications.size > 0 -%}
+                    <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
+                      {%- for discount in cart.cart_level_discount_applications -%}
+                        <li class="discounts__discount discounts__discount--end">
+                          {%- render 'icon-discount' -%}
+                          {{ discount.title }}
+                          (-{{ discount.total_allocated_amount | money }})
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+
+                <small class="tax-note caption-large rte">
+                  {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
+                    {{ 'sections.cart.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                  {%- elsif cart.taxes_included -%}
+                    {{ 'sections.cart.taxes_included_but_shipping_at_checkout' | t }}
+                  {%- elsif shop.shipping_policy.body != blank -%}
+                    {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url }}
+                  {%- else -%}
+                    {{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}
+                  {%- endif -%}
+                </small>
+              </div>            
+          {%- endcase -%}
+        {% endfor %}
+
+        <div id="cart-errors"></div>
+        {%- if section.settings.show_cart_note -%}
+        <cart-note class="cart__note field">
+          <label for="Cart-note">{{ 'sections.cart.note' | t }}</label>
+          <textarea class="text-area text-area--resize-vertical field__input" name="note" id="Cart-note" placeholder="{{ 'sections.cart.note' | t }}">{{ cart.note }}</textarea>
+        </cart-note>
+      {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% javascript %}
+  class CartNote extends HTMLElement {
+    constructor() {
+      super();
+
+      this.addEventListener('change', debounce((event) => {
+        const body = JSON.stringify({ note: event.target.value });
+        fetch(`${routes.cart_update_url}`, {...fetchConfig(), ...{ body }});
+      }, 300))
+    }
+  }
+
+  customElements.define('cart-note', CartNote);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.main-cart-footer.name",
+  "class": "cart__footer-wrapper",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_cart_note",
+      "default": false,
+      "label": "t:sections.main-cart-footer.settings.show_cart_note.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_dynamic_pay",
+      "default": false,
+      "label": "Add Dynamic Payment Button"
+    },      
+    {
+      "type": "text",
+      "id": "button_radius",
+      "default": "50",
+      "label": "Checkout Button Radius"
+    } 
+  ],
+  "blocks": [
+    {
+      "type": "subtotal",
+      "name": "t:sections.main-cart-footer.blocks.subtotal.name",
+      "limit": 1
+    },
+    {
+      "type": "buttons",
+      "name": "t:sections.main-cart-footer.blocks.buttons.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "btn_size",
+          "label": "Button Size",
+          "options": [
+            {
+              "label": "Small",
+              "value": "small"
+            },
+            {
+              "label": "Medium",
+              "value": "medium"
+            },
+            {
+              "label": "Large",
+              "value": "large"
+            }
+          ],
+          "default": "medium"
+        },
+        {
+          "type": "select",
+          "id": "btn_color",
+          "label": "Button Color",
+          "options": [
+            {
+              "label": "Dark",
+              "value": "dark"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "middle-dark"
+            },
+            {
+              "label": "Average",
+              "value": "average"
+            },
+            {
+              "label": "Middle Light",
+              "value": "middle-light"
+            },
+            {
+              "label": "Light",
+              "value": "light"
+            }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "select",
+          "id": "btn_bg_color",
+          "label": "Button Background Color",
+          "options": [
+            {
+              "label": "Dark",
+              "value": "dark"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "middle-dark"
+            },
+            {
+              "label": "Average",
+              "value": "average"
+            },
+            {
+              "label": "Middle Light",
+              "value": "middle-light"
+            },
+            {
+              "label": "Light",
+              "value": "light"
+            }
+          ],
+          "default": "dark"
+        },
+        {
+          "type": "select",
+          "id": "btn_color_hover",
+          "label": "Button Hover Color",
+          "options": [
+            {
+              "label": "Dark",
+              "value": "dark"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "middle-dark"
+            },
+            {
+              "label": "Average",
+              "value": "average"
+            },
+            {
+              "label": "Middle Light",
+              "value": "middle-light"
+            },
+            {
+              "label": "Light",
+              "value": "light"
+            }
+          ],
+          "default": "dark"
+        },
+        {
+          "type": "select",
+          "id": "btn_bg_color_hover",
+          "label": "Button Hover Background Color",
+          "options": [
+            {
+              "label": "Dark",
+              "value": "dark"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "middle-dark"
+            },
+            {
+              "label": "Average",
+              "value": "average"
+            },
+            {
+              "label": "Middle Light",
+              "value": "middle-light"
+            },
+            {
+              "label": "Light",
+              "value": "light"
+            }
+          ],
+          "default": "light"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

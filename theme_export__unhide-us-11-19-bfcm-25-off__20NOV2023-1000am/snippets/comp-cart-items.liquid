@@ -1,0 +1,97 @@
+<div class="cart-items-wrapper">
+	{% for item in cart.items %}
+		{% assign item_product = item.product %}
+		{% assign item_variant = item.variant %}
+		{% assign item_quantity = item.variant.inventory_quantity %}
+
+		<div 
+			class="cart-item{% if item_quantity <= 0 and item_product.title != 'UnHide Gift Card' %} preorder-item{% endif %}{% if item_product.title == 'UnHide Gift Card' %} gift-card-item{% endif %}" 
+			data-product-id="{{ item_product.id }}" 
+			data-item-id="{{ item_variant.id }}" 
+			data-item-line="{{forloop.index}}"
+			data-item-price="{{ item.price | money_without_currency }}"
+			data-quantity="{{ item_quantity }}">
+		<div class="f-h">
+			<div class="item-thumbnail">
+				<a 
+					href="{{ item.url }}" 
+					class="bg-subdued" 
+					title="{{ item_product.title | escape }}">
+					{% if item.image != nil %}
+						{% render 'img-srcset', 
+							image: item.image,
+							max_width: 160,
+							alt: item.title %}
+					{% endif %}
+				</a>
+			</div>
+
+			<div class="item-info f-v">
+				<div class="item-info-titlewrapper">
+					<div class="item-info-title">{{ item_product.title }}</div>
+					{% if item.variant.compare_at_price > item.variant.price %}
+						<div class="item-info-price t-b-3">
+							<s>{{ item.variant.compare_at_price | money | remove: '.00' }}</s>
+							{% if item.variant.price > item.price %}
+								<s>{{ item.variant.price | money | remove: '.00' }}</s><br>
+								<span>{{ item.price | money | remove: '.00' }}</span>
+							{% else %}
+								<span>{{ item.variant.price | money | remove: '.00' }}</span>
+							{% endif %}
+						</div>
+					{% else %}
+						<div class="item-info-price t-b-3">{{ item.variant.price | money | remove: '.00' }}</div>
+					{% endif %}
+				</div>
+				{% if item_variant.title != 'Default Title' %}
+					{% assign i_title = item_variant.title | split: ' / ' | first %}
+					{% assign i_variant = item_variant.title | split: ' / ' | last | handleize %}
+
+					{% if i_variant == 'extra-small-34-x-44' %}
+						{% assign i_variant_new = 'XS' %}
+					{% elsif i_variant == 'small-50-x-60' %}
+						{% assign i_variant_new = 'S' %}
+					{% elsif i_variant == 'medium-60-x-80' %}
+						{% assign i_variant_new = 'M' %}
+                    {% else %}
+                        {% assign i_variant_new = item_variant.title | split: ' / ' | last %}
+					{% endif %}
+
+					<div class="item-info-variant-title cr-gray t-b-3">{{ i_title }} {{ i_variant_new }}</div>
+				{% endif %}
+								
+              	<div class="item-properties cr-gray t-b-3">
+                {% assign property_size = item.properties | size %}
+                {% if property_size > 0 %}
+                  {% for p in item.properties %}
+                    {% assign first_character_in_key = p.first | truncate: 1, '' %}
+                    {% unless p.last == blank or first_character_in_key == '_' %}
+                      {% assign propKey = p.first | strip %}
+                        {%- if propKey != 'pre' and propKey != 'pre_order_expected_date' and propKey != 'pc' and propKey != 'custom_date' -%}
+                        {% assign preOrderNote = true %}
+                        <p style="font-size: 13px;" class="{{ p.first }}">
+                          {%- if propKey != 'pre_order_announcement' and propKey != 'custom_message' -%}{{ p.first }}: {%- endif -%}
+                          {{ p.last }}</p>
+                        {%- endif -%}                      
+                    {% endunless %}
+                  {% endfor %}
+                {% endif %}
+              	</div>
+
+				<div class="item-action f-h-center">
+					{% render 'item-quantity',
+					item: item_variant,
+					starting_number: item.quantity %}
+
+					<div class="item-remove">
+						<button 
+							type="button"
+							class="item-remove-trigger t-l-1 cr-gray">
+						Remove</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	{% endfor %}
+</div>

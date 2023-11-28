@@ -1,0 +1,211 @@
+slider-component {
+  position: relative;
+  display: block;
+}
+
+.slider__slide {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .slider.slider--mobile {
+    position: relative;
+    flex-wrap: inherit;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scroll-padding-left: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .slider.slider--mobile .slider__slide {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 959px) {
+  .slider.slider--tablet {
+    position: relative;
+    flex-wrap: inherit;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scroll-padding-left: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .slider.slider--tablet .slider__slide {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.slider.slider--desktop {
+  display: flex;
+  position: relative;
+  flex-wrap: inherit;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scroll-padding-left: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.slider.slider--desktop .slider__slide {
+  width: 100%;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Scrollbar */
+
+.slider {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.slider::-webkit-scrollbar {
+  height: 0.4rem;
+  width: 0.4rem;
+  display: none;
+}
+
+.no-js .slider {
+  -ms-overflow-style: auto;
+  scrollbar-width: auto;
+}
+
+.no-js .slider::-webkit-scrollbar {
+  display: initial;
+}
+
+.slider::-webkit-scrollbar-thumb {
+  border-radius: 0.4rem;
+  border: 0;
+}
+
+.slider::-webkit-scrollbar-track {
+  border-radius: 0.4rem;
+}
+
+slider-component .slider-buttons {
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+}
+
+.slider-buttons.slider-buttons--overlay {
+  border: 0;
+  background: #ffffff;
+  background: -moz-linear-gradient(
+    left,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.1)
+  );
+  background: -webkit-linear-gradient(
+    left,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.1)
+  );
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.1)
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='transparent',GradientType=1 );
+}
+
+.slider-mobile-gutter .slider-buttons {
+  right: 0;
+}
+
+.slider-counter {
+  margin-right: 3rem;
+}
+
+.slider-buttons--overlay .slider-counter {
+  margin-right: 0;
+  padding: 0 1.4rem;
+  display: none;
+}
+
+.slider-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (min-width: 960px) {
+  .slider-buttons:not(.slider-buttons-desktop) {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .slider--mobile + .slider-buttons {
+    display: none;
+  }
+}
+
+.slider-button {
+  border: 0;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slider-button:not(.has-bg) {
+  background-color: transparent;
+}
+.slider-button:not([disabled]):hover {
+  z-index: 1;
+}
+
+.slider-button .icon {
+  width: 14px;
+}
+
+.slider-button--next .icon {
+  transform: rotate(-90deg);
+}
+
+.slider-button--prev .icon {
+  transform: rotate(90deg);
+}
+
+.slider-button--next:not([disabled]):hover .icon {
+  transform: rotate(-90deg) scale(1.07);
+}
+
+.slider-button--prev:not([disabled]):hover .icon {
+  transform: rotate(90deg) scale(1.07);
+}
+
+.slider-button:focus-visible {
+  z-index: 1;
+}
+.collection-slide .slider.slider--desktop {
+}
+.collection-slide slider-component .slider-buttons {
+  top: -65px;
+  bottom: auto;
+}
+.collection-slide .slider-counter {
+  display: none;
+}
+@media (min-width: 800px) {
+  .collection-slide .grid--quarter-max.grid--4-col-desktop .grid__item {
+    max-width: 23%;
+  }
+}
+@media (max-width: 749px) {
+  .collection-slide .slider-mobile-gutter .slider-buttons {
+    display: flex;
+  }
+}

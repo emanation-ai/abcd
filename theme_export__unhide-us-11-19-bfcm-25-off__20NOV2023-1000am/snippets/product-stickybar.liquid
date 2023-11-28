@@ -1,0 +1,69 @@
+<div class="product-sticky-bar sticky-element">
+	<button class="btn js-sticky-atc" type="button">Add to Cart</button>
+	{% comment %}
+	<form 
+		class="content-form" 
+		action="/cart/add" 
+		method="post" 
+		enctype="multipart/form-data">
+		<div class="stickybar-actions f-h">
+			{% for option in product.options %}
+				{% if option == 'color' or option == 'Color' %}
+					<button type="button" class="color-swatch-trigger bg-white t-l-2" 
+					aria-label="Toggle color swatch selection">
+						<div class="color-swatch-display"></div>
+						<div>Color</div>
+					</button>
+
+					<div class="stickybar-color bg-white"></div>
+				{% endif %}
+
+				{% if option == 'size' or option == 'Size' or option == 'total' or option == 'Total' or option == 'All Size' or option == 'all size'%}
+					<button type="button" class="size-swatch-trigger bg-white t-l-2"
+					aria-label="Toggle size swatch selection">
+						<div class="size-swatch-display"></div>
+						<div>Size</div>
+					</button>
+
+					<div class="stickybar-size bg-white"></div>
+				{% endif %}
+
+			{% endfor %}
+
+			{% for v in product.variants %}
+				{% assign v_title = v.title | split: ' / ' | first | handleize %}
+				{% assign v_variant = v.title | split: ' / ' | last | handleize %}
+
+				<input 
+					class="variant-value {% if v.inventory_policy == 'continue' and v.inventory_quantity <= 0 %}variant-value--preorder{% endif %}" 
+					type="hidden" 
+					value='{{ v.id | escape }}' 
+					data-value-inventory='{% if v.inventory_policy == 'continue' %}{{ v.inventory_quantity | plus: v.metafields.global.pre_order_inventory }}{% else %}{{ v.inventory_quantity }}{% endif %}' 
+					data-color='{{ v_title | escape }}' 
+					data-size='{{ v_variant | escape }}' 
+					data-value-title='{{ v.title | escape }}' 
+					data-variant-price='{{ v.price | money | remove: '.00' }}' 
+					data-compare-price='{{ v.compare_at_price | money | remove: '.00' }}'>
+			{% endfor%}
+		</div>
+	</form>
+
+	{% if product.metafields.accentuate.purchase_note %}
+		<div class="stickybar-purchase-note">{{ product.metafields.accentuate.purchase_note }}</div>
+	{% endif %}
+	{% endcomment %}{% for v in product.variants %}
+				{% assign v_title = v.title | split: ' / ' | first | handleize %}
+				{% assign v_variant = v.title | split: ' / ' | last | handleize %}
+
+				<input 
+					class="variant-value {% if v.inventory_policy == 'continue' and v.inventory_quantity <= 0 %}variant-value--preorder{% endif %}" 
+					type="hidden" 
+					value='{{ v.id | escape }}' 
+					data-value-inventory='{% if v.inventory_policy == 'continue' %}{{ v.inventory_quantity | plus: v.metafields.global.pre_order_inventory }}{% else %}{{ v.inventory_quantity }}{% endif %}' 
+					data-color='{{ v_title | escape }}' 
+					data-size='{{ v_variant | escape }}' 
+					data-value-title='{{ v.title | escape }}' 
+					data-variant-price='{{ v.price | money | remove: '.00' }}' 
+					data-compare-price='{{ v.compare_at_price | money | remove: '.00' }}'>
+			{% endfor%}
+</div>

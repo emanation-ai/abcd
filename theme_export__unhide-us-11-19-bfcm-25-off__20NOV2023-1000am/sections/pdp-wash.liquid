@@ -1,0 +1,87 @@
+<style>
+  .pdp-wash {
+  width: 100%;
+  max-width: 750px;
+  margin: auto;
+  text-align: center;
+}
+
+.pdp-wash h1 {
+  margin-bottom: 3.2rem;
+  margin-top:0px;
+}
+.wash-item p{
+  margin:0px;
+}
+.pdp-wash--grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+  text-align: center;
+}
+.pdp-wash--grid img {
+  width: 50%;
+  max-width: 100px;
+  margin: auto;
+  margin-bottom: 0.8rem;
+}
+
+@media only screen and (min-width: 769px) {
+  .pdp-wash {
+    text-align: center;
+  }
+  .pdp-wash--grid img {
+    width: 35%;
+    margin-bottom: 1.6rem;
+  }
+}
+</style>
+<h1 class="py-fs-xl">{{ section.settings.heading }}</h1>
+
+<div class="pdp-wash--grid">
+  {% for block in section.blocks %}
+    <div class="wash-item">
+      <img src="{{ block.settings.image | image_url: width: 200 }}" alt="UnHide - {{ product.title }} - Wash Instructions - {{ block.title }}" />
+      <p>{{ block.settings.title }}</p>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "PDP - Wash Guide",
+  "tag": "section",
+  "class": "pdp-wash py-pd-y-m",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "name": "Content",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP - Wash Guide"      
+    }
+  ]
+}
+{% endschema %}

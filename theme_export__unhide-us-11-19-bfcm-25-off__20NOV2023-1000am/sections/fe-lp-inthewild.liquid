@@ -1,0 +1,287 @@
+<style>
+    .in-the-wild-full-width{
+        background-color:#fff;
+        padding:70px 0;
+    }
+    .in-the-wild-wrapper{
+        display: flex;
+        padding: 30px 0;
+    }
+    .in-the-wild-image{
+        width: 325px;
+      
+    }
+    /* .in-the-wild-image:nth-child(1){
+       
+        background: url("") no-repeat;
+    }
+    .in-the-wild-image:nth-child(2){
+       
+        background: url("{{section.blocks[1].settings.in-the-wild-image | img_url:'250x'}}") no-repeat;
+   }
+   .in-the-wild-image:nth-child(3){
+       
+    background: url("{{section.blocks[2].settings.in-the-wild-image | img_url:'250x'}}") no-repeat;
+   } */
+    .in-the-wild-image img{
+       
+        border-radius:30px ;
+    }
+    .in-the-wild-text-wrapper{
+        width: 20%;
+    }
+    .in-the-wild-image-wrapper{
+        width: 80%;
+        display: flex;
+        justify-content: space-around;
+
+    }
+    .in-the-wild-text-wrapper{
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+    
+    }
+    .in-the-wild-headline{
+        position: relative;
+        font-size: 140px;
+    }
+    .in-the-wild-text{
+        display: block;
+        position: relative;
+        line-height: 102px;
+    }
+    .t-w,.f-w{
+        left: 85px;
+        z-index: 2;
+    }
+    .in-the-wild-text-wrapper-mobile{
+        display: flex;
+        justify-content: flex-end;
+    }
+    .in-the-wild-text-mobile{
+        display: block;
+        position: relative;
+        line-height: 55px;
+
+    }
+    .in-the-wild-headline-mobile{
+        font-size: 76px;
+    }
+    .t-w-m,.f-w-m{
+        left: 53px;
+        z-index: 2;
+    }
+    .in-the-wild-image-mobile img{
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+    }
+
+    .in-the-wild-wrapper-mobile {
+    display: none;
+    grid-template-columns: 45% 45%;
+    grid-template-rows: 50% 50%;
+    /* gap: 0px 0px; */
+    grid-template-areas: ". ."
+        ". .";
+    gap: 10px 10px;
+    padding: 30px 0;
+}
+    @media screen and (max-width:1280px) {
+        
+        .in-the-wild-text-wrapper{
+            width: 20%;
+        }
+        .in-the-wild-image-wrapper{
+            width: 80%;
+        }
+        .in-the-wild-image {
+            display: flex;
+            align-items: center;
+        }
+        .in-the-wild-image img{
+        width: 280px;
+        height: auto;
+    }
+    .in-the-wild-headline{
+        font-size: 130px;
+    }
+    .in-the-wild-text{
+    line-height: 100px;
+    }
+    .in-the-wild-image-wrapper{
+        gap: 20px;
+    }
+
+    }
+    @media screen and (max-width:1100px){
+        .t-w, .f-w{
+            left: 77px;
+        }
+        .in-the-wild-text{
+            line-height: 90px;
+        }
+        .in-the-wild-headline{
+            font-size: 115px;
+        }
+    }
+    @media screen and (max-width:992px) {
+  
+        .in-the-wild-image-wrapper{
+            width: 80%;
+        }
+        .in-the-wild-image img{
+        width: 280px;
+        height: auto;
+        border-radius: 20px;
+        }
+      
+        .t-w, .f-w{
+            left: 60px;
+        }
+        .in-the-wild-text{
+            line-height: 80px;
+        }
+        .in-the-wild-headline{
+            font-size: 100px;
+        }
+
+    }
+    @media screen and (max-width:768px) {
+        .in-the-wild-wrapper{
+            flex-direction: column;
+        }
+        .in-the-wild-text-wrapper{
+            width: 100%;
+
+            justify-content: center;
+        }
+        .in-the-wild-text{
+            display: inline;
+        }
+        .t-w,.f-w{
+            left: 0;
+            z-index: 0;
+        }
+        .in-the-wild-image-wrapper{
+            width: 100%;
+            flex-direction: column;
+            gap: 30px;
+            align-items: center;
+        }
+        .in-the-wild-image img{
+            width: 90%;
+            height: auto;
+        }
+        .in-the-wild-image{
+            justify-content: center;
+        }
+        .in-the-wild-full-width{
+         padding-top: 0;   
+        }
+        .in-the-wild-wrapper-mobile{
+            display: grid;
+        }
+        .in-the-wild-wrapper{
+            display: none;
+        }
+    }
+  
+  
+
+  
+  
+
+    
+</style>
+
+<div class="landing-page-full-width-wrapper in-the-wild-full-width">
+    <div class="landing-page-wrapper">
+        <div class="in-the-wild-wrapper">
+            <div class="in-the-wild-text-wrapper">
+                <h2 class="in-the-wild-headline">
+                   <span class="in-the-wild-text f-w"> {{section.settings.first-word}}</span>
+                    <span class="in-the-wild-text s-w">{{section.settings.second-word}} </span>
+                    <span class="in-the-wild-text t-w">{{section.settings.third-word}}</span>
+
+                </h2>
+            </div>
+            <div class="in-the-wild-image-wrapper">
+                {%assign imageBlocks= section.blocks |where:"type","in-the-wild"%}
+                {%for block in imageBlocks%}
+                <div class="in-the-wild-image">
+                    <img src="{{block.settings.in-the-wild-image | img_url: '300x'}}" alt=""/>
+                </div>
+                {%endfor%}
+               
+            </div>
+        </div>
+        <div class="in-the-wild-wrapper-mobile">
+            <div class="in-the-wild-text-wrapper-mobile">
+                <h2 class="in-the-wild-headline-mobile">
+                    <span class="in-the-wild-text-mobile f-w-m"> {{section.settings.first-word}}</span>
+                     <span class="in-the-wild-text-mobile s-w-m">{{section.settings.second-word}} </span>
+                     <span class="in-the-wild-text-mobile t-w-m">{{section.settings.third-word}}</span>
+ 
+                 </h2>
+            </div>
+            {%for block in imageBlocks%}
+
+                <div class="in-the-wild-image-mobile">
+                    <img src="{{block.settings.in-the-wild-image | img_url: '300x'}}" alt=""/>
+                </div>
+                {%endfor%}
+
+
+        </div>
+    </div>
+</div>
+{%schema%}
+{
+    "name": "In the wild",
+   "max_blocks": 3,
+    "settings":[
+    {
+      "type": "text",
+      "id": "first-word",
+      "label": "First word of heading",
+      "default": "In"
+    },
+    {
+        "type": "text",
+        "id": "second-word",
+        "label": "Second word of heading",
+        "default": "the"
+      }, 
+       {
+        "type": "text",
+        "id": "third-word",
+        "label": "Third word of heading",
+        "default": "wild."
+      }
+   
+    ],
+    "blocks": [
+    {
+      "name": "In the wild image",
+      "type": "in-the-wild",
+      "settings": [
+      {
+        "type": "image_picker",
+        "id": "in-the-wild-image",
+        "label": "Image"
+      }
+        
+      ]
+    }
+  ],
+
+    "presets": [
+        {
+         "name": "In the wild"
+        }
+     ]
+  }
+{%endschema%}

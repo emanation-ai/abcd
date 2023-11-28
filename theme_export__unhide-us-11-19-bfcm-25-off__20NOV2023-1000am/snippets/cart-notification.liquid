@@ -1,0 +1,243 @@
+{%- if settings.prod_insurance != blank -%}
+  {%- assign insuranceID = all_products[settings.prod_insurance].first_available_variant.id -%}
+{%- endif -%}
+
+{%- if settings.f_s_show and settings.f_s_price != blank -%}
+{%- assign freeShipping = true -%}
+{%- else -%}
+{%- assign freeShipping = false -%}
+{%- endif -%}
+
+<cart-notification>
+  <div class="cart-notification-wrapper {% if freeShipping %}cart-notification-wrapper__shipping{% endif %}">
+    <div id="cart-notification"       
+      data-discount-steps="{{ settings.f_s_steps }}"
+      data-discount-title-1="free shipping"
+      data-discount-price-1="{{ settings.f_s_price }}"
+      data-discount-title-2="{{ settings.f_s_title_1 }}"
+      data-discount-price-2="{{ settings.f_s_discount_1 }}"
+      data-discount-title-3="{{ settings.f_s_title_2 }}"
+      data-discount-price-3="{{ settings.f_s_discount_2 }}"
+      data-discount-title-4="{{ settings.f_s_title_3 }}"
+      data-discount-price-4="{{ settings.f_s_discount_3 }}"
+      data-discount-title-5="{{ settings.f_s_title_4 }}"
+      data-discount-price-5="{{ settings.f_s_discount_4 }}"
+      class="cart-notification py-{{ settings.py_cart_bg_color }}" aria-modal="true" aria-label="{{ 'general.cart.item_added' | t }}" role="dialog" tabindex="-1">
+      <div class="cart-drawer-inner">
+        <div class="cart-notification__header">
+          {%- if settings.cart_heading != blank -%}
+            <h2 class="cart-notification__heading caption-large">{{ settings.cart_heading }}</h2>
+          {%- endif -%}
+          <button type="button" class="modal__close-button" aria-label="{{ 'accessibility.close' | t }}">
+            <svg class="icon icon-close" aria-hidden="true" focusable="false" role="presentation">
+              <use href="#icon-close">
+            </svg>
+          </button>
+          {%- if freeShipping -%}
+            <div class="bc-free-shipping-wrapper" data-price="{{ settings.f_s_price }}" data-currency="{{ settings.f_s_currency }}">
+              <div class="bc-free-shipping-wrapper__success-text">
+                 Congrats! You've earned <b>Free Shipping </b><b class="active-dis-step"></b>                                     
+              </div>
+              <div class="bc-free-shipping-bar" data-steps="{{ settings.f_s_steps }}">
+                {% for i in (0..settings.f_s_steps) %}
+                <span class="progress-bar__dot"></span>
+                {% endfor %}
+                <div class="bc-free-shipping-bar__progress" {% if settings.f_s_bg_color != blank %}style="background-color:{{ settings.f_s_bg_color }}"{% endif %}></div>
+              </div>
+              <div class="bc-free-shipping-wrapper__text active">
+                Spend <span class="remain-price"></span> more to get <span class="target-step"></span>
+              </div>
+            </div>
+          {%- endif -%}
+          <div class="free-gifts-wraper">            
+            {% if settings.free_gift_1 and settings.f_s_steps > 1 %}
+              {% assign fgift_item_1 = all_products[settings.free_gift_1] %}
+              <div class="free-gift-item-wraper fgift-2" style="display:flex" data-id="{{ fgift_item_1.selected_or_first_available_variant.id }}" data-price="{{ settings.f_s_discount_1 }}">
+                <div class="cart-upd-img"><img src="{{ fgift_item_1.featured_image | img_url: '200px' }}"/></div>
+                <div class="cart-upd-info">
+                  <div class="fgift-info-wraper">
+                    <p class="upd-title">Free {{ fgift_item_1.title }}</p>  
+                    <p class="gift-remain-note"></p>
+                  </div>
+                  <product-form class="product-form">
+                    <form action="../cart/add" method="POST"> 
+                      <input type="hidden" name="id" value="{{ fgift_item_1.selected_or_first_available_variant.id }}"/>
+                      <input type="hidden" name="free_gift" value="true"/>  
+                      <button type="submit" class="upd-add-btn">Add to Cart</button>
+                    </form>
+                  </product-form>
+                </div>
+              </div>
+            {% endif %}        
+            {% if settings.free_gift_2 and settings.f_s_steps > 2 %}
+              {% assign fgift_item_2 = all_products[settings.free_gift_2] %}
+              <div class="free-gift-item-wraper fgift-3" style="display:none" data-id="{{ fgift_item_2.selected_or_first_available_variant.id }}" data-price="{{ settings.f_s_discount_2 }}">
+                <div class="cart-upd-img"><img src="{{ fgift_item_2.featured_image | img_url: '200px' }}"/></div>
+                <div class="cart-upd-info">
+                  <div class="fgift-info-wraper">
+                    <p class="upd-title">Free {{ fgift_item_2.title }}</p>  
+                    <p class="gift-remain-note"></p>
+                  </div>
+                  <product-form class="product-form">
+                    <form action="../cart/add" method="POST"> 
+                      <input type="hidden" name="id" value="{{ fgift_item_2.selected_or_first_available_variant.id }}"/>
+                      <input type="hidden" name="free_gift" value="true"/>
+                      <button type="submit" class="upd-add-btn">Add to Cart</button>
+                    </form>
+                  </product-form>
+                </div>
+              </div>
+            {% endif %} 
+            {% if settings.free_gift_3 and settings.f_s_steps > 3 %}
+              {% assign fgift_item_3 = all_products[settings.free_gift_3] %}
+              <div class="free-gift-item-wraper fgift-4" style="display:none" data-id="{{ fgift_item_3.selected_or_first_available_variant.id }}" data-price="{{ settings.f_s_discount_3 }}">
+                <div class="cart-upd-img"><img src="{{ fgift_item_3.featured_image | img_url: '300px' }}"/></div>
+                <div class="cart-upd-info">
+                  <div class="fgift-info-wraper">
+                    <p class="upd-title">Free {{ fgift_item_3.title }}</p>  
+                    <p class="gift-remain-note"></p>
+                  </div>
+                  <product-form class="product-form">
+                    <form action="../cart/add" method="POST"> 
+                      <input type="hidden" name="id" value="{{ fgift_item_3.selected_or_first_available_variant.id }}"/>
+                      <input type="hidden" name="free_gift" value="true"/>
+                      <button type="submit" class="upd-add-btn">Add to Cart</button>
+                    </form>
+                  </product-form>
+                </div>
+              </div>
+            {% endif %}   
+            {% if settings.free_gift_4 and settings.f_s_steps > 4 %}
+              {% assign fgift_item_4 = all_products[settings.free_gift_4] %}
+              <div class="free-gift-item-wraper fgift-5" style="display:none" data-id="{{ fgift_item_4.selected_or_first_available_variant.id }}" data-price="{{ settings.f_s_discount_4 }}">
+                <div class="cart-upd-img"><img src="{{ fgift_item_4.featured_image | img_url: '400px' }}"/></div>
+                <div class="cart-upd-info">
+                  <div class="fgift-info-wraper">
+                    <p class="upd-title">Free {{ fgift_item_4.title }}</p>  
+                    <p class="gift-remain-note"></p>
+                  </div>
+                  <product-form class="product-form">
+                    <form action="../cart/add" method="POST"> 
+                      <input type="hidden" name="id" value="{{ fgift_item_4.selected_or_first_available_variant.id }}"/>
+                      <input type="hidden" name="free_gift" value="true"/>
+                      <button type="submit" class="upd-add-btn">Add to Cart</button>
+                    </form>
+                  </product-form>
+                </div>
+              </div>
+            {% endif %} 
+          </div>
+          {% if checkoutbtn_position == "top" %}
+          <div class="bc-cart__buttons-wrapper">
+            <form action="{{ routes.cart_url }}" method="post" id="cart">
+              <button id="loopcheckout" class="button button--primary button--full-width  py-c-{{settings.cart_btn_color}} py-hv-c-{{settings.cart_btn_color_hover}} py-bg-c-{{settings.cart_btn_bg_color}} py-hv-bg-c-{{settings.cart_btn_bg_color_hover}} py-btn-{{settings.cart_btn_size}}" name="checkout" form="cart">{{ 'sections.cart.checkout' | t }}</button>
+            </form>
+            {% if enable_dynamic_pay %}
+            <button id="loopcheckoutdynamic" class="button button--primary button--full-width  py-c-{{settings.cart_btn_color}} py-hv-c-{{settings.cart_btn_color_hover}} py-bg-c-{{settings.cart_btn_bg_color}} py-hv-bg-c-{{settings.cart_btn_bg_color_hover}} py-btn-{{settings.cart_btn_size}}" ><img src="https://cdn.shopify.com/s/files/1/0584/1993/7441/files/image_11.png?v=1641840659"></button>
+            {% endif %}
+          </div>
+          {% endif %}        
+        </div>
+        <div class="cart-items-wraper">
+          <div class="cart-notification-product-label">
+            Your Cart
+          </div>
+          <div id="cart-notification-product" class="cart-notification-product">
+          </div>
+        </div>
+        <div class="cart-upsells-wrapper" style="display:none">
+          <div class="cart-upsells-label">You may also like</div>
+          <div class="cart-upsells-row"></div>
+        </div>
+      </div>
+      <div class="cart-notification__links">
+        {%- if settings.show_packaging and settings.packaging != blank and settings.packaging_note != blank -%}
+          <label for="less-packaging" class="bc-checkbox">
+            <input type="checkbox" data-type="packaging" id="less-packaging" value="{{ settings.packaging_note | escape }}" {%- if cart.attributes.lessPackaging == 'true' -%}checked{%- endif -%}>
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <rect width="16" height="16" stroke="currentColor" fill="none" stroke-width="1"></rect>
+            </svg>
+            <svg class="icon icon-checkmark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 9" fill="none" width="10px" height="10px">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M11.35.643a.5.5 0 01.006.707l-6.77 6.886a.5.5 0 01-.719-.006L.638 4.845a.5.5 0 11.724-.69l2.872 3.011 6.41-6.517a.5.5 0 01.707-.006h-.001z" fill="currentColor"></path>
+            </svg>
+            {{ settings.packaging }}
+          </label>
+        {%- endif -%}
+        {%- if settings.show_insurance and settings.insurance != blank and settings.prod_insurance != blank -%}
+          <label for="shipping-insurance" class="bc-checkbox">
+            <input type="checkbox" id="shipping-insurance" data-type="insurance" value="{{ insuranceID }}" data-auto="{%- if settings.insurance_auto -%}true{% else %}false{%- endif -%}"/>
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <rect width="16" height="16" stroke="currentColor" fill="none" stroke-width="1"></rect>
+            </svg>
+            <svg class="icon icon-checkmark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 9" fill="none" width="10px" height="10px">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M11.35.643a.5.5 0 01.006.707l-6.77 6.886a.5.5 0 01-.719-.006L.638 4.845a.5.5 0 11.724-.69l2.872 3.011 6.41-6.517a.5.5 0 01.707-.006h-.001z" fill="currentColor"></path>
+            </svg>
+            {{settings.insurance}}
+          </label>
+        {%- endif -%}
+        <div class="bc-cart-prices-wraper">
+          <div class="bc-cart__subtotal-wrapper" id="cart-subtotal">          
+              <div class="bc-cart__subtotal-label">Products Total</div>
+              <div class="bc-cart__subtotal-value">
+                {{ cart.items_subtotal_price | money }}
+              </div>          
+          </div>
+          <div class="bc-cart__discount-wrapper" id="cart-discount"> 
+            <div class="bc-cart__discount-label">Discount</div>
+            <div class="bc-cart__discount-value">
+              {% if shipping_method.price != blank %}
+              {{ shipping_method.price | money }}
+              {% else %}
+               Calculated at checkout
+              {% endif %}
+            </div>          
+          </div>
+          <div class="bc-cart__shipping-wrapper" id="cart-shipping"> 
+            <div class="bc-cart__shipping-label">Shipping</div>
+            <div class="bc-cart__shipping-value">
+              {% if shipping_method.price != blank %}
+              {{ shipping_method.price | money }}
+              {% else %}
+               Calculated on next step
+              {% endif %}
+            </div>          
+          </div>
+          <div class="bc-cart__total-wrapper">
+            <div class="bc-cart__total-label">Subtotal</div>
+            <div class="bc-cart__total-value" id="cart-total">
+              {% if cart.cart_level_discount_application.size > 0 %}
+                <ul>
+                  {% for discount_application in cart.cart_level_discount_applications %}
+                    <li>
+                      {{ discount_application.title }} (-{{ discount_application.total_allocated_amount | money }})
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+              <span class="original-total">{{ cart.original_total_price | money }}</span>
+              <span>{{ cart.total_price | money }}</span>
+            </div>
+          </div>
+        </div>        
+        {% if checkoutbtn_position == "bottom" %}
+        <div class="bc-cart__buttons-wrapper" style="margin-top:15px;">
+          <form action="{{ routes.cart_url }}" method="post" id="cart">
+            <button id="loopcheckout" class="button button--primary button--full-width  py-c-{{settings.cart_btn_color}} py-hv-c-{{settings.cart_btn_color_hover}} py-bg-c-{{settings.cart_btn_bg_color}} py-hv-bg-c-{{settings.cart_btn_bg_color_hover}} py-btn-{{settings.cart_btn_size}}" name="checkout" form="cart">{{ 'sections.cart.checkout' | t }} <span class="btn-sub-total"></span></button>
+          </form>
+          {% if enable_dynamic_pay %}
+          <button id="loopcheckoutdynamic" class="button button--primary button--full-width  py-c-{{settings.cart_btn_color}} py-hv-c-{{settings.cart_btn_color_hover}} py-bg-c-{{settings.cart_btn_bg_color}} py-hv-bg-c-{{settings.cart_btn_bg_color_hover}} py-btn-{{settings.cart_btn_size}}" ><img src="https://cdn.shopify.com/s/files/1/0584/1993/7441/files/image_11.png?v=1641840659"></button>
+          {% endif %}
+        </div>
+        {% endif %}
+        <button type="button" class="link button-label">{{ 'general.continue_shopping' | t }}</button>        
+      
+      </div>
+    </div>
+    <div class="cart-notification-overaly"></div>
+  </div>
+</cart-notification>
+{% style %}
+  .cart-notification {
+     display: none;
+  }
+{% endstyle %}

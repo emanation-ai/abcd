@@ -1,0 +1,622 @@
+{{ 'component-article-card.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-blog.css' | asset_url | stylesheet_tag }}
+<style>
+  .title--primary{
+    color: {{section.settings.py_section_color}};
+  }
+  .blog-articles{
+    grid-gap :{{section.settings.item_space}}px;
+    margin-right:-{{section.settings.item_space}}px;
+  }
+  .blog-articles > .article .article-card__info{
+    padding:25px 15px;
+  }
+  .blog-articles > .article *{
+    text-align:{{section.settings.info_align}};
+  }
+  @media screen and (min-width: 960px) {
+    .blog-articles > .article{
+      width: calc(50% - {{section.settings.item_space}}px);
+      border-radius:{{section.settings.card_radius}}px;
+      overflow:hidden;
+    }
+  }
+  @media screen and (max-width: 959px){
+    .blog-articles > .article{
+      width: 90%;
+      margin-left:5%;
+      border-radius:{{section.settings.card_radius}}px;
+      overflow:hidden;
+    }
+    .blog-articles{
+      margin-right:0px;
+    }
+  }
+</style>
+
+{%- paginate blog.articles by 18 -%}
+  <div class="main-blog py-{{section.settings.py_section_bg_color}} py-{{section.settings.page_y_pd}} py-{{section.settings.page_x_pd}}">
+    <div class="page-width py-{{section.settings.page_width}} py-{{section.settings.page_y_mg}} py-{{section.settings.page_y_mg}}">
+      <h1 class="title--primary">
+        {{ blog.title | escape -}}
+        <br>
+        <a
+          target="_blank"
+          class="rss-feed font--accent"
+          style="font-size: 12px;display: inherit;font-weight: 400;"
+          href="{{ shop.url }}{{ blog.url }}.atom"
+          >RSS</a
+        >
+      </h1>
+
+      <div class="blog-articles">
+        {%- for article in blog.articles -%}
+          <div class="blog-articles__article article py-{{section.settings.card_bg_color}}">
+            {%- render 'article-card', article: article, show_image: section.settings.show_image -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        {%- render 'pagination', paginate: paginate -%}
+      {%- endif -%}
+    </div>
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-blog.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.main-blog.settings.header.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "default": true,
+      "label": "t:sections.main-blog.settings.show_image.label",
+      "info": "t:sections.main-blog.settings.show_image.info"
+    },
+    {
+      "type": "select",
+      "id": "py_section_bg_color",
+      "label": "Section Background ",
+      "options": [
+        {
+          "label": "Transparent",
+          "value": "bg-c-none"
+        },
+        {
+          "label": "Dark",
+          "value": "bg-c-dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "bg-c-middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "bg-c-average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "bg-c-middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "bg-c-light"
+        }
+      ],
+      "default": "bg-c-average"
+    },
+    {
+      "type": "select",
+      "id": "py_section_color",
+      "label": "General Text Color",
+      "options": [
+        {
+          "label": "Transparent",
+          "value": "transparent"
+        },
+        {
+          "label": "Dark",
+          "value": "var(--py-color-dark)"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "var(--py-color-middle-dark)"
+        },
+        {
+          "label": "Average",
+          "value": "var(--py-color-avarge)"
+        },
+        {
+          "label": "Middle Light",
+          "value": "var(--py-color-middle-light)"
+        },
+        {
+          "label": "Light",
+          "value": "var(--py-color-light)"
+        }
+      ],
+      "default": "var(--py-color-dark)"
+    },
+    {
+      "type": "select",
+      "id": "page_width",
+      "label": "Container (Width)",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "width-un"
+        },
+        {
+          "label": "Large",
+          "value": "width-l"
+        },
+        {
+          "label": "Medium",
+          "value": "width-m"
+        },
+        {
+          "label": "Small",
+          "value": "width-s"
+        }
+      ],
+      "default": "width-un"
+    },
+    {
+      "id": "page_x_mg",
+      "type": "select",
+      "label": "Container Margin Horizontal",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "mg-x-un"
+        },
+        {
+          "label": "None",
+          "value": "mg-x-n"
+        },
+        {
+          "label": "XL",
+          "value": "mg-x-xl"
+        },
+        {
+          "label": "L",
+          "value": "mg-x-l"
+        },
+        {
+          "label": "M",
+          "value": "mg-x-m"
+        },
+        {
+          "label": "S",
+          "value": "mg-x-s"
+        },
+        {
+          "label": "XS",
+          "value": "mg-x-xs"
+        }
+      ],
+      "default": "mg-x-un"
+    },
+    {
+      "type": "select",
+      "id": "page_y_mg",
+      "label": "Container Margin Vertical",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "mg-y-un"
+        },
+        {
+          "label": "None",
+          "value": "mg-y-n"
+        },
+        {
+          "label": "XL",
+          "value": "mg-y-xl"
+        },
+        {
+          "label": "L",
+          "value": "mg-y-l"
+        },
+        {
+          "label": "M",
+          "value": "mg-y-m"
+        },
+        {
+          "label": "S",
+          "value": "mg-y-s"
+        },
+        {
+          "label": "XS",
+          "value": "mg-y-xs"
+        }
+      ],
+      "default": "mg-y-un"
+    },
+    {
+      "type": "select",
+      "id": "page_x_pd",
+      "label": "Container Padding Horizontal",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "pd-x-un"
+        },
+        {
+          "label": "None",
+          "value": "pd-x-n"
+        },
+        {
+          "label": "XL",
+          "value": "pd-x-xl"
+        },
+        {
+          "label": "L",
+          "value": "pd-x-l"
+        },
+        {
+          "label": "M",
+          "value": "pd-x-m"
+        },
+        {
+          "label": "S",
+          "value": "pd-x-s"
+        },
+        {
+          "label": "XS",
+          "value": "pd-x-xs"
+        }
+      ],
+      "default": "pd-x-m"
+    },
+    {
+      "type": "select",
+      "id": "page_y_pd",
+      "label": "Container Padding Vertical",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "pd-y-un"
+        },
+        {
+          "label": "None",
+          "value": "pd-y-n"
+        },
+        {
+          "label": "XL",
+          "value": "pd-y-xl"
+        },
+        {
+          "label": "L",
+          "value": "pd-y-l"
+        },
+        {
+          "label": "M",
+          "value": "pd-y-m"
+        },
+        {
+          "label": "S",
+          "value": "pd-y-s"
+        },
+        {
+          "label": "XS",
+          "value": "pd-y-xs"
+        }
+      ],
+      "default": "pd-y-m"
+    },
+    {
+      "type": "header",
+      "content": "Blog Card Style"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.featured-collection.settings.image_ratio.label"
+    },
+    {
+      "type": "range",
+      "id": "item_space",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 10,
+      "label": "Card Space"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 7,
+      "label": "Card Border Radius"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color",
+      "label": "Card Background",
+      "options": [
+        {
+          "label": "Transparent",
+          "value": "bg-c-none"
+        },
+        {
+          "label": "Dark",
+          "value": "bg-c-dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "bg-c-middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "bg-c-average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "bg-c-middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "bg-c-light"
+        }
+      ],
+      "default": "bg-c-average"
+    },
+    {
+      "type": "select",
+      "id": "info_align",
+      "label": "Card Info Alignment",
+      "options": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        }
+      ],
+      "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "t:sections.main-blog.blocks.title.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_date",
+          "default": true,
+          "label": "t:sections.main-blog.blocks.title.settings.show_date.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_author",
+          "default": false,
+          "label": "t:sections.main-blog.blocks.title.settings.show_author.label"
+        },
+        {
+          "type": "select",
+          "id": "card_color_title",
+          "label": "Title Color",
+          "options": [
+            {
+              "label": "Dark",
+              "value": "var(--py-color-dark)"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "var(--py-color-middle-dark)"
+            },
+            {
+              "label": "Average",
+              "value": "var(--py-color-avarge)"
+            },
+            {
+              "label": "Middle Light",
+              "value": "var(--py-color-middle-light)"
+            },
+            {
+              "label": "Light",
+              "value": "var(--py-color-light)"
+            }
+          ],
+          "default": "var(--py-color-dark)"
+        },
+        {
+          "type": "range",
+          "id": "title_font_size",
+          "min": 14,
+          "max": 40,
+          "step": 1,
+          "default": 22,
+          "label": "Title Font Size"
+        },
+        {
+          "type": "range",
+          "id": "title_font_weight",
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "default": 500,
+          "label": "Title Font Weight"
+        },
+        {
+          "type": "range",
+          "id": "title_m_font_size",
+          "min": 14,
+          "max": 40,
+          "step": 1,
+          "default": 18,
+          "label": "Title Mobile Font Size"
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "t:sections.main-blog.blocks.link.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "view_btn_size",
+          "label": "View Button Size",
+          "options": [
+            {
+              "label": "Small",
+              "value": "small"
+            },
+            {
+              "label": "Medium",
+              "value": "medium"
+            },
+            {
+              "label": "Large",
+              "value": "large"
+            }
+          ],
+          "default": "medium"
+        },
+        {
+          "type": "select",
+          "id": "card_color_view_btn",
+          "label": "View Button Color",
+          "options": [
+            {
+              "label": "Dark",
+              "value": "dark"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "middle-dark"
+            },
+            {
+              "label": "Average",
+              "value": "average"
+            },
+            {
+              "label": "Middle Light",
+              "value": "middle-light"
+            },
+            {
+              "label": "Light",
+              "value": "light"
+            }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "select",
+          "id": "card_bg_color_view_btn",
+          "label": "View Button Background Color",
+          "options": [
+            {
+              "label": "Dark",
+              "value": "dark"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "middle-dark"
+            },
+            {
+              "label": "Average",
+              "value": "average"
+            },
+            {
+              "label": "Middle Light",
+              "value": "middle-light"
+            },
+            {
+              "label": "Light",
+              "value": "light"
+            }
+          ],
+          "default": "dark"
+        },
+        {
+          "type": "select",
+          "id": "card_color_view_btn_hover",
+          "label": "View Button Hover Color",
+          "options": [
+            {
+              "label": "Dark",
+              "value": "dark"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "middle-dark"
+            },
+            {
+              "label": "Average",
+              "value": "average"
+            },
+            {
+              "label": "Middle Light",
+              "value": "middle-light"
+            },
+            {
+              "label": "Light",
+              "value": "light"
+            }
+          ],
+          "default": "dark"
+        },
+        {
+          "type": "select",
+          "id": "card_bg_color_view_btn_hover",
+          "label": "View Button Hover Background Color",
+          "options": [
+            {
+              "label": "Dark",
+              "value": "dark"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "middle-dark"
+            },
+            {
+              "label": "Average",
+              "value": "average"
+            },
+            {
+              "label": "Middle Light",
+              "value": "middle-light"
+            },
+            {
+              "label": "Light",
+              "value": "light"
+            }
+          ],
+          "default": "light"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

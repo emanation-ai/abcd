@@ -1,0 +1,19 @@
+{%- assign mod_product = cart.items[0].product -%}
+{%- if checkout -%}
+  {% assign mod_product = checkout.line_items[0].product %}
+{%- endif -%}
+{%- if mod_product.handle == 'marsh-2-0' or mod_product.handle == 'shleepy' or mod_product.handle == 'thesquish' or mod_product.handle == 'lil-marsh' or mod_product.handle == 'the-cuddle-puddle' -%}
+<div class="product-review"><span class="product-review__stars"></span>
+  {%- if mod_product.handle == 'marsh-2-0' -%}
+    <p class="product-review__description">If you can imagine a cloud enveloping your body and whisking you off into the sunset, amplify that by ten and you’ve got this blanket.</p>    <span class="product-review__author">— Shelby C.</span>
+  {%- elsif mod_product.handle == 'shleepy' -%}
+    <p class="product-review__description">Seriously, the best thing I’ve ever bought. I would never take it off if I could.</p><span class="product-review__author">— Martina G.</span>
+  {%- elsif mod_product.handle == 'thesquish' -%}
+    <p class="product-review__description">It honestly is my favorite thing to lay on after a stressful day.</p><span class="product-review__author">— Britt E.</span>
+  {%- elsif mod_product.handle == 'lil-marsh' -%}
+    <p class="product-review__description">It’s hands down the softest thing I’ve felt in my whole life.</p><span class="product-review__author">— Nicole S.</span>
+  {%- elsif mod_product.handle == 'the-cuddle-puddle' -%}
+    <p class="product-review__description">I've felt soft, but not THIS soft. I showed my family and they couldn't take their hands off it.</p><span class="product-review__author">— Diego B.</span>
+  {%- endif -%}
+</div>
+{%- endif -%}

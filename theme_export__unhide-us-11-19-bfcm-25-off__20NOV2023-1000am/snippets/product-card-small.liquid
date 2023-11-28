@@ -1,0 +1,61 @@
+{% if is_variant %}
+	{% assign item_product = item.product %}
+{% else %}
+	{% assign item_product = item %}
+{% endif %}
+
+<div class="product-card-small bg-subtle">
+	{% render 'svg-icons', icon: 'review-stars' %}
+
+	<div class="product-info f-h cr-black">
+		<h3 class="t-b-2">{{ item_product.title }}</h3>
+
+		<div class="product-info-price t-b-2">
+			{% if is_variant == true %}
+				{% render 'item-price-variant', variant: item %}
+			{% else %}
+				{% render 'item-price', product: item_product %}
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="product-image">
+		<span class="object-fit">
+			{% if item.image != nil %}
+				{% render 'img-srcset',
+					image: item.image,
+					max_width: 600,
+					alt: item.image.alt %}
+
+			{% elsif item_product.featured_image != nil %}
+				{% render 'img-srcset',
+					image: item_product.featured_image,
+					max_width: 600,
+					alt: item_product.featured_image.alt %}
+			{% endif %}
+		</span>
+
+		<a 
+			href="{{ item.url }}"
+			class="p-fill"
+			title="{{ item.title | escape }}"></a>	
+
+		<div class="product-purchase-options">
+			{% if i.available %}
+				{% if i_is_variant == true %}
+					{% assign i_id = i.id %}
+				{% else %}
+					{% assign i_id = i.variants.first.id %}
+				{% endif %}
+				
+				<div class="card-quick-add user-select-disable" aria-hidden="true">
+					<button 
+						class="btn disable-hover" 
+						data-quick-add-id="{{ i.id }}">
+						Add to cart
+					</button>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>

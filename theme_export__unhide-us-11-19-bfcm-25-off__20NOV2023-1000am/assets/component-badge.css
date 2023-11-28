@@ -1,0 +1,12 @@
+.badge {
+  border: 1px solid transparent;
+  border-radius: 4rem;
+  display: inline-block;
+  font-size: 1.6rem;  
+  line-height: 1;
+  padding: 0.6rem 1.6rem;
+  text-align: center;
+  background-color: var(--py-bag-bg-color);  
+  color: var(--py-bag-color);
+  word-break: break-word;
+}

@@ -1,0 +1,26 @@
+.bc-collection-email-bunner {
+    position: relative;
+    width: calc(100% - 2.5rem);
+    max-width: 1450px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+    margin-top: -3.5rem;
+}
+.bc-collection-email-bunner__wrapper {
+    display: flex;
+    width: 100%;
+    margin-bottom:3rem;
+}
+.bc-collection-email-bunner__content {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+@media(max-width:749px){
+  .bc-collection-email-bunner {    
+    width: calc(100% - 0.5rem);       
+    padding: 0 1rem;
+    margin-top: 0.7rem;
+  }
+  
+}

@@ -1,0 +1,81 @@
+{% capture none %}
+	{% assign splitter = '###' %}
+	{% for variant in product.variants %}
+		{% assign variant_split = variant.title | split: ' / ' %}
+
+		{% assign variant_price = variant.price %}
+
+		{% capture option_variants %}{{ option_variants }}{{ variant_split[option_index] }}{{ splitter }}{% endcapture %}
+	{% endfor %}
+
+	{% assign option_variants = option_variants | split: splitter | uniq %}
+	{% assign v_selected_title_split = v_selected.title | split: ' / ' %}
+	{% assign v_selected_title_option = v_selected_title_split[option_index] %}
+
+	{% assign active_index = active_index | default: 0 %}
+{% endcapture %}
+
+{% if product.options[option_index] == "Size" or
+	product.options[option_index] == "size" %}
+	
+	<div class="item-swatches-size">
+		{% for v in option_variants %}
+		{% assign v_handle = v | handleize %}
+			{% if v_handle == 'extra-small-34-x-44' %}
+				{% assign v_new = 'XS' %}
+			{% elsif v_handle == 'small-50-x-60' or v_handle == 'small' %}
+				{% assign v_new = 'S' %}
+			{% elsif v_handle == 'medium-60-x-80' or v_handle == 'medium' %}
+				{% assign v_new = 'M' v_handle == 'medium'  %}
+            {% elsif v_handle == 'large' %}
+				{% assign v_new = 'L' v_handle == 'large'  %}
+            {% elsif v_handle == 'extra-large' %}
+				{% assign v_new = 'XL' v_handle == 'extra-large'  %}
+            {% elsif v_handle == 'plus' %}
+              	{% assign v_new = 'Plus' v_handle == 'plus'  %}
+            {% elsif v_handle == 'kids' %}
+              	{% assign v_new = 'Kids' v_handle == 'kids'  %}
+			{% endif %}
+
+			{% assign v_1 = v | remove: 'Extra' %}
+			{% assign v_2 = v_1 | remove: 'Small' %}
+			{% assign v_3 = v_2 | remove: 'Medium' %}
+
+			{% assign s_1 = v | remove: '34" x 44"' %}
+			{% assign s_2 = s_1 | remove: '50" x 60"' %}
+			{% assign s_3 = s_2 | remove: '60" x 80"' %}
+			
+			<button 
+				class="btn-pill"
+				type="button"
+				value="{{ v }}"
+				data-variant-type = "{{ product.options[option_index] | handleize }}"
+				data-swatch-value="{{ v }}"
+				data-swatch-short="{{ v_new }}"
+				data-swatch-size="{{ v_handle }}"
+				aria-label="{{ v }}">
+					{% if v_new %}
+						{{ v_new }}
+					{% else %}
+						{{ s_3 }}
+					{% endif %}
+			</button>
+		{% endfor %}
+	</div>
+
+{% else %}
+	<div class="item-swatches-size">
+		{% for v in option_variants %}
+		{% assign v_handle = v | handleize %}
+			<button
+				class="btn-pill"
+				type="button"
+				value="{{ v }}"
+				data-variant-type = "{{ product.options[option_index] | handleize }}"
+				data-swatch-value="{{ v }}"
+				data-swatch-short="{{ v_new }}"
+				data-swatch-total="{{ v_handle }}"
+				aria-label="{{ v }}">{{ v }}</button>
+		{% endfor %}
+	</div>
+{% endif %}

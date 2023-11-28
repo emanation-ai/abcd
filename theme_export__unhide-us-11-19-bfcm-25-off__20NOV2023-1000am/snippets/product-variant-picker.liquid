@@ -1,0 +1,198 @@
+<style>
+  .product-form__input input[type='radio'] + label{
+    background:{{block.settings.option_bg_color}};
+    color:{{block.settings.option_color}};
+    border:1px solid;
+    border-color:{{block.settings.option_color_br}} !important;
+    font-size: {{block.settings.option_fontsize}}px;
+  }
+  .product-form__input input[type='radio']:checked + label {
+    background:{{block.settings.selected_option_bg_color}};
+    color:{{block.settings.selected_option_color}};
+    border-color:{{block.settings.selected_option_color_br}} !important;
+    cursor: default;
+  } 
+  .general-picker-sm_radius .product-form__input input[type='radio'] + label{
+    border-radius:6px;
+  }
+  .general-picker-f_radius .product-form__input input[type='radio'] + label{
+    border-radius:60px;
+  }
+  .general-picker-f_radius .product-form__input input[type='radio'] + label[for*=ize]{             
+    height: 35px;
+  }
+  .color-picker-name .product-form__input input[type='radio'] + label[for*=olor] span{
+    display:none;
+  }
+  .color-picker-color .product-form__input input[type='radio'] + label[for*=olor]{
+    font-size: 0px;
+    border-radius: 50%;
+    padding: 0px;
+    min-width: auto;
+    border: 1px solid;
+  }
+  .color-picker-color .product-form__input input[type='radio']:checked + label[for*=olor]{
+    border: 1px solid #FFFFFF;
+    filter: drop-shadow(0px 4px 10px rgba(0,0,0,.25));
+    border-radius: 50px;
+    box-shadow: 0 4px 9px #00000040;
+  }
+  .color-picker-color .product-form__input input[type='radio'] + label[for*=olor] span{
+    margin-right: 0px;
+    width: 60px;
+    height: 35px;
+    border: 2px solid white;
+  }
+  .color-picker-color .product-form__input input[type='radio']:checked + label[for*=olor] span{
+    border: 1px solid black;
+  }
+  .product__info-container .bc-colors__heading,
+  .product__info-container fieldset.product-form__input .form__label{
+    font-size: {{block.settings.option_fontsize}}px;
+    font-weight: {{block.settings.option_fontweight}};
+    font-stretch:{{block.settings.option_fontstretch}};
+    font-style:{{block.settings.option_fontstyle}};
+    line-height:{{block.settings.option_lineheight}};
+    letter-spacing:{{block.settings.option_letterspacing}}
+  }            
+  @media(max-width:749px){
+    .product__info-container .bc-colors__heading,
+    .product__info-container fieldset.product-form__input .form__label{
+        font-size: {{block.settings.option_fontsize_m}}px;
+    }
+    .product-form__input input[type='radio'] + label{
+      font-size: {{block.settings.option_fontsize_m}}px;
+    }
+  }
+  
+</style>
+  <div class="variant-picker-container color-picker-{{block.settings.color_picker_type}} general-picker-{{block.settings.general_picker_type}}">
+  {% comment %}            
+    {%- render 'component-colors', product: product, show_heading: true -%}            
+  {% endcomment %}
+
+  {%- unless product.has_only_default_variant -%}              
+      <variant-radios class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ product.url }}" 
+      {% if update_url == false %}
+        data-update-url="false"
+      {% endif %}
+      {{ block.shopify_attributes }}
+      >                  
+          {%- for option in product.options_with_values -%}
+              {%- liquid
+                assign optionName = option.name | downcase
+                assign color = false
+                if optionName contains 'color' or optionName contains 'colour'
+              assign color = true
+                endif -%}
+              <fieldset class="js product-form__input" product-option = "{{optionName}}">
+                <legend class="form__label"><span>{{ option.name }}: <span class="selected-value">{{option.selected_value}}</span></span>
+                  {% if product.handle == "lil-marsh" or product.handle == "shleepy"%}
+                    {% if option.name == 'size' or option.name == 'Size' %}
+                      <a class="js-size-trigger size-trigger">Size Guide</a>
+                    {% endif %}
+                  {% endif %}
+                </legend>
+                {%- for value in option.values -%}
+                  <input type="radio" id="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}"
+                        name="{{ option.name }}"
+                        value="{{ value | escape }}"
+                        form="product-form-{{ section.id }}"
+                        {% if option.selected_value == value %}checked{% endif %}
+                  >
+                  
+                  <label for="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}">
+                    {% unless color %}                                
+                    {% if value == "ONESIZE" %}
+                      OS                    
+                    {% elsif value contains "Extra Small" %}
+                      XS
+                    {% elsif value contains "Extra Large" %}
+                      XL
+                    {% elsif value contains "M" and value contains "W" %}
+                      {{ value }}
+                    {% elsif value contains "9-12" or value contains "12-18" or value contains "18-24" or value contains "Back Rest" or value contains "Lumbar" %}
+                      {{ value }}
+                    {% elsif value contains "Standard" %}
+                      Standard
+                    {% else %}
+                      {%- assign valueSize = value | size -%}
+                      {%- if valueSize < 5 or product.handle contains 'gift-card' -%}
+                        {{ value }}
+                      {%- else -%}
+                        {%- assign variantNameObject = value -%}
+                        {%- for variantName in variantNameObject -%}
+                          {%- assign forVariantName = variantName | size -%}
+                          {%- if forVariantName < 4 -%}
+                            {{ variantName }}
+                          {%- else -%}
+                            {{ variantName | slice: 0 }}
+                        {%- endif -%}
+                        {%- endfor -%}
+                      {%- endif -%}
+                      {%- endif -%}
+                    {% else %}
+                      <span class="pd-colors__icon" data-color="{{ value | downcase | replace: ' ','-' }}"></span>{{ value }}
+                    {% endunless %}  
+                </label>
+                {%- endfor -%}
+              </fieldset>
+          {%- endfor -%}                  
+        <div id="preorderbunner"></div>
+        <script type="application/json">
+          {{ product.variants | json }}
+        </script>
+        <script id="product-variants-metafields" type="application/json">                  
+        [
+          {%- for variant in product.variants -%}
+                {
+                  "{{variant.id}}" : 
+                  {%- if variant.metafields.order.size > 0 -%}
+                    {%- for item in variant.metafields.order -%}
+                        {%- if forloop.first -%}
+                          {
+                          "available" : "{{variant.available}}","inventory_quantity" : "{{variant.inventory_quantity}}","pre_order_inventory_quantity": "{{ variant.inventory_quantity | plus: variant.metafields.global.pre_order_inventory }}",                              
+                        {%- endif -%}
+                                "{{item[0]}}" : "{{ item[1] }}"{%- unless forloop.last -%},{%- endunless -%}
+                        {%- if forloop.last -%}                                         
+                            }
+                        {%- endif -%}
+                    {%- endfor -%}
+                  {%- else -%}
+                      ""
+                  {%- endif -%}
+                }{%- unless forloop.last -%},{%- endunless -%}
+          {%- endfor -%}
+        ]
+        </script>
+      </variant-radios>              
+  {%- endunless -%}
+  </div>
+{%- if sizeCharts.cm_content != blank or sizeCharts.inches_content != blank -%}
+<modal-opener class="product-popup-modal__opener no-js-hidden " data-modal="#PopupModal-sizecharts">
+<button id="ProductPopup-sizecharts" class="product-popup-modal__button link bc-size-chart-button" type="button" aria-haspopup="dialog">VIEW SIZING CHART</button>
+</modal-opener>
+{%- endif -%}
+
+
+  <noscript>
+    <div class="product-form__input{% if product.has_only_default_variant %} hidden{% endif %}">
+      <label class="form__label" for="Variants-{{ section.id }}">{{ 'products.product.product_variants' | t }}</label>
+      <div class="select">
+        <select name="id" id="Variants-{{ section.id }}" class="select__select" form="product-form">
+          {%- for variant in product.variants -%}
+            <option
+              {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}
+              {% if variant.available == false %}disabled{% endif %}
+              value="{{ variant.id }}"
+            >
+              {{ variant.title }}
+              {%- if variant.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}
+              - {{ variant.price | money | strip_html }}
+            </option>
+          {%- endfor -%}
+        </select>
+        {% render 'icon-caret' %}
+      </div>
+    </div>
+  </noscript>

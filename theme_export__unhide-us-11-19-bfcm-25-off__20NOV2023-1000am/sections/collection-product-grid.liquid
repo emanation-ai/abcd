@@ -1,0 +1,993 @@
+{{ 'template-collection-style-1.css' | asset_url | stylesheet_tag }}
+{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
+
+<link rel="preload" href="{{ 'component-product-card-style-1.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="{{ 'component-price-style-1.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="{{ 'component-badge.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="{{ 'component-rte.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="{{ 'component-variants.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="stylesheet" href="{{ 'component-slider.css' | asset_url }}" >
+
+<noscript>{{ 'component-card-style-1.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-price-style-1.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-badge.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-variants.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-slider.css' | asset_url | stylesheet_tag }}</noscript>
+
+
+{%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+
+
+
+<div class="bc-collection-page-main filter-{{section.settings.filter_style}} py-{{section.settings.py_section_bg_color}} py-{{section.settings.page_y_pd}} py-{{section.settings.page_x_pd}} py-{{section.settings.page_y_mg}}">
+  
+  {%- if section.settings.filter_style == 'style-1' -%}
+    {%- render 'collection-filters-style-1' -%}
+  {%- elsif section.settings.filter_style == 'style-2' -%}
+    {%- render 'collection-filters-style-2', heading: section.settings.filter_heading, btnLabel: section.settings.filter_btn_label -%}
+  {%- elsif section.settings.filter_style == 'style-3' -%}
+    {%- render 'collection-filters-style-3' -%}
+  {%- endif -%} 
+
+  <div id="CollectionProductGrid" class="bc-collection-page-products py-{{section.settings.page_width}}">
+    {%- paginate collection.products by section.settings.products_per_page -%}
+      {%- if collection.products.size == 0 -%}
+        <div class="collection collection--empty" id="main-collection-product-grid" data-id="{{ section.id }}">
+          <div class="loading-overlay">
+            <div class="loading-overlay__spinner">
+              <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+              </svg>
+            </div>
+          </div>
+
+          <p class="collection-product-count light">
+            {{ 'sections.collection_template.product_count' | t: product_count: collection.products_count, count: collection.all_products_count }}
+          </p>
+
+          <div class="title-wrapper center">
+            <h2 class="title title--primary">
+              {{ 'sections.collection_template.empty' | t }}<br>
+              {{ 'sections.collection_template.use_fewer_filters_html' | t: link: collection.url, class: "underlined-link link" }}
+            </h2>
+          </div>
+        </div>
+      {%- else -%}
+        <div class="collection ">
+          <div class="loading-overlay">
+            <div class="loading-overlay__spinner">
+              <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+              </svg>
+            </div>
+          </div>
+
+          <p class="collection-product-count light">
+            {{ 'sections.collection_template.product_count' | t: product_count: collection.products_count, count: collection.all_products_count }}
+          </p>
+
+          <ul id="main-collection-product-grid" data-id="{{ section.id }}" class="grid grid--1-col grid--2-col-tablet grid--3-col-desktop product-list-{{section.id}}" style="margin-left:-{{section.settings.item_space}}px;padding-top:{{section.settings.item_space}}px">
+            <style>              
+              .card-wrapper{
+                padding-bottom:15px;
+                height:100%;
+              } 
+              .product-list-{{section.id}} .py-center .price,
+              .product-list-{{section.id}} .py-center .card-color-wrapper,
+              .product-list-{{section.id}} .py-center ul.variant-options,
+              .product-list-{{section.id}} .py-center .card-button-wrapper{
+                justify-content: center;
+              }  
+              #CollectionProductGrid .card-information__wrapper{
+                 padding:0px {{section.settings.item_inner_space}}px 
+              }
+              #CollectionProductGrid .card-img-gallery{
+                 border-radius:{{section.settings.card_radius}}px;
+                 overflow:hidden;
+              }
+              {% if section.settings.custom_font_style %}
+
+                .product-list-{{section.id}} .card-wrapper .card-information__text{
+                  font-size: {{section.settings.title_fontsize}};
+                  font-weight: {{section.settings.title_fontweight}};
+                  font-stretch:{{section.settings.title_fontstretch}};
+                  font-style:{{section.settings.title_fontstyle}};
+                  line-height:{{section.settings.title_lineheight}};
+                  letter-spacing:{{section.settings.title_letterspacing}}
+                }
+                @media(max-width:749px){
+                  .product-list-{{section.id}} .card-wrapper .card-information__text{
+                      font-size: {{section.settings.title_fontsize_m}}
+                  }
+                }
+                .product-list-{{section.id}} .card-wrapper .price *{
+                  font-size: {{section.settings.info_fontsize}};
+                  font-weight: {{section.settings.info_fontweight}};
+                  font-stretch:{{section.settings.info_fontstretch}};
+                  font-style:{{section.settings.info_fontstyle}};
+                  line-height:{{section.settings.info_lineheight}};
+                  letter-spacing:{{section.settings.info_letterspacing}}
+                }
+                @media(max-width:749px){
+                  .product-list-{{section.id}} .card-wrapper .price *{
+                      font-size: {{section.settings.info_fontsize_m}}
+                  }
+                }              
+              {% endif %}
+            </style>
+            {% assign exclude_handles = 'routeins, unhide-gift-card, lil-marsh-best-sellers, the-marsh-duo, lil-marsh-duo-medium, lil-marsh-family-pack, the-marshmallow-herd, lil-marsh-xl-family-pack' %}
+            {% assign exclude_handles_array = exclude_handles | split: ', ' %}
+            {%- for product in collection.products -%}
+              {% assign is_exclude = false %}
+              {% for exclude_handle in exclude_handles_array %}
+                {% if product.handle == exclude_handle %}
+                  {% assign is_exclude = true %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+              {% if is_exclude %}{% continue %}{% endif %}
+              <li class="grid__item py-card-{{section.settings.card_style}} py-{{section.settings.card_color}}" style="padding-bottom:{{section.settings.item_space}}px;padding-left:{{section.settings.item_space}}px">
+                {% render 'product-card',
+                  product_card_product: product,
+                  media_size: section.settings.image_ratio,
+                  media_gallery:section.settings.image_gallery,
+                  tag_field:section.settings.tag_field,                                   
+                  show_vendor: section.settings.show_vendor,
+                  show_colors: section.settings.show_colors,
+                  show_view_product: section.settings.show_view_product,
+                  show_quick_add: section.settings.show_quick_add,
+                  show_variants_on_hover: section.settings.show_variants_on_hover,
+                  card_bg_color: section.settings.card_bg_color,
+                  card_radius: section.settings.card_radius,
+                  info_align: section.settings.info_align
+                %}
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          {%- if paginate.pages > 1 -%}
+            {% render 'pagination', paginate: paginate, anchor: '', class: '' %}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+
+</div>
+{% schema %}
+{
+  "name": "t:sections.main-collection-product-grid.name",
+  "class": "collection-grid-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "collection_style",
+      "options": [
+        {
+          "value": "style-1",
+          "label": "Style 1"
+        }
+      ],
+      "default": "style-1",
+      "label": "Grid Style"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 16,
+      "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
+    },
+    {
+      "type": "header",
+      "content": "Custom Styles"
+    },
+    {
+      "type": "select",
+      "id": "py_section_bg_color",
+      "label": "Section Background ",
+      "options": [          
+        {
+          "label": "Transparent",
+          "value": "bg-c-none"
+        },        
+        {
+          "label": "Dark",
+          "value": "bg-c-dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "bg-c-middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "bg-c-average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "bg-c-middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "bg-c-light"
+        }
+      ],
+     "default": "bg-c-average"
+    },
+    {
+      "type": "select",
+      "id": "page_width",
+      "label": "Container (Width)",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "width-un"
+        },
+        {
+          "label": "Large",
+          "value": "width-l"
+        },
+        {
+          "label": "Medium",
+          "value": "width-m"
+        },
+        {
+          "label": "Small",
+          "value": "width-s"
+        }
+      ],
+      "default": "width-un"
+    },
+    {
+        "id": "page_x_mg",
+        "type": "select",
+        "label": "Container Margin Horizontal",
+        "options": [
+            {
+            "label": "Unset",
+            "value": "mg-x-un"
+            },
+            {
+            "label": "None",
+            "value": "mg-x-n"
+            },
+            {
+            "label": "XL",
+            "value": "mg-x-xl"
+            },
+            {
+            "label": "L",
+            "value": "mg-x-l"
+            },
+            {
+            "label": "M",
+            "value": "mg-x-m"
+            },
+            {
+            "label": "S",
+            "value": "mg-x-s"
+            },
+            {
+            "label": "XS",
+            "value": "mg-x-xs"
+            }
+        ],
+        "default": "mg-x-un"
+    },
+    {
+        "type": "select",
+        "id": "page_y_mg",
+        "label": "Container Margin Vertical",
+        "options": [
+            {
+            "label": "Unset",
+            "value": "mg-y-un"
+            },
+            {
+            "label": "None",
+            "value": "mg-y-n"
+            },
+            {
+            "label": "XL",
+            "value": "mg-y-xl"
+            },
+            {
+            "label": "L",
+            "value": "mg-y-l"
+            },
+            {
+            "label": "M",
+            "value": "mg-y-m"
+            },
+            {
+            "label": "S",
+            "value": "mg-y-s"
+            },
+            {
+            "label": "XS",
+            "value": "mg-y-xs"
+            }
+        ],
+        "default": "mg-y-un"
+    },
+    {
+      "type": "select",
+      "id": "page_x_pd",
+      "label": "Container Padding Horizontal",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "pd-x-un"
+        },
+        {
+          "label": "None",
+          "value": "pd-x-n"
+        },
+        {
+          "label": "XL",
+          "value": "pd-x-xl"
+        },
+        {
+          "label": "L",
+          "value": "pd-x-l"
+        },
+        {
+          "label": "M",
+          "value": "pd-x-m"
+        },
+        {
+          "label": "S",
+          "value": "pd-x-s"
+        },
+        {
+          "label": "XS",
+          "value": "pd-x-xs"
+        }
+      ],
+      "default": "pd-x-m"
+    },
+    {
+      "type": "select",
+      "id": "page_y_pd",
+      "label": "Container Padding Vertical",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "pd-y-un"
+        },
+        {
+          "label": "None",
+          "value": "pd-y-n"
+        },
+        {
+          "label": "XL",
+          "value": "pd-y-xl"
+        },
+        {
+          "label": "L",
+          "value": "pd-y-l"
+        },
+        {
+          "label": "M",
+          "value": "pd-y-m"
+        },
+        {
+          "label": "S",
+          "value": "pd-y-s"
+        },
+        {
+          "label": "XS",
+          "value": "pd-y-xs"
+        }
+      ],
+      "default": "pd-y-m"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.header__3.content"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "options": [
+        {
+          "value": "vertical",
+          "label": "Vertical"
+        },
+        {
+          "value": "horizontal",
+          "label": "horizontal"
+        }
+      ],
+      "default": "vertical",
+      "label": "Card Style",
+      "info": "Horizontal style will work on desktop only"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "square",
+      "label": "t:sections.main-collection-product-grid.settings.image_ratio.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_gallery",
+      "default": false,
+      "label": "Enable Image Slider"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "bg-c-none"
+          },        
+          {
+            "label": "Dark",
+            "value": "bg-c-dark"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "bg-c-middle-dark"
+          },
+          {
+            "label": "Average",
+            "value": "bg-c-average"
+          },
+          {
+            "label": "Middle Light",
+            "value": "bg-c-middle-light"
+          },
+          {
+            "label": "Light",
+            "value": "bg-c-light"
+          }
+        ],
+        "default": "bg-c-average"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 7,
+      "label": "Card Border Radius"
+    },
+    {
+      "type": "range",
+      "id": "item_space",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 10,
+      "label": "Card Padding"
+    },
+    {
+      "type": "range",
+      "id": "item_inner_space",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 10,
+      "label": "Card Info Padding"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.main-collection-product-grid.settings.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_colors",
+      "default": true,
+      "label": "Show Colors"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variants_on_hover",
+      "default": true,
+      "label": "Show Variants On Hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_product",
+      "default": true,
+      "label": "Show View Product Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "default": true,
+      "label": "Show Quick Add Button"
+    },
+    {
+      "type": "select",
+      "id": "info_align",
+      "label": "Card Info Alignment",
+      "options": [     
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "card_color",
+      "label": "Card Info Color",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Dark",
+          "value": "c-dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "c-middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "c-average"
+        },
+        {
+          "label": "Light",
+          "value": "c-middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "c-light"
+        }
+      ],
+      "default": "c-dark"
+    },
+    {
+      "type": "header",
+      "content": "Card Button Style"
+    },
+    {
+      "type": "select",
+      "id": "view_btn_size",
+      "label": "View Button Size",
+      "options": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "card_color_view_btn",
+      "label": "View Button Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color_view_btn",
+      "label": "View Button Background Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "card_color_view_btn_hover",
+      "label": "View Button Hover Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "card_bg_color_view_btn_hover",
+      "label": "View Button Hover Background Color",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Middle Dark",
+          "value": "middle-dark"
+        },
+        {
+          "label": "Average",
+          "value": "average"
+        },
+        {
+          "label": "Middle Light",
+          "value": "middle-light"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "header",
+      "content": "Card Product Title Font Style"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_font_style",
+      "default": false,
+      "label": "Use Custom Style"
+    },
+    {
+      "type": "text",
+      "id": "title_fontsize",
+      "label": "Font size Desktop",
+      "info": "Ex: 20px "
+    },
+    {
+      "type": "text",
+      "id": "title_fontsize_m",
+      "label": "Font size Mobile"
+    },
+    {
+      "type": "text",
+      "id": "title_fontweight",
+      "label": "Font-weight"      
+    },
+    {
+      "type": "text",
+      "id": "title_fontstretch",
+      "label": "Font-stretch",
+      "info": "Ex: 40%"
+    },
+    {
+      "type": "select",
+      "id": "title_fontstyle",
+      "options": [
+        {
+          "value": "normal",
+          "label": "normal"
+        },
+        {
+          "value": "italic",
+          "label": "italic"
+        }
+      ],
+      "default": "normal",
+      "label": "Font-style"
+    },
+    {
+      "type": "text",
+      "id": "title_lineheight",
+      "label": "Lineheight"      
+    },
+    {
+      "type": "text",
+      "id": "title_letterspacing",
+      "label": "Letter-spacing",
+      "info":"Ex: 0.5px"
+    },
+    {
+      "type": "header",
+      "content": "Card Product info Font Style"
+    },
+    {
+      "type": "text",
+      "id": "info_fontsize",
+      "label": "Font size Desktop",
+      "info": "Ex: 20px "
+    },
+    {
+      "type": "text",
+      "id": "info_fontsize_m",
+      "label": "Font size Mobile"
+    },
+    {
+      "type": "text",
+      "id": "info_fontweight",
+      "label": "Font-weight"      
+    },
+    {
+      "type": "text",
+      "id": "info_fontstretch",
+      "label": "Font-stretch",
+      "info": "Ex: 40%"
+    },
+    {
+      "type": "select",
+      "id": "info_fontstyle",
+      "options": [
+        {
+          "value": "normal",
+          "label": "normal"
+        },
+        {
+          "value": "italic",
+          "label": "italic"
+        }
+      ],
+      "default": "normal",
+      "label": "Font-style"
+    },
+    {
+      "type": "text",
+      "id": "info_lineheight",
+      "label": "Lineheight"      
+    },
+    {
+      "type": "text",
+      "id": "info_letterspacing",
+      "label": "Letter-spacing",
+      "info":"Ex: 0.5px"     
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.header__1.content"
+    },
+    {
+      "type": "select",
+      "id": "filter_style",
+      "label": "Filter Style",
+      "options": [
+        {
+          "label": "Style 1",
+          "value": "style-1"
+        },
+        {
+          "label": "Style 2",
+          "value": "style-2"
+        },
+        {
+          "label": "Style 3",
+          "value": "style-3"
+        }
+      ],
+      "default": "style-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_filtering.label",
+      "info": "t:sections.main-collection-product-grid.settings.enable_filtering.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+        "type": "select",
+        "id": "filter_bar_bg_color",
+        "label": "Filter Bar Background",
+        "options": [          
+          {
+            "label": "Transparent",
+            "value": "bg-c-none"
+          },        
+          {
+            "label": "Dark",
+            "value": "bg-c-dark"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "bg-c-middle-dark"
+          },
+          {
+            "label": "Average",
+            "value": "bg-c-average"
+          },
+          {
+            "label": "Middle Light",
+            "value": "bg-c-middle-light"
+          },
+          {
+            "label": "Light",
+            "value": "bg-c-light"
+          }
+        ],
+       "default": "bg-c-average"
+    },
+    {
+        "type": "select",
+        "id": "filter_bar_color",
+        "label": "Filter Bar Color",
+        "options": [        
+          {
+            "label": "Dark",
+            "value": "c-dark"
+          },
+          {
+            "label": "Light",
+            "value": "c-light"
+          }
+        ],
+        "default": "c-dark"
+    },
+    {
+        "type": "select",
+        "id": "filter_bg_color",
+        "label": "Filter Panel Background",
+        "options": [          
+          {
+            "label": "Transparent",
+            "value": "bg-c-none"
+          },        
+          {
+            "label": "Dark",
+            "value": "bg-c-dark"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "bg-c-middle-dark"
+          },
+          {
+            "label": "Average",
+            "value": "bg-c-average"
+          },
+          {
+            "label": "Middle Light",
+            "value": "bg-c-middle-light"
+          },
+          {
+            "label": "Light",
+            "value": "bg-c-light"
+          }
+        ],
+       "default": "bg-c-average"
+    },
+    {
+        "type": "select",
+        "id": "filter_color",
+        "label": "Filter Panel Color",
+        "options": [        
+          {
+            "label": "Dark",
+            "value": "c-dark"
+          },
+          {
+            "label": "Light",
+            "value": "c-light"
+          }
+        ],
+        "default": "c-dark"
+    },
+    {
+      "type": "text",
+      "id": "filter_heading",
+      "label": "Heading",
+      "default": "FILTERS"
+    },
+    {
+      "type": "text",
+      "id": "filter_btn_label",
+      "label": "Button Label",
+      "default": "SEE RESULTS"
+    }
+
+  ],
+  "blocks": [
+    {
+      "type": "filter",
+      "name": "Filter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Filter Name"
+        },
+        {
+          "type": "text",
+          "id": "tag_prefix",
+          "label": "Tag Prefix",
+          "info": "ex. 'C_COV_'"
+        },
+        {
+          "type": "textarea",
+          "id": "tags",
+          "label": "Tag Values",
+          "info": "Delimit tags with a pipe ('|') ex. RED|DARK BLUE|YELLOW|..."
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

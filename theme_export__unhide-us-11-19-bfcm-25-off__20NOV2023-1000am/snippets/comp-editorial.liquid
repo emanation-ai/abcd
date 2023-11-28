@@ -1,0 +1,159 @@
+<div class="comp-editorial">
+	{% if bg_image != blank %}
+		<div class="mobile-editorial-image">
+			{% if paragraph != blank and is_product == false %}
+				<div class="mobile-editorial-header-alt type-spacing">
+					{% if title != blank %}
+						<h2>{{ title | newline_to_br }}</h2>
+					{% endif %}
+
+					{% if paragraph != blank %}
+						<p class="t-b-1">{{ paragraph | newline_to_br }}</p>
+					{% endif %}
+				</div>
+			{% else %}
+				<div class="mobile-editorial-header type-spacing" data-animate>
+					{% if title != blank %}
+						<h2>{{ title | newline_to_br | remove: '&nbsp;'}}</h2>
+					{% endif %}
+
+					{% if paragraph != blank %}
+						<p class="t-b-1">{{ paragraph | newline_to_br }}</p>
+					{% endif %}
+				</div>
+			{% endif %}
+
+			<span class="object-fit">
+				{% render 'img-srcset-responsive', 
+					image: bg_image,
+					image_responsive: bg_image_mobile,
+					max_width: 600,
+					breakpoint: 900,
+					alt: bg_image.alt %}
+			</span>
+		</div>
+	{% endif %}
+
+	<div class="c f-h cr-black">
+		{% if paragraph != blank and is_product == false %}
+			<div class="editorial-header-alt">
+				{% if title != blank %}
+					<h2>{{ title | newline_to_br }}</h2>
+				{% endif %}
+
+				{% if paragraph != blank %}
+					<p class="t-b-1">{{ paragraph | newline_to_br }}</p>
+				{% endif %}
+			</div>
+		{% else %}
+			<div class="editorial-header type-spacing" data-animate>
+				{% if title != blank %}
+					<h2 class="t-h-1">{{ title | newline_to_br }}</h2>
+				{% endif %}
+
+				{% if paragraph != blank %}
+					<p class="t-b-1">{{ paragraph | newline_to_br }}</p>
+				{% endif %}
+			</div>
+		{% endif %}
+
+		<div class="editorial-content" data-animate>
+			{% if is_product != false and block_type == 'product' %}
+				{% for i in blocks limit: 2 %}
+					{% render 'product-card-small', 
+						item: all_products[i.settings.product] %}
+				{% endfor %}
+
+			{% elsif block_type == 'article' %}
+				<div class="article-blocks">
+					{% for block in blocks limit: 3 %}
+						{% assign a = block.settings.article %}
+						<div class="article-block f-h bg-subtle">
+							<div class="image">
+								{% render 'img-srcset', 
+									image: a.image,
+									max_width: 300,
+									alt: a.image.alt %}
+							</div>
+
+							<div class="info f-v">
+								<div class="t-b-2">{{ a.title }}</div>
+								<a 
+									href="{{a.url}}"
+									aria-label="Link to {{ a.title}} article">Read Article</a>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+
+				{% if newsletter != blank %}
+					<div class="editorial-newsletter type-spacing">
+						<div class="cr-white"><p>{{ newsletter }}</p></div>
+						{% render 'comp-email-capture', 
+							id: 'journal', 
+							klaviyo_list_id: klaviyo_list_id,
+							source: 'Journal Email', 
+							success_message: success_message %}
+					</div>
+				{% endif %}
+			{% endif %}
+
+			{% if cta_label != empty and cta_url != blank  %}
+				<a 
+					class="editorial-cta btn" 
+					href="{{ cta_url }}" 
+					aria-label="Link to {{ cta_label | escape }}">
+				{{ cta_label }}</a>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="mobile-editorial-content">
+		{% if is_product != false and block_type == 'product' %}
+			{% for i in blocks limit: 2 %}
+				{% render 'product-card-small', 
+					item: all_products[i.settings.product],
+					i_is_variant: false %}
+			{% endfor %}
+
+		{% elsif block_type == 'article' %}
+			<div class="article-blocks">
+				{% for block in blocks limit: 3 %}
+
+					{% assign a = block.settings.article %}
+					<div class="article-block f-h bg-white">
+						<div class="image">
+							{% render 'img-srcset', 
+								image: a.image,
+								max_width: 300,
+								alt: a.image.alt %}
+						</div>
+
+						<div class="info f-v">
+							<div>{{ a.title }}</div>
+							<a 
+								href="{{a.url}}"
+								aria-label="Link to {{ a.title}} article">
+							Read Article</a>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+
+			{% if newsletter != blank %}
+				<div class="editorial-newsletter type-spacing">
+					<div class="cr-white">{{ newsletter }}</div>
+					{% render 'comp-email-capture', 
+						id: 'journal', 
+						klaviyo_list_id: klaviyo_list_id,
+						source: 'Journal Email', 
+						success_message: success_message %}
+				</div>
+			{% endif %}
+		{% endif %}
+
+		{% if cta_label != blank and cta_url != blank  %}
+			<a class="editorial-cta btn" href="{{ cta_url }}" aria-label="Link to {{ cta_label }}">{{ cta_label }}</a>
+		{% endif %}
+	</div>
+</div>

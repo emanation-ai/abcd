@@ -1,0 +1,271 @@
+<link rel="stylesheet" href="{{ 'section-main-page.css' | asset_url }}" >
+<link rel="stylesheet" href="{{ 'component-rte.css' | asset_url }}" >
+
+<noscript>{{ 'section-main-page.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+<style>
+  @media(min-width:750px){
+  .py-horizontal{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .py-horizontal>.main-page-title,
+  .py-horizontal>.page-content{
+    width:48%;
+  }
+  }
+  .page-container{
+    background-color:{{section.settings.page_bg_color}}
+  }
+</style>
+<div class="page-container">
+<div class=" page-width py-{{section.settings.layout}} py-{{section.settings.page_width}} py-pd-y-xl">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+        {%- when 'title'-%}
+          <style>
+            .main-page-title{
+              font-size:{{block.settings.title_font_size}}px;
+              color:{{block.settings.page_color_title}};
+              text-align:{{block.settings.title_align}};
+            }            
+          </style>
+          <h1 class="main-page-title page-title h0">
+            {{ page.title | escape }}
+          </h1>
+        {%- when 'content'-%}
+           <style>              
+              .page-content{
+                font-size:{{block.settings.content_font_size}}px;
+                color:{{block.settings.page_color_content}};
+                text-align:{{block.settings.content_align}};
+              }
+          </style>
+          <div class="rte page-content">
+            {{ page.content }}
+          </div>
+
+    {%- endcase -%}
+  {%- endfor -%}
+ 
+</div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.main-page.name",
+  "tag": "section",
+  "class": "main-page-contents py-pd-y-m",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [        
+        {
+          "value": "vertical",
+          "label": "Vertical"
+        },
+        {
+          "value": "horizontal",
+          "label": "Horizontal"
+        }
+      ],
+      "default": "vertical",
+      "label": "Page layout"
+    },
+    {
+      "type": "select",
+      "id": "page_width",
+      "label": "Page Container (Width)",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "width-un"
+        },
+        {
+          "label": "Large",
+          "value": "width-l"
+        },
+        {
+          "label": "Medium",
+          "value": "width-m"
+        },
+        {
+          "label": "Small",
+          "value": "width-s"
+        }
+      ],
+      "default": "width-un"
+    },
+    {
+      "type": "select",
+      "id": "page_bg_color",
+      "label": "Page Background Color",
+      "options": [          
+         {
+            "label": "Transparent",
+            "value": "transparent"
+         },        
+         {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+         },
+         {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+         },
+         {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+         },
+         {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+         },
+         {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+         }
+       ],
+     "default": "var(--py-bg-color-light)"
+    }
+  ],
+  "blocks": [    
+    {
+      "type": "title",
+      "name": "Page Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "title_font_size",
+          "min": 10,
+          "max": 40,
+          "step": 1,
+          "default": 24,
+          "label": "Title Font Size"
+        },
+        {
+          "type": "select",
+          "id": "page_color_title",
+          "label": "Title Color",
+          "options": [ 
+             {
+               "label": "Dark",
+               "value": "var(--py-color-dark)"
+             },
+             {
+               "label": "Middle Dark",
+               "value": "var(--py-color-middle-dark)"
+             },
+             {
+               "label": "Average",
+               "value": "var(--py-color-avarge)"
+             },
+             {
+               "label": "Middle Light",
+               "value": "var(--py-color-middle-light)"
+             },
+             {
+               "label": "Light",
+               "value": "var(--py-color-light)"
+             }
+            ],
+          "default": "var(--py-color-dark)"
+        },
+        {
+          "type": "select",
+          "id": "title_align",
+          "label": "Title Alignment",
+          "options": [ 
+             {
+               "label": "Left",
+               "value": "left"
+             },
+             {
+               "label": "Center",
+               "value": "center"
+             },
+             {
+               "label": "Right",
+               "value": "right"
+             }
+            ],
+          "default": "left"
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "name": "Page Content",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "content_font_size",
+          "min": 10,
+          "max": 40,
+          "step": 1,
+          "default": 24,
+          "label": "Content Font Size"
+        },
+        {
+          "type": "select",
+          "id": "page_color_content",
+          "label": "Content Color",
+          "options": [ 
+             {
+               "label": "Dark",
+               "value": "var(--py-color-dark)"
+             },
+             {
+               "label": "Middle Dark",
+               "value": "var(--py-color-middle-dark)"
+             },
+             {
+               "label": "Average",
+               "value": "var(--py-color-avarge)"
+             },
+             {
+               "label": "Middle Light",
+               "value": "var(--py-color-middle-light)"
+             },
+             {
+               "label": "Light",
+               "value": "var(--py-color-light)"
+             }
+            ],
+          "default": "var(--py-color-dark)"
+        },
+        {
+          "type": "select",
+          "id": "content_align",
+          "label": "Content Alignment",
+          "options": [ 
+             {
+               "label": "Left",
+               "value": "left"
+             },
+             {
+               "label": "Center",
+               "value": "center"
+             },
+             {
+               "label": "Right",
+               "value": "right"
+             }
+            ],
+          "default": "left"
+        },
+        {
+          "type": "textarea",
+          "id": "content_custom_css",
+          "label": "Content Custom CSS",          
+          "info": "Custom CSS for rich text field"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,17 @@
+<div class="progress-bar"{% comment %} data-discount="{% if cart.original_total_price >= 29900 %}TIER20{% elsif cart.original_total_price >= 19900 %}TIER15{% elsif cart.original_total_price >= 9900 %}TIER10{% endif %}"{% endcomment %}>
+  {% if cart.original_total_price >= 8000 %}
+    {% assign progress_bar_text = "Congrats! You've earned <strong>Free Shipping</strong>" %}
+  {% else %}
+    {% assign progress_money = 8000 | minus: cart.original_total_price | money %}
+    {% assign progress_bar_text = "You're <strong>" | append: progress_money | append: "</strong> away from <strong>Free Shipping</strong>" %}
+  {% endif %}
+  {% assign progress_percent = cart.original_total_price | times: 100 | divided_by: 8000 %} 
+  <div class="progress-bar__text">{{ progress_bar_text }}</div>
+  <div class="progress-bar__inner">
+    <span class="progress-bar__dot1"></span>
+    <span class="progress-bar__dot2"></span>
+    <span class="progress-bar__dot3"></span>
+    <span class="progress-bar__dot4"></span>
+    <span class="progress-bar__rect" style="width:{{progress_percent}}%;"></span>
+  </div>
+</div>

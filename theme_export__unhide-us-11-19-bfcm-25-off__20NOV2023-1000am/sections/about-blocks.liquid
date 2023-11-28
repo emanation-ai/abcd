@@ -1,0 +1,264 @@
+{% schema %}
+{
+	"name": "About",
+	"max_blocks": 12,
+	"blocks": [
+		{
+			"type": "content",
+			"name": "content",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image"
+				},
+				{
+					"type": "text",
+					"id": "title",
+					"label": "Title"
+				},
+				{
+					"type": "textarea",
+					"id": "paragraph",
+					"label": "Paragraph"
+				}
+			]
+		}
+	],
+    "presets": [
+      {
+        "name": "About"
+      }
+    ]
+}
+{% endschema %}
+<style>
+  .about-container {
+      position: relative;
+  }
+  
+  .about-container.is-last-image .about-images {
+      position: absolute;
+      height: 919px;
+      bottom: 0
+  }
+  
+  .about-container .about-block {
+      position: sticky;
+      min-height: 919px;
+      justify-content: flex-end
+  }
+  
+  .about-container .about-images {
+      position: fixed;
+      width: calc(100% - 360px - 4vw - 4vw);
+      pointer-events: none;
+      transition: opacity 0.2s
+  }
+  
+  .about-container .about-images .image {
+      opacity: 0;
+      transition: 0.4s
+  }
+  
+  .about-container .about-images .image.active {
+      opacity: 1
+  }
+  
+  .about-container .about-images .image:after {
+      content: '';
+      display: block;
+      padding-top: 93%
+  }
+  
+  .about-container .about-content {
+      position: relative;
+      width: calc(4vw + 4vw + 360px);
+      height: 919px
+  }
+  
+  .about-container .about-content .content {
+      position: sticky;
+      align-items: center;
+      justify-content: center;
+      max-width: 350px;
+      height: 100%;
+      margin: 0 auto;
+      text-align: center
+  }
+  
+  .about-container .about-content .content .title {
+      font-size: 50px
+  }
+  
+  .about-container .about-content .content:not(:first-child) {
+      margin: 100vh auto 0
+  }
+  
+  .mobile-about-container {
+      display: none
+  }
+  
+  @media screen and (max-width: 764px) {
+      .about-container {
+          display:none
+      }
+  
+      .mobile-about-container {
+          display: block
+      }
+  
+      .mobile-about-container .about-images {
+          position: relative;
+          overflow: hidden
+      }
+  
+      .mobile-about-container .about-images:after {
+          content: '';
+          display: block;
+          padding-top: 110%
+      }
+  
+      .mobile-about-container .content {
+          text-align: center;
+          max-width: 355px;
+          margin: 90px auto;
+          padding: 0 4vw
+      }
+  }
+  
+  .about-banner {
+      position: relative;
+      min-height: 30vw
+  }
+  
+  .about-banner>.f-h {
+      justify-content: space-between;
+      padding: 40px 0 0
+  }
+  
+  .about-banner .banner-header {
+      max-width: 455px;
+      text-align: center
+  }
+  
+  .about-banner .banner-cta {
+      max-width: 360px
+  }
+  
+  @media screen and (max-width: 764px) {
+      .about-banner {
+          min-height:75vh
+      }
+  
+      .about-banner>.f-h {
+          justify-content: flex-end;
+          flex-direction: column;
+          height: 75vh;
+          padding: 0 0 20px;
+          align-items: center
+      }
+  
+      .about-banner .banner-cta {
+          width: 100%;
+          margin: 10px 0 0
+      }
+  }
+</style>
+<section class="about-container">
+	{% for block in section.blocks %}
+		{% assign i = forloop.index %}
+		<div class="about-block f-h">
+			<div class="about-images p-fill">
+				{% if block.settings.image != blank %}
+					<div class="image object-fit {% if i == 1 %} active {% endif %}">
+						{% render 'img-srcset',
+							image: block.settings.image,
+							max_width: 1024,
+							alt: block.settings.image.alt %}
+					</div>
+				{% endif %}
+			</div>
+
+			<div class="about-content">
+				<div class="content f-v type-spacing">
+					{% if block.settings.title != blank %}
+						<div class="title h1">{{ block.settings.title }}</div>
+					{% endif %}
+
+					{% if block.settings.paragraph != blank %}
+						<div class="paragraph t-b-1">{{ block.settings.paragraph }}</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+</section>
+
+<section class="mobile-about-container">
+	{% for block in section.blocks %}
+		<div class="about-block f-v">
+			<div class="about-images">
+				{% if block.settings.image != blank %}
+					<div class="image object-fit">
+						{% render 'img-srcset',
+							image: block.settings.image,
+							max_width: 1024,
+							alt: block.settings.image.alt %}
+					</div>
+				{% endif %}
+			</div>
+			<div class="content type-spacing">
+				{% if block.settings.title != blank %}
+					<div class="title h1">{{ block.settings.title }}</div>
+				{% endif %}
+
+				{% if block.settings.paragraph != blank %}
+					<div class="paragraph t-b-1">{{ block.settings.paragraph }}</div>
+				{% endif %}
+			</div>
+		</div>
+	{% endfor %}
+</section>
+<script>
+  const initAboutPage = () => {
+  	const block = document.querySelector('.about-container');
+  	if (block) {
+  		const images = block.querySelectorAll('.image');
+  		const imagesChangeDistance = parseInt(
+  			(block.getBoundingClientRect().height - window.innerHeight) /
+  				images.length
+  		); // distance to scroll before image should change
+  
+  		const imagesChange = () => {
+  			// get the current active image index by dividing total scroll with imagesChangeDistance captured above
+  			// always round down (0.3 -> 0, 1.2 -> 1) so it grabs the correct index
+  			let activeIndex = Math.floor(window.scrollY / imagesChangeDistance);
+  			// // remove active state from all images
+  			images.forEach((el) => {
+  				el.classList.remove('active');
+  			});
+  
+  			const lastImage = images[images.length - 1];
+  
+  			// if image with index exists in the nodeList
+  			if (images[activeIndex]) {
+  				images[activeIndex].classList.add('active');
+  			}
+  
+  			if (activeIndex > images.length - 1) {
+  				block.classList.add('is-last-image');
+  				lastImage.classList.add('active');
+  			} else {
+  				block.classList.remove('is-last-image');
+  			}
+  		};
+  
+  		// trigger imageChange function on first load (in case someone lands in the middle of the screen)
+  		imagesChange();
+  		// trigger imageChange function on scroll
+  		window.addEventListener('scroll', imagesChange);
+  	}
+  };
+  initAboutPage();
+</script>

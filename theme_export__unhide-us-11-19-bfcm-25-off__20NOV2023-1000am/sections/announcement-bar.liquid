@@ -1,0 +1,329 @@
+<style>
+  .announcement-bar{
+    background-color: {{section.settings.py_announcement_bg_color}};
+  }
+  .announcement-bar__message{
+    color:{{section.settings.py_announcement_color}};
+  }
+  marquee .announcement-bar__message{
+    margin: 0px 40px;
+  }
+  .announcement-bar__link{
+    color:{{section.settings.py_announcement_color_link}};
+  }
+  .announcement-bar__link:hover{
+    color:{{section.settings.py_announcement_color_link_hov}};
+  }
+</style>
+{%- assign d = section.settings -%}
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+    {%- when 'announcement' -%}
+      <div class="announcement-bar center py-{{d.page_x_pd}} py-{{d.page_y_pd}} py-{{d.br}}" role="region" aria-label="{{ 'sections.header.announcement' | t }}">
+     
+        {%- if block.settings.text != blank -%}
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" class="announcement-bar__link link link--text">
+          {%- endif -%}
+              <span class="announcement-bar__message py-{{d.fs}}">
+                {{ block.settings.text  }}
+              </span>
+          {%- if block.settings.link != blank -%}
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+      
+      </div>
+  {%- endcase -%}
+{%- endfor -%}
+
+{% schema %}
+{
+  "name": "t:sections.announcement-bar.name",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "select",
+      "id": "py_announcement_bg_color",
+      "label": "Background Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+          }
+        ],
+        "default": "var(--py-bg-color-dark)"
+    },
+    {
+      "type": "select",
+      "id": "py_announcement_color",
+      "label": "Text Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-light)"
+    },
+    {
+      "type": "select",
+      "id": "py_announcement_color_link",
+      "label": "Link Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-light)"
+    },
+    {
+      "type": "select",
+      "id": "py_announcement_color_link_hov",
+      "label": "Link Hover Color",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-color-light)"
+          }
+        ],
+        "default": "var(--py-color-avarge)"
+    },
+    {
+      "type": "select",
+      "id": "page_x_pd",
+      "label": "Container Padding Horizontal",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "pd-x-un"
+        },
+        {
+          "label": "None",
+          "value": "pd-x-n"
+        },
+        {
+          "label": "XL",
+          "value": "pd-x-xl"
+        },
+        {
+          "label": "L",
+          "value": "pd-x-l"
+        },
+        {
+          "label": "M",
+          "value": "pd-x-m"
+        },
+        {
+          "label": "S",
+          "value": "pd-x-s"
+        },
+        {
+          "label": "XS",
+          "value": "pd-x-xs"
+        }
+      ],
+      "default": "pd-x-un"
+    },
+    {
+      "type": "select",
+      "id": "page_y_pd",
+      "label": "Container Padding Vertical",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "pd-y-un"
+        },
+        {
+          "label": "None",
+          "value": "pd-y-n"
+        },
+        {
+          "label": "XL",
+          "value": "pd-y-xl"
+        },
+        {
+          "label": "L",
+          "value": "pd-y-l"
+        },
+        {
+          "label": "M",
+          "value": "pd-y-m"
+        },
+        {
+          "label": "S",
+          "value": "pd-y-s"
+        },
+        {
+          "label": "XS",
+          "value": "pd-y-xs"
+        }
+      ],
+      "default": "pd-y-un"
+    },
+    {
+      "type": "select",
+      "id": "fs",
+      "label": "Font Size",
+      "options": [
+        {
+          "label": "Unset",
+          "value": "fs-un"
+        },
+        {
+          "label": "X Large",
+          "value": "fs-xl"
+        },
+        {
+          "label": "Large",
+          "value": "fs-l"
+        },
+        {
+          "label": "Medium",
+          "value": "fs-m"
+        },
+        {
+          "label": "X Small",
+          "value": "fs-xs"
+        },
+        {
+          "label": "Small",
+          "value": "fs-s"
+        }
+      ],
+      "default": "fs-un"
+    },
+    {
+      "type": "select",
+      "id": "br",
+      "label": "Border",
+      "options": [
+        {
+          "label": "None",
+          "value": "br-none"
+        },
+        {
+          "label": "Horizontal and Vertical",
+          "value": "br"
+        },
+        {
+          "label": "Horizontal",
+          "value": "br-x"
+        },
+        {
+          "label": "Vertical",
+          "value": "br-y"
+        }
+      ],
+      "default": "br-y"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "t:sections.announcement-bar.blocks.announcement.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Welcome to our store",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.link.label"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "announcement"
+      }
+    ]
+  }
+}
+{% endschema %}

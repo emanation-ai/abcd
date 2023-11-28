@@ -1,0 +1,998 @@
+{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
+<style>
+  #Banner-{{ section.id }} {
+    margin: {{section.settings.margin}};
+  }
+  #Banner-{{ section.id }} .banner__content-{{section.id}} {
+    margin: 0;
+  }
+  #Banner-{{ section.id }} .banner__box{
+    display:flex;
+    flex-direction:column;
+    justify-content: {{section.settings.pv}};
+    align-items: {{section.settings.ph}};
+    width: auto;
+  }
+  #Banner-{{ section.id }} .banner__heading, 
+  #Banner-{{ section.id }} .banner__text, 
+  #Banner-{{ section.id }} .banner__buttons {
+    width: 100%;
+    text-align: {{section.settings.align}};
+  }
+  
+  @media(max-width:749px){
+    #Banner-{{ section.id }} {
+      margin: {{section.settings.m_margin}};
+    }
+    #Banner-{{ section.id }} .banner__box{
+      display:flex;
+      flex-direction:column;
+      justify-content: {{section.settings.m_pv}};
+      align-items: {{section.settings.m_ph}};
+    }
+  }
+</style>
+<div id="Banner-{{ section.id }}" class="banner hero_banner bc-{{settings.section_style}}-bt" {% if section.settings.url != blank %}data-href="{{ section.settings.url }}" style="cursor: pointer;"{% endif %}>
+  
+      {%- if section.settings.image != blank -%}
+        <div class="media{% if section.settings.image == blank %} placeholder{% endif %}{% if section.settings.image_2 != blank %} small-hide{% endif %}" style="padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;">
+          <img srcset="{%- if section.settings.image.width >= 375 -%}{{ section.settings.image | img_url: '375x' }} 375w,{%- endif -%}
+            {%- if section.settings.image.width >= 750 -%}{{ section.settings.image | img_url: '750x' }} 750w,{%- endif -%}
+            {%- if section.settings.image.width >= 1100 -%}{{ section.settings.image | img_url: '1100x' }} 1100w,{%- endif -%}
+            {%- if section.settings.image.width >= 1500 -%}{{ section.settings.image | img_url: '1500x' }} 1500w,{%- endif -%}
+            {%- if section.settings.image.width >= 1780 -%}{{ section.settings.image | img_url: '1780x' }} 1780w,{%- endif -%}
+            {%- if section.settings.image.width >= 2000 -%}{{ section.settings.image | img_url: '2000x' }} 2000w,{%- endif -%}
+            {%- if section.settings.image.width >= 2800 -%}{{ section.settings.image | img_url: '2800x' }} 2800w{%- endif -%}"
+            sizes="{% if section.settings.image_2 != blank and section.settings.stack_images_on_mobile %}(min-width: 750px) 50vw, 100vw{% elsif section.settings.image_2 != blank %}50vw{% else %}100vw{% endif %}"
+            src="{{ section.settings.image | img_url: '750x' }}"
+            {% if section.settings.show_lazy %}loading="lazy"{% endif %}
+            alt="{{ section.settings.image.alt | escape }}"
+            width="{{ section.settings.image.width }}"
+            height="{{ section.settings.image.width | divided_by: section.settings.image.aspect_ratio }}"
+            {% if section.settings.enable_anim %} data-aos="{{section.settings.anim}}"{% endif %}
+          >
+        </div>
+      {%- elsif section.settings.image_2 == blank -%}
+        <div class="media placeholder py-bg-c-light" style="padding-bottom: 53.4375%;opacity: 0.1;">
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.image_2 != blank -%}
+        {%- render 'resimg', image: section.settings.image_2, classwrapper: 'large-up-hide medium-hide'  -%}
+      {%- endif -%}
+      <div class="banner__content banner__content-{{ section.id }} page-width">
+        {%- render 'style', sufix: '.banner__content', id: section.id, style: section.settings -%}
+        <div class="banner__box">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'heading' -%}
+                <h2 class="banner__heading h1 color-white" id="banner__heading-{{ block.id }}">
+                  {{ block.settings.heading }}
+                </h2>
+                {%- render 'style', sufix: '#banner__heading', id: block.id, style: block.settings -%}
+              {%- when 'text' -%}
+                <div class="banner__text color-white" id="banner__text-{{ block.id }}">
+                  {{ block.settings.text }}
+                </div>
+                {%- render 'style', sufix: '#banner__text', id: block.id, style: block.settings -%}
+              {%- when 'buttons' -%}
+                <div class="banner__buttons{% if block.settings.button_label_1 != blank and block.settings.button_link_1 != blank and block.settings.button_label_2 != blank and block.settings.button_link_2 != blank %} banner__buttons--multiple{% endif %}">
+                  {%- if block.settings.button_label_1 != blank -%}
+                    <a id="bunner__button-{{ block.id }}" href="{{ block.settings.button_link_1 }}" class="button py-c-{{block.settings.content_color_view_btn}} py-hv-c-{{block.settings.content_color_view_btn_hover}} py-bg-c-{{block.settings.content_bg_color_view_btn}} py-hv-bg-c-{{block.settings.content_bg_color_view_btn_hover}} py-btn-{{block.settings.view_btn_size}}"{% if block.settings.button_link_1 == blank %} aria-disabled="true"{% endif %}>
+                      {{ block.settings.button_label_1 }}
+                    </a>
+                  <style>#bunner__button-{{ block.id }}{
+                    {{block.settings.c_css}}
+                  }</style>
+                  {%- endif -%}
+                </div>                  
+            {%- endcase -%}
+          {%- endfor -%}          
+        </div>
+      </div>
+     <div class="hero-banner-pd-items-wraper">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'product' -%}
+                <div class="banner__product-wraper" id="banner__pd-{{ block.id }}">
+                  {% render 'product-card', product_card_product: block.settings.product,
+                    show_colors:false,
+                    media_size:'landscape'
+                  %}
+                  <svg class="svg-review-stars" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 23"><rect width="64" height="23" rx="11.5" fill="#fff" fill-opacity=".75"></rect><path d="M12.882 7.79a.5.5 0 0 1 .952.002l.632 1.953a.41.41 0 0 0 .39.287h2.067a.5.5 0 0 1 .293.906l-1.668 1.2-.01.008a.406.406 0 0 0-.146.452l.638 1.96a.5.5 0 0 1-.77.56l-1.663-1.21a.4.4 0 0 0-.478-.003l-.005.004-1.664 1.209a.5.5 0 0 1-.77-.56l.639-1.96a.413.413 0 0 0-.143-.456l-.005-.003-1.66-1.202a.5.5 0 0 1 .294-.905h2.049a.41.41 0 0 0 .39-.287l.638-1.954ZM22.453 7.79a.5.5 0 0 1 .95.002l.633 1.953a.41.41 0 0 0 .391.287h2.067a.5.5 0 0 1 .292.906l-1.668 1.2-.01.008a.406.406 0 0 0-.146.452l.639 1.96a.5.5 0 0 1-.77.56l-1.663-1.21a.4.4 0 0 0-.479-.003l-.005.004-1.664 1.209a.5.5 0 0 1-.769-.56l.638-1.96a.413.413 0 0 0-.143-.456l-.005-.003-1.659-1.202a.5.5 0 0 1 .293-.905h2.05a.41.41 0 0 0 .39-.287l.638-1.954ZM32.027 7.79a.5.5 0 0 1 .951.002l.633 1.953a.41.41 0 0 0 .39.287h2.067a.5.5 0 0 1 .292.906l-1.668 1.2-.01.008a.406.406 0 0 0-.145.452l.638 1.96a.5.5 0 0 1-.77.56l-1.663-1.21a.4.4 0 0 0-.478-.003l-.006.004-1.663 1.209a.5.5 0 0 1-.77-.56l.638-1.96a.412.412 0 0 0-.143-.456l-.004-.003-1.66-1.202a.5.5 0 0 1 .294-.905h2.049a.41.41 0 0 0 .39-.287l.638-1.954ZM41.597 7.79a.5.5 0 0 1 .951.002l.633 1.953a.41.41 0 0 0 .39.287h2.067a.5.5 0 0 1 .292.906l-1.667 1.2-.01.008a.406.406 0 0 0-.146.452l.638 1.96a.5.5 0 0 1-.77.56l-1.663-1.21a.4.4 0 0 0-.478-.003l-.006.004-1.663 1.209a.5.5 0 0 1-.77-.56l.639-1.96a.412.412 0 0 0-.144-.456l-.004-.003-1.66-1.202a.5.5 0 0 1 .294-.905h2.049a.41.41 0 0 0 .39-.287l.638-1.954ZM51.172 7.79a.5.5 0 0 1 .95.002l.633 1.953a.41.41 0 0 0 .39.287h2.067a.5.5 0 0 1 .292.906l-1.667 1.2-.01.008a.406.406 0 0 0-.146.452l.638 1.96a.5.5 0 0 1-.77.56l-1.663-1.21a.4.4 0 0 0-.478-.003l-.005.004-1.664 1.209a.5.5 0 0 1-.77-.56l.639-1.96a.412.412 0 0 0-.143-.456l-.005-.003-1.66-1.202a.5.5 0 0 1 .294-.905h2.05a.41.41 0 0 0 .39-.287l.638-1.954Z" fill="#C4A97E"></path><defs><filter id="a" x="-23" y="-23" width="110" height="69" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feGaussianBlur in="BackgroundImage" stdDeviation="11.5"></feGaussianBlur><feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur"></feComposite><feBlend in="SourceGraphic" in2="effect1_backgroundBlur" result="shape"></feBlend></filter></defs></svg>
+                </div>            
+            {% endcase %}
+          {% endfor %}
+          </div>
+</div>
+<script>
+  if(document.getElementsByClassName('hero_banner').length>0){
+    var HSL = document.getElementsByClassName("hero_banner");
+    var i;
+
+    for (i = 0; i < HSL.length; i++) {
+      if(HSL[i].getAttribute('data-href')!=null)
+      HSL[i].addEventListener("click", function() {
+        window.location.href = this.getAttribute('data-href');
+      });
+    }
+  }
+</script>
+{% schema %}
+{
+  "name": "Hero Section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Dsktop Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_lazy",
+      "label": "lazy Load",
+      "default": true,
+      "info": "For your site speed score, please disable lazy loading when the image is loaded first on the screen."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "url",
+      "id": "url",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Override"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_override",
+      "label": "Show Override",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "content_bg_color",
+      "label": "Background",
+      "options": [          
+          {
+            "label": "Transparent",
+            "value": "transparent"
+          },        
+          {
+            "label": "Dark",
+            "value": "var(--py-bg-color-dark)"
+          },
+          {
+            "label": "Middle Dark",
+            "value": "var(--py-bg-color-middle-dark)"
+          },
+          {
+            "label": "Average",
+            "value": "var(--py-bg-color-avarge)"
+          },
+          {
+            "label": "Middle Light",
+            "value": "var(--py-bg-color-middle-light)"
+          },
+          {
+            "label": "Light",
+            "value": "var(--py-bg-color-light)"
+          }
+        ],
+        "default": "var(--py-bg-color-avarge)"
+    },
+    {
+      "type": "image_picker",
+      "id": "ov_bg_image",
+      "label": "Background"
+    },
+    {
+      "type": "text",
+      "id": "ov_opacity",
+      "label": "Opacity"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Settings"
+    },
+    {
+      "type": "select",
+      "id": "pv",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "t:sections.image-banner.settings.desktop_text_box_position.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.image-banner.settings.desktop_text_box_position.options__2.label"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:sections.image-banner.settings.desktop_text_box_position.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "Vertical Position"
+    },
+    {
+      "type": "select",
+      "id": "ph",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Horizontal Position"
+    },
+    {
+      "type": "select",
+      "id": "align",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Text Aligment"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin"
+    },
+    {
+      "type": "text",
+      "id": "width",
+      "label": "Width"
+    },
+    {
+      "type": "text",
+      "id": "height",
+      "label": "Height"
+    },
+    {
+      "type": "textarea",
+      "id": "c_css",
+      "label": "Custom CSS"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "select",
+      "id": "m_pv",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "t:sections.image-banner.settings.desktop_text_box_position.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.image-banner.settings.desktop_text_box_position.options__2.label"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:sections.image-banner.settings.desktop_text_box_position.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "Vertical Position"
+    },
+    {
+      "type": "select",
+      "id": "m_ph",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Horizontal Position"
+    },
+    {
+      "type": "select",
+      "id": "m_align",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Text Aligment"
+    },
+    {
+      "type": "text",
+      "id": "m_padding",
+      "label": "Padding"
+    },
+    {
+      "type": "text",
+      "id": "m_margin",
+      "label": "Margin"
+    },
+    {
+      "type": "text",
+      "id": "m_width",
+      "label": "Width"
+    },
+    {
+      "type": "text",
+      "id": "m_height",
+      "label": "Height"
+    },
+    {
+      "type": "textarea",
+      "id": "m_c_css",
+      "label": "Custom CSS"
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_anim",
+      "label": "Enable Animation",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "anim",
+      "label": "Animation Type",
+      "options": [
+      {
+        "value": "fade-up",
+        "label": "Fade In Up"
+      },
+      {
+        "value": "fade-down",
+        "label": "Fade In Down"
+      },
+      {
+        "value": "fade-right",
+        "label": "Fade In Right"
+      },
+      {
+        "value": "fade-left",
+        "label": "Fade In Left"
+      },
+      {
+        "value": "flip-up",
+        "label": "Flip In Up"
+      },
+      {
+        "value": "flip-down",
+        "label": "Flip In Down"
+      },
+      {
+        "value": "flip-left",
+        "label": "Flip In Left"
+      },
+      {
+        "value": "flip-right",
+        "label": "Flip In Right"
+      },
+      {
+        "value": "zoom-in",
+        "label": "Zoom In"
+      },
+      {
+        "value": "zoom-out",
+        "label": "Zoom Out"
+      }
+      ],
+      "default": "zoom-out"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "t:sections.image-banner.blocks.heading.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Image banner",
+          "label": "t:sections.image-banner.blocks.heading.settings.heading.label"
+        },
+        {
+          "type": "header",
+          "content": "Desktop Settings"
+        },
+        {
+          "type": "select",
+          "id": "align",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center",
+          "label": "Text Aligment"
+        },
+        {
+          "type": "select",
+          "id": "content_color",
+          "label": "Text Color",
+          "options": [ 
+              {
+                "label": "Dark",
+                "value": "var(--py-color-dark)"
+              },
+              {
+                "label": "Middle Dark",
+                "value": "var(--py-color-middle-dark)"
+              },
+              {
+                "label": "Average",
+                "value": "var(--py-color-avarge)"
+              },
+              {
+                "label": "Middle Light",
+                "value": "var(--py-color-middle-light)"
+              },
+              {
+                "label": "Light",
+                "value": "var(--py-color-light)"
+              }
+            ],
+            "default": "var(--py-color-light)"
+        },
+        {
+          "type": "text",
+          "id": "weight",
+          "label": "Font Weight"
+        },
+        {
+          "type": "text",
+          "id": "size",
+          "label": "Font Size"
+        },
+        {
+          "type": "text",
+          "id": "padding",
+          "label": "Padding"
+        },
+        {
+          "type": "text",
+          "id": "margin",
+          "label": "Margin"
+        },
+        {
+          "type": "text",
+          "id": "width",
+          "label": "Width"
+        },
+        {
+          "type": "text",
+          "id": "height",
+          "label": "Height"
+        },
+        {
+          "type": "textarea",
+          "id": "c_css",
+          "label": "Custom CSS"
+        },
+        {
+          "type": "header",
+          "content": "Mobile Settings"
+        },
+        {
+          "type": "select",
+          "id": "m_align",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center",
+          "label": "Text Aligment"
+        },
+        {
+          "type": "select",
+          "id": "content_color_m",
+          "label": "Text Color",
+          "options": [ 
+              {
+                "label": "Dark",
+                "value": "var(--py-color-dark)"
+              },
+              {
+                "label": "Middle Dark",
+                "value": "var(--py-color-middle-dark)"
+              },
+              {
+                "label": "Average",
+                "value": "var(--py-color-avarge)"
+              },
+              {
+                "label": "Middle Light",
+                "value": "var(--py-color-middle-light)"
+              },
+              {
+                "label": "Light",
+                "value": "var(--py-color-light)"
+              }
+            ],
+            "default": "var(--py-color-light)"
+        },
+        {
+          "type": "text",
+          "id": "m_weight",
+          "label": "Font Weight"
+        },
+        {
+          "type": "text",
+          "id": "m_size",
+          "label": "Font Size"
+        },
+        {
+          "type": "text",
+          "id": "m_padding",
+          "label": "Padding"
+        },
+        {
+          "type": "text",
+          "id": "m_margin",
+          "label": "Margin"
+        },
+        {
+          "type": "text",
+          "id": "m_width",
+          "label": "Width"
+        },
+        {
+          "type": "text",
+          "id": "m_height",
+          "label": "Height"
+        },
+        {
+          "type": "textarea",
+          "id": "m_c_css",
+          "label": "Custom CSS"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:sections.image-banner.blocks.text.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Give customers details about the banner image(s) or content on the template.</p>",
+          "label": "t:sections.image-banner.blocks.text.settings.text.label"
+        },
+        {
+          "type": "header",
+          "content": "Desktop Settings"
+        },
+        {
+          "type": "select",
+          "id": "align",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center",
+          "label": "Text Aligment"
+        },
+        {
+          "type": "select",
+          "id": "content_color",
+          "label": "Text Color",
+          "options": [ 
+              {
+                "label": "Dark",
+                "value": "var(--py-color-dark)"
+              },
+              {
+                "label": "Middle Dark",
+                "value": "var(--py-color-middle-dark)"
+              },
+              {
+                "label": "Average",
+                "value": "var(--py-color-avarge)"
+              },
+              {
+                "label": "Middle Light",
+                "value": "var(--py-color-middle-light)"
+              },
+              {
+                "label": "Light",
+                "value": "var(--py-color-light)"
+              }
+            ],
+            "default": "var(--py-color-light)"
+        },
+        {
+          "type": "text",
+          "id": "weight",
+          "label": "Font Weight"
+        },
+        {
+          "type": "text",
+          "id": "size",
+          "label": "Font Size"
+        },
+        {
+          "type": "text",
+          "id": "padding",
+          "label": "Padding"
+        },
+        {
+          "type": "text",
+          "id": "margin",
+          "label": "Margin"
+        },
+        {
+          "type": "text",
+          "id": "width",
+          "label": "Width"
+        },
+        {
+          "type": "text",
+          "id": "height",
+          "label": "Height"
+        },
+        {
+          "type": "textarea",
+          "id": "c_css",
+          "label": "Custom CSS"
+        },
+        {
+          "type": "header",
+          "content": "Mobile Settings"
+        },
+        {
+          "type": "select",
+          "id": "m_align",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center",
+          "label": "Text Aligment"
+        },
+        {
+          "type": "select",
+          "id": "content_color_m",
+          "label": "Text Color",
+          "options": [ 
+              {
+                "label": "Dark",
+                "value": "var(--py-color-dark)"
+              },
+              {
+                "label": "Middle Dark",
+                "value": "var(--py-color-middle-dark)"
+              },
+              {
+                "label": "Average",
+                "value": "var(--py-color-avarge)"
+              },
+              {
+                "label": "Middle Light",
+                "value": "var(--py-color-middle-light)"
+              },
+              {
+                "label": "Light",
+                "value": "var(--py-color-light)"
+              }
+            ],
+            "default": "var(--py-color-light)"
+        },
+        {
+          "type": "text",
+          "id": "m_weight",
+          "label": "Font Weight"
+        },
+        {
+          "type": "text",
+          "id": "m_size",
+          "label": "Font Size"
+        },
+        {
+          "type": "text",
+          "id": "m_padding",
+          "label": "Padding"
+        },
+        {
+          "type": "text",
+          "id": "m_margin",
+          "label": "Margin"
+        },
+        {
+          "type": "text",
+          "id": "m_width",
+          "label": "Width"
+        },
+        {
+          "type": "text",
+          "id": "m_height",
+          "label": "Height"
+        },
+        {
+          "type": "textarea",
+          "id": "m_c_css",
+          "label": "Custom CSS"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "t:sections.image-banner.blocks.buttons.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label_1",
+          "default": "Button label",
+          "label": "t:sections.image-banner.blocks.buttons.settings.button_label_1.label",
+          "info": "t:sections.image-banner.blocks.buttons.settings.button_label_1.info"
+        },
+        {
+          "type": "url",
+          "id": "button_link_1",
+          "label": "t:sections.image-banner.blocks.buttons.settings.button_link_1.label"
+        },
+        {
+          "type": "select",
+          "id": "view_btn_size",
+          "label": "View Button Size",
+          "options": [
+            {
+              "label": "Small",
+              "value": "small"
+            },
+            {
+              "label": "Medium",
+              "value": "medium"
+            },
+            {
+              "label": "Large",
+              "value": "large"
+            }
+          ],
+          "default": "medium"
+        },
+        {
+          "type": "select",
+          "id": "content_color_view_btn",
+          "label": "View Button Color",
+          "options": [
+            {
+               "label": "Dark",
+               "value": "dark"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "middle-dark"
+            },
+            {
+              "label": "Average",
+              "value": "average"
+            },
+            {
+              "label": "Middle Light",
+              "value": "middle-light"
+            },
+            {
+              "label": "Light",
+              "value": "light"
+            }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "select",
+          "id": "content_bg_color_view_btn",
+          "label": "View Button Background Color",
+          "options": [
+            {
+               "label": "Dark",
+               "value": "dark"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "middle-dark"
+            },
+            {
+              "label": "Average",
+              "value": "average"
+            },
+            {
+              "label": "Middle Light",
+              "value": "middle-light"
+            },
+            {
+              "label": "Light",
+              "value": "light"
+            }
+          ],
+          "default": "dark"
+        },
+        {
+          "type": "select",
+          "id": "content_color_view_btn_hover",
+          "label": "View Button Hover Color",
+          "options": [
+            {
+               "label": "Dark",
+               "value": "dark"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "middle-dark"
+            },
+            {
+              "label": "Average",
+              "value": "average"
+            },
+            {
+              "label": "Middle Light",
+              "value": "middle-light"
+            },
+            {
+              "label": "Light",
+              "value": "light"
+            }
+          ],
+          "default": "dark"
+        },
+        {
+          "type": "select",
+          "id": "content_bg_color_view_btn_hover",
+          "label": "View Button Hover Background Color",
+          "options": [
+            {
+               "label": "Dark",
+               "value": "dark"
+            },
+            {
+              "label": "Middle Dark",
+              "value": "middle-dark"
+            },
+            {
+              "label": "Average",
+              "value": "average"
+            },
+            {
+              "label": "Middle Light",
+              "value": "middle-light"
+            },
+            {
+              "label": "Light",
+              "value": "light"
+            }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "textarea",
+          "id": "c_css",
+          "label": "Custom CSS"
+        }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "product",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Section",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "buttons"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

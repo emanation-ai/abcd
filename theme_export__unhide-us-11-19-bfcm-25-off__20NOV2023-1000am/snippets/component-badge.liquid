@@ -1,0 +1,5 @@
+{%- if meta.name != blank -%}
+    <div class="bc-selling-tag {% if vertical %}bc-vertical-tag{% endif %}">
+      <div class="bc-vertical-tag-inner py-{{card_bg_color}}" {%- if meta.style -%}style="background-color:{{ meta.color }};border-color:{{ meta.bcolor }};color:{{ meta.tcolor }}"{%- endif -%}>{{ meta.name }}</div>
+    </div>    
+{%- endif -%}

@@ -1,0 +1,43 @@
+<section class="comp-product-block bg-subdued">
+	<div class="c f-h-center">
+		<div class="block-left">
+			<div class="left-header type-spacing">
+				<h2 class="t-h-2">{{ product.title }}</h2>
+				{% if description != blank %}
+					<div class="t-b-2">{{ description }}</div>
+				{% else %}
+					<div class="t-b-2">{{ product.description }}</div>
+				{% endif %}
+			</div>
+
+
+			<div class="left-variant type-spacing">
+				<div class="t-b-2">{% render 'item-price', product: product %}</div>
+				{% if product.variants.size > 1 %}
+					{% render 'item-swatches-color',
+					product: product, 
+					product_url: true %}
+				{% endif %}
+			</div>
+		</div>
+
+		<div class="block-right">
+			{% if image != blank %}
+				<span class="object-fit">
+					{% render 'img-srcset', 
+						image: image,
+						max_width: 1024,
+						alt: image.alt %}
+				</span>
+			{% else %}
+				<span class="object-fit">
+					{% render 'img-srcset', 
+						image: product.featured_image,
+						max_width: 1024,
+						alt: product.featured_image.alt %}
+				</span>
+			{% endif %}
+			<a class="p-fill" href="{{ product.url }}" aria-label="Link to {{ product.title }} product"></a>
+		</div>
+	</div>
+</section>

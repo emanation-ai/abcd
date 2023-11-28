@@ -1,0 +1,196 @@
+{% schema %}
+{
+	"name": "FAQ Crosslinks",
+    "tag": "section",
+    "class": "faq-crosslinks py-pd-y-m",
+	"settings": [
+		{
+			"type": "textarea",
+			"id": "paragraph",
+			"label": "FAQ Paragraph",
+			"default": "Have a question you can’t find an answer to? Send us an email and we’ll get back to you."
+		},
+		{
+			"type": "text",
+			"id": "email",
+			"label": "Support Email Address",
+			"default": "help@unhide.us"
+		}
+	],
+	"max_blocks": 40,
+	"blocks": [
+		{
+			"type": "faq",
+			"name": "FAQ Category",
+			"settings": [
+				{
+					"type": "text",
+					"id": "faq_category",
+					"label": "FAQ Category"
+				}
+			]
+		}
+	],
+    "presets": [
+      {
+        "name": "FAQ Crosslinks"      
+      }
+    ]
+}
+{% endschema %}
+<style>
+  .comp-crosslink {
+    position: sticky;
+    width: 100%;
+    top: 90px;
+    right: 0;
+    margin: 0 0 40px;
+    text-align: center;
+}
+
+.comp-crosslink .blog-headers {
+    padding: 20px 0;
+}
+
+.comp-crosslink .blog-headers .blog-header .t-h-1 {
+    margin: 0 0 10px;
+}
+
+.comp-crosslink ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 3px;
+    list-style: none;
+    padding: 0;
+}
+
+.comp-crosslink ul li {
+    position: relative;
+    height: 50px;
+    line-height: 52px;
+    text-align: center;
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: 0.2s
+}
+
+.comp-crosslink ul li.is-active {
+    background: #c6b59c;
+    color: #fff;
+}
+
+@media (hover: hover) {
+    .comp-crosslink ul li:not(.is-active):hover {
+        background-color:#EFECE7;
+    }
+}
+
+.comp-crosslink .crosslink-trigger {
+    display: none;
+    width: 100%;
+    background: #fff;
+    height: 52px;
+    line-height: 52px;
+    text-align: center;
+    white-space: nowrap;
+    transition: 0.2s
+}
+
+.comp-crosslink .crosslink-trigger svg {
+    width: 8px;
+    height: 8px
+}
+
+@media screen and (max-width: 900px) {
+    .comp-crosslink {
+        position:fixed;
+        top: auto;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        margin: 0;
+        z-index: 10
+    }
+
+    .comp-crosslink .blog-headers {
+        opacity: 0;
+        pointer-events: none
+    }
+
+    .comp-crosslink ul {
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.4s
+    }
+
+    .comp-crosslink .crosslink-trigger {
+        display: block
+    }
+}
+
+.mobile-crosslink-overlay {
+    display: none
+}
+
+.mobile-crosslink-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255,255,255,0.79);
+    backdrop-filter: blur(11px);
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.4s;
+    z-index: 10
+}
+
+</style>
+{% for block in section.blocks %}
+	{% assign block_type = block.type %}
+{% endfor %}
+
+{% render 'comp-crosslinks', 
+	type: block_type, 
+	blocks: section.blocks, 
+	paragraph: section.settings.paragraph, 
+	email: section.settings.email %}
+ <script defer>
+   function smoothScroll(target, duration) {
+    const targetElement = document.querySelector(target);
+    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - 100;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    let startTime = null;
+  
+    function easing(t) {
+      return t < 0.5 ? 4 * t ** 3 : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    }
+  
+    function animation(currentTime) {
+      if (startTime === null) startTime = currentTime;
+  
+      const elapsedTime = currentTime - startTime;
+      const progress = easing(elapsedTime / duration);
+  
+      window.scrollTo(0, startPosition + distance * progress);
+  
+      if (elapsedTime < duration) {
+        requestAnimationFrame(animation);
+      }
+    }
+  
+    requestAnimationFrame(animation);
+  }
+
+  document.querySelectorAll('#MainContent a[href^="#"]:not(a[href="#"])').forEach(item=>{
+    item.addEventListener('click',function(event){
+      event.preventDefault();
+      document.querySelector('.comp-crosslink li.is-active')?.classList.remove('is-active')
+      this.closest('li').classList.add('is-active');      
+      smoothScroll(this.getAttribute('href'), 1000);
+    })
+  })
+ </script>

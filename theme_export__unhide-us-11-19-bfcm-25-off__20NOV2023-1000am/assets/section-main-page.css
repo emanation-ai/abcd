@@ -1,0 +1,62 @@
+.rte.page-content p{
+  margin:20px auto;
+}
+.rte.page-content>*{
+  margin:40px auto;
+}
+klarna-placement{
+  display:block;
+}
+body.faqs #MainContent{
+  position:relative;
+  max-width: 1600px;
+  margin: auto;
+}
+body.faqs .pdp-faq{  
+  padding: 0px 360px 0px 240px;
+  margin-top: 50px;
+  width:100%;
+  max-width:100%;
+}
+body.faqs section.faq-crosslinks{
+  position:absolute;
+  height:100%;
+  top:0px;
+  right:0;
+  max-width:340px;
+}
+@media(min-width:901px){
+  body.faqs .main-page-contents{
+    position: absolute;
+    top: 0;
+    max-width: 220px;
+  }
+  body.faqs .rte.page-content{
+    display:none;
+  }
+}
+@media(max-width:900px){
+  body.faqs .pdp-faq{  
+    padding: 0px 15px;
+    margin-top: 40px;
+  }
+  body.faqs section.faq-crosslinks{
+    display:none;
+  }
+}
+body.faqs .page-container>.page-width{
+  padding-bottom:20px;
+  padding-top:20px;
+}
+body.faqs .pdp-faq h2{
+  text-align: left;
+  font-size: 18px;
+  font-family: var(--font-body-family);
+}
+body.faqs .pdp-faq h2.accordion__title{
+  font-size:20px;
+}
+body.faqs .pdp-faq .accordion__content li{
+  font-size: 1.6rem;
+  line-height: 1.6;
+}

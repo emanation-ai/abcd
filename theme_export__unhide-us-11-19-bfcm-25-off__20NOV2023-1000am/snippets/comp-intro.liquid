@@ -1,0 +1,10 @@
+{% if content != blank %}
+	<section class="comp-intro">
+		<div class="c">
+			<h2>{{ content | newline_to_br }}</h2>
+			{% if cta_label != blank and cta_url != blank %}
+				<a href="{{ cta_url }}" aria-label="Link to {{ cta_label }}">{{ cta_label }}</a>
+			{% endif %}
+		</div>
+	</section>
+{% endif %}

@@ -1,0 +1,36 @@
+<div class="blog-card-large">
+	{% if image != blank %}
+		<div class="blog-image">
+			<span class="object-fit">
+				{% render 'img-srcset',
+					image: image,
+					max_width: 1024,
+					alt: image.alt %}
+			</span>
+		</div>
+	{% endif %}
+
+	<div class="blog-content f-h">
+		{% if image != blank %}
+			<div class="blog-title">
+				<h2 class="t-h-2">{{ title }}</h2>
+			</div>
+		{% endif %}
+
+		<div class="blog-content-right">
+			{% if excerpt != blank %}
+				<div class="blog-info t-b-3">
+					<span>By {{ author }}</span>
+					<span>{{ date | date: format: 'date' }}</span>
+				</div>
+
+				<div class="blog-excerpt line-clamp t-b-1">{{ excerpt }}</div>
+				<a class="blog-link" href="{{ url }}"aria-label="Link to {{ title }} article">
+					<span>Read more</span>
+					{% render 'svg-icons', icon: 'caret-down' %}
+				</a>
+				<a class="p-fill" href="{{ url }}"aria-label="Link to {{ title }} article"></a>
+			{% endif %}
+		</div>
+	</div>
+</div>
